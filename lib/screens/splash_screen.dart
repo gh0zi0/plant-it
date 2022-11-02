@@ -16,8 +16,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   getData() async {
     var user = FirebaseAuth.instance.currentUser?.uid;
-    await Future.delayed(const Duration(milliseconds: 3250));
- 
+    await Future.delayed(const Duration(milliseconds: 3500));
+
     if (user == null) {
       Get.off(() => const RegisterScreen());
     } else {
