@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "285699062317",
+    "project_id": "palnt-it-562bd",
+    "storage_bucket": "palnt-it-562bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285699062317:android:f8f818e9a033ef558556a4",
+        "android_client_info": {
+          "package_name": "com.example.plantit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285699062317-nsoi061lvbvs8ug069dr603085r8k3sl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_tbPKRpavS8HplYqP3dnOamuLAdeWxYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285699062317-nsoi061lvbvs8ug069dr603085r8k3sl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
