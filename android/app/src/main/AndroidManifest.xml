@@ -4,6 +4,12 @@
         android:label="Plant it"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+        <!-- <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="YOUR-KEY-HERE"/> -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
