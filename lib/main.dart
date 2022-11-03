@@ -47,8 +47,6 @@ class _MyAppState extends State<MyApp> {
     final pref = await SharedPreferences.getInstance();
     setState(() {
       first = pref.getBool('intro') ?? true;
-     
-
     });
   }
 
