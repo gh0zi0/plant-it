@@ -15,6 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^1.4.3
   flutter_launcher_icons: ^0.10.0
+  theme_mode_builder: ^1.0.2
+  bottom_navy_bar: ^6.0.0
   firebase_core: ^2.1.1
   firebase_auth: ^4.1.0
   google_sign_in: ^5.4.2

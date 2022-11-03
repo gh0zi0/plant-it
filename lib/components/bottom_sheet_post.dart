@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'e_button.dart';
 import 'edit_text.dart';
@@ -37,7 +39,8 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
         await FirebaseFirestore.instance.collection('posts').add({
           'title': title.text,
           'content': content.text,
-          'image': image.text
+          'image': image.text,
+          'uid': FirebaseAuth.instance.currentUser!.uid
         });
       } else {
         await FirebaseFirestore.instance
@@ -50,9 +53,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
         });
       }
 
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-      // ignore: use_build_context_synchronously
+      Get.back();
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('post $x ed')));
     } on FirebaseException catch (e) {

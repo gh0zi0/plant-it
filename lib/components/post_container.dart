@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:plantit/components/full_screen.dart';
 
 // ignore: must_be_immutable
 class PostContainer extends StatelessWidget {
@@ -55,13 +57,9 @@ class PostContainer extends StatelessWidget {
                 Hero(
                   tag: list![index]['image'].toString(),
                   child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                            context,
-                            '/fullScreen',
-                            arguments: {
-                              'imageUrl': list![index]['image'].toString()
-                            },
-                          ),
+                      onTap: () => Get.to(() => FullScreen(
+                            imageurl: list![index]['image'],
+                          )),
                       child: Container(
                           height: 200,
                           decoration: BoxDecoration(

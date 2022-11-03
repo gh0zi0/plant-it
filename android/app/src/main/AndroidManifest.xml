@@ -1,11 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.plantit">
+
+     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
    <application
         android:label="Plant it"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
-
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
         <!-- <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="YOUR-KEY-HERE"/> -->

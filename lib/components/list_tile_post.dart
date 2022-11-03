@@ -10,10 +10,9 @@ import 'bottom_sheet_post.dart';
 // ignore: must_be_immutable
 class ListTilePost extends StatefulWidget {
   ListTilePost(
-      {super.key, required this.list, required this.index, required this.user});
+      {super.key, required this.list, required this.index});
   List<QueryDocumentSnapshot<Object?>>? list;
   int index;
-  bool user;
 
   @override
   State<ListTilePost> createState() => _ListTilePostState();
@@ -96,7 +95,7 @@ class _ListTilePostState extends State<ListTilePost> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.user
+    return true
         ? GestureDetector(
             onDoubleTap: (() async {
               likePost();
