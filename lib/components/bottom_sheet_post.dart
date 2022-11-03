@@ -8,9 +8,8 @@ import 'edit_text.dart';
 
 // ignore: must_be_immutable
 class BottomSheetPost extends StatefulWidget {
-  BottomSheetPost({super.key, required this.data, required this.index});
-  List<QueryDocumentSnapshot<Object?>>? data;
-  int index;
+ const BottomSheetPost({super.key});
+  
 
   @override
   State<BottomSheetPost> createState() => _BottomSheetPostState();
@@ -22,8 +21,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
   var title = TextEditingController(),
       content = TextEditingController(),
       image = TextEditingController(),
-      loading = false,
-      x = 'Add';
+      loading = false;
 
   addPost() async {
     if (!Gkey.currentState!.validate()) {
@@ -35,27 +33,18 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
     });
 
     try {
-      if (x == 'Add') {
+     
         await FirebaseFirestore.instance.collection('posts').add({
           'title': title.text,
           'content': content.text,
           'image': image.text,
           'uid': FirebaseAuth.instance.currentUser!.uid
         });
-      } else {
-        await FirebaseFirestore.instance
-            .collection('posts')
-            .doc(widget.data![widget.index].id)
-            .set({
-          'title': title.text,
-          'content': content.text,
-          'image': image.text
-        });
-      }
-
+    
       Get.back();
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('post $x ed')));
+          .showSnackBar(SnackBar(content: Text('post added')));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
@@ -63,16 +52,6 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
     }
   }
 
-  @override
-  void initState() {
-    if (widget.data!.isNotEmpty) {
-      title.text = widget.data![widget.index]['title'];
-      content.text = widget.data![widget.index]['content'];
-      image.text = widget.data![widget.index]['image'];
-      x = 'Edit';
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +64,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
         child: Column(
           children: [
             Text(
-              '$x post',
+              'Add post',
               style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             EditTextFiled(
@@ -119,7 +98,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
             ),
             loading
                 ? const CircularProgressIndicator()
-                : EButton(title: x, function: addPost)
+                : EButton(title: 'Add', function: addPost)
           ],
         ),
       ),

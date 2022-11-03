@@ -6,8 +6,6 @@ class FullScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,

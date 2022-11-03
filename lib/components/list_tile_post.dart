@@ -5,8 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:plantit/components/post_container.dart';
 import 'package:plantit/components/t_button.dart';
 
-import 'bottom_sheet_post.dart';
-
 // ignore: must_be_immutable
 class ListTilePost extends StatefulWidget {
   ListTilePost(
@@ -95,8 +93,7 @@ class _ListTilePostState extends State<ListTilePost> {
 
   @override
   Widget build(BuildContext context) {
-    return true
-        ? GestureDetector(
+    return  GestureDetector(
             onDoubleTap: (() async {
               likePost();
               getLikeCount();
@@ -116,53 +113,7 @@ class _ListTilePostState extends State<ListTilePost> {
                           height: 100, repeat: false)),
               ],
             ),
-          )
-        : Dismissible(
-            key: Key(widget.list![widget.index].id),
-            background: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                color: Colors.green.shade300,
-              ),
-              padding: const EdgeInsets.only(left: 20),
-              alignment: Alignment.centerLeft,
-              child: const Icon(
-                Icons.edit,
-              ),
-            ),
-            confirmDismiss: (direction) async {
-              if (direction == DismissDirection.endToStart) {
-                deletePost(context);
-              } else {
-                showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: Colors.white,
-                  builder: (context) {
-                    return BottomSheetPost(
-                        data: widget.list, index: widget.index);
-                  },
-                );
-              }
-              return null;
-            },
-            secondaryBackground: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                color: Colors.red.shade300,
-              ),
-              padding: const EdgeInsets.only(right: 20),
-              alignment: Alignment.centerRight,
-              child: const Icon(
-                Icons.delete,
-              ),
-            ),
-            child: PostContainer(
-              index: widget.index,
-              list: widget.list,
-              likes: likeCount,
-            ));
+          );
+       
   }
 }

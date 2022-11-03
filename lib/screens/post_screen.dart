@@ -6,7 +6,7 @@ import '../components/lottie_file.dart';
 
 // ignore: must_be_immutable
 class PostScreen extends StatelessWidget {
-  PostScreen({super.key});
+  const PostScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,7 @@ class PostScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             builder: (context) {
               return BottomSheetPost(
-                data: const [],
-                index: 0,
+               
               );
             },
           );

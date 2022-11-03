@@ -63,22 +63,22 @@ class _HomeScreenState extends State<HomeScreen> {
         onItemSelected: (index) => setState(() => _currentIndex = index),
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            icon: Icon(Icons.home_filled),
-            title: Text('Home'),
+            icon: const Icon(Icons.home_filled),
+            title: const Text('Home'),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.map),
-            title: Text(
+            icon: const Icon(Icons.map),
+            title: const Text(
               'Map',
             ),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Account'),
+            icon: const Icon(Icons.person),
+            title: const Text('Account'),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),
