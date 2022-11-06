@@ -59,7 +59,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await store.collection('users').doc(auth.currentUser!.uid).set({
         'name': googleSignInAccount.displayName,
         'points': 0,
+        'plants': 0,
         'email': googleSignInAccount.email,
+        'uid': auth.currentUser!.uid,
+        'image': googleSignInAccount.photoUrl
       });
 
       Get.off(() => const HomeScreen());
@@ -100,10 +103,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         await auth.createUserWithEmailAndPassword(
             email: email.text, password: password.text);
-        await store.collection('users').add({
+        await store.collection('users').doc(auth.currentUser!.uid).set({
           'name': name.text,
           'points': 0,
+          'plants': 0,
           'email': email.text,
+          'uid': auth.currentUser!.uid,
+          'image': ''
         });
       }
       Get.off(() => const HomeScreen());
@@ -194,9 +200,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 75, width: 75)
                       : EButton(
                           title: signIn ? 'Sign In' : 'Sign Up',
-                          function: authentication
-                          ,h: 50,w: 150
-                        ),
+                          function: authentication,
+                          h: 50,
+                          w: 150),
                   const SizedBox(
                     height: 20,
                   ),

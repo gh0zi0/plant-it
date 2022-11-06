@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:plantit/components/e_button.dart';
+import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/screens/register_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  var auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,64 +33,93 @@ class _AccountScreenState extends State<AccountScreen> {
         padding: const EdgeInsets.all(10),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: CachedNetworkImageProvider(
-                  'https://images.unsplash.com/photo-1667508640768-39063e822490?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMjd8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
-            ),
-            Container(
-                alignment: Alignment.center,
-                child: Text(
-                  'Ghazi',
-                  style: TextStyle(fontSize: 20),
-                )),
-            Container(alignment: Alignment.center, child: Text('g@g.com')),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: 150,
-                  height: 50,
-                  child: Card(
-                    color: Colors.grey.shade200,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          LineIcons.tree,
-                          color: Colors.green,
-                          size: 30,
-                        ),
-                        Text('2')
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 150,
-                  height: 50,
-                  child: Card(
-                    color: Colors.grey.shade200,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(
-                          LineIcons.coins,
-                          color: Colors.amberAccent,
-                          size: 30,
-                        ),
-                        Text('200')
-                      ],
-                    ),
-                  ),
-                )
-              ],
+            FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(auth.currentUser!.uid)
+                  .get(),
+              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  Map<String, dynamic> data =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      data['image'].toString().isEmpty
+                          ? Icon(
+                              Icons.person,
+                              size: 100,
+                            )
+                          : CircleAvatar(
+                              radius: 50,
+                              backgroundImage:
+                                  CachedNetworkImageProvider(data['image']),
+                            ),
+                      Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            data['name'],
+                            style: TextStyle(fontSize: 20),
+                          )),
+                      Container(
+                          alignment: Alignment.center,
+                          child: Text(data['email'])),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 150,
+                            height: 50,
+                            child: Card(
+                              color: Colors.grey.shade200,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    LineIcons.tree,
+                                    color: Colors.green,
+                                    size: 30,
+                                  ),
+                                  Text(data['plants'].toString())
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            height: 50,
+                            child: Card(
+                              color: Colors.grey.shade200,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    LineIcons.coins,
+                                    color: Colors.amberAccent,
+                                    size: 30,
+                                  ),
+                                  Text(data['points'].toString())
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                }
+                return LottieFile(file: 'loading');
+              },
             ),
             ListTile(
               leading: Icon(LineIcons.alternateTicket),
@@ -102,14 +133,17 @@ class _AccountScreenState extends State<AccountScreen> {
               leading: Icon(LineIcons.questionCircle),
               title: Text('About app'),
             ),
+            SizedBox(
+              height: 20,
+            ),
             EButton(
                 title: 'Sign Out',
                 function: () {
                   Get.off(() => RegisterScreen());
-                  FirebaseAuth.instance.signOut();
+                  auth.signOut();
                 },
                 h: 50,
-                w: 150)
+                w: 200)
           ],
         ),
       ),
