@@ -1,16 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lottie/lottie.dart';
-import 'package:plantit/components/lottie_file.dart';
-
-import 'package:plantit/screens/home_screen.dart';
-import '../components/bottom_sheet_reset_password.dart';
+import 'package:plantit/components/sign_in.dart';
+import 'package:plantit/components/sign_up.dart';
+import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import '../components/e_button.dart';
-import '../components/edit_text.dart';
-import '../components/t_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,241 +12,79 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final GlobalKey<FormState> key = GlobalKey();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  var email = TextEditingController(),
-      password = TextEditingController(),
-      name = TextEditingController(),
-      auth = FirebaseAuth.instance,
-      store = FirebaseFirestore.instance,
-      focusE = FocusNode(),
-      focusP = FocusNode(),
-      focusN = FocusNode(),
-      signIn = true,
-      loading = false;
+  var signIn = true, show = false, loading = false;
+  final SolidController _controller = SolidController();
 
-  changeState() {
+  controlSheet() async {
+    setState(() {
+      show = false;
+    });
+    await Future.delayed(const Duration(milliseconds: 200));
     setState(() {
       signIn = !signIn;
+      show = true;
     });
-  }
-
-  signInGoogle() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        setState(() {
-          loading = false;
-        });
-        return null;
-      }
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      await auth.signInWithCredential(credential);
-
-      await store.collection('users').doc(auth.currentUser!.uid).set({
-        'name': googleSignInAccount.displayName,
-        'points': 0,
-        'plants': 0,
-        'email': googleSignInAccount.email,
-        'uid': auth.currentUser!.uid,
-        'image': googleSignInAccount.photoUrl
-      });
-
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-  }
-
-  forgetPass() async {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return const BottomSheetReset();
-      },
-    );
-  }
-
-  authentication() async {
-    if (!key.currentState!.validate()) {
-      return;
-    }
-    focusE.unfocus();
-    focusN.unfocus();
-    focusP.unfocus();
-    setState(() {
-      loading = true;
-    });
-    try {
-      if (signIn) {
-        await auth.signInWithEmailAndPassword(
-            email: email.text, password: password.text);
-      } else {
-        await auth.createUserWithEmailAndPassword(
-            email: email.text, password: password.text);
-        await store.collection('users').doc(auth.currentUser!.uid).set({
-          'name': name.text,
-          'points': 0,
-          'plants': 0,
-          'email': email.text,
-          'uid': auth.currentUser!.uid,
-          'image': ''
-        });
-      }
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: key,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    signIn ? 'Sign In' : 'Sign Up',
-                    style: const TextStyle(
-                        fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  EditTextFiled(
-                    focus: focusE,
-                    hint: 'Email',
-                    icon: Icons.email,
-                    controller: email,
-                    secure: false,
-                    validator: (val) {
-                      if (val!.isEmpty || !val.contains('@')) {
-                        return 'Enter valid email';
-                      }
-
-                      return null;
-                    },
-                  ),
-                  EditTextFiled(
-                    focus: focusP,
-                    hint: 'Password',
-                    secure: true,
-                    icon: Icons.password,
-                    controller: password,
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Enter a password at least 6 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  if (signIn)
-                    Container(
-                        padding: const EdgeInsets.only(right: 10),
-                        alignment: Alignment.centerRight,
-                        child: TButton(
-                            title: 'Forgot password?', function: forgetPass)),
-                  AnimatedOpacity(
-                    opacity: signIn ? 0 : 1,
-                    duration: const Duration(milliseconds: 500),
-                    child: EditTextFiled(
-                      focus: focusN,
-                      hint: 'Name',
-                      secure: false,
-                      icon: Icons.person,
-                      controller: name,
-                      validator: (val) {
-                        if (val!.isEmpty && !signIn) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: signIn ? 25 : 50,
-                  ),
-                  TButton(
-                      title: signIn
-                          ? 'Don\'t have account? Sign Up'
-                          : 'Already have account? Sign In',
-                      function: changeState),
-                  loading
-                      ? LottieFile(file: 'loading')
-                      : EButton(
-                          title: signIn ? 'Sign In' : 'Sign Up',
-                          function: authentication,
-                          h: 50,
-                          w: 150),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Row(
-                      children: const [
-                        Expanded(
-                            child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        )),
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('OR')),
-                        Expanded(
-                            child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,
-                        )),
-                      ],
-                    ),
-                  ),
-                  if (!loading)
-                    Container(
-                      height: 75,
-                      width: 75,
-                      padding: const EdgeInsets.all(10.0),
-                      child: GestureDetector(
-                        onTap: () async {
-                          signInGoogle();
-                        },
-                        child: Image.asset(
-                          'assets/images/g.png',
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ),
+      bottomSheet: SingleChildScrollView(
+        child: SolidBottomSheet(
+          maxHeight: MediaQuery.of(context).size.height / 1.05,
+          showOnAppear: show,
+          controller: _controller,
+          draggableBody: true,
+          headerBar: Container(),
+          body: signIn
+              ? SignIn(
+                  function: controlSheet,
+                )
+              : SignUp(
+                  function: controlSheet,
+                ),
         ),
       ),
+      body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage('assets/images/wall.png'),
+            fit: BoxFit.cover,
+          )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              EButton(
+                title: 'Log In',
+                function: () {
+                  setState(() {
+                    show = true;
+                    signIn = true;
+                  });
+                },
+                h: 50,
+                w: 150,
+                color: Colors.green,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 50),
+                child: EButton(
+                  title: 'Sign Up',
+                  function: () {
+                    setState(() {
+                      show = true;
+                      signIn = false;
+                    });
+                  },
+                  h: 50,
+                  w: 150,
+                  color: Colors.grey,
+                ),
+              )
+            ],
+          )),
     );
   }
 }

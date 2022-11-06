@@ -142,6 +142,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   Get.off(() => const RegisterScreen());
                   auth.signOut();
                 },
+                color: Colors.red,
                 h: 50,
                 w: 200)
           ],
