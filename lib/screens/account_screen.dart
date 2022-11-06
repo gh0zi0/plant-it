@@ -24,7 +24,7 @@ class _AccountScreenState extends State<AccountScreen> {
           AppBar(backgroundColor: Colors.transparent, elevation: 0, actions: [
         IconButton(
             onPressed: () {},
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
               color: Colors.black,
             ))
@@ -45,7 +45,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   return Column(
                     children: [
                       data['image'].toString().isEmpty
-                          ? Icon(
+                          ? const Icon(
                               Icons.person,
                               size: 100,
                             )
@@ -58,18 +58,18 @@ class _AccountScreenState extends State<AccountScreen> {
                           alignment: Alignment.center,
                           child: Text(
                             data['name'],
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           )),
                       Container(
                           alignment: Alignment.center,
                           child: Text(data['email'])),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 150,
                             height: 50,
                             child: Card(
@@ -81,7 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     LineIcons.tree,
                                     color: Colors.green,
                                     size: 30,
@@ -91,7 +91,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 150,
                             height: 50,
                             child: Card(
@@ -103,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     LineIcons.coins,
                                     color: Colors.amberAccent,
                                     size: 30,
@@ -121,25 +121,25 @@ class _AccountScreenState extends State<AccountScreen> {
                 return LottieFile(file: 'loading');
               },
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(LineIcons.alternateTicket),
               title: Text('Vouchers'),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(LineIcons.hireahelper),
               title: Text('Get help'),
             ),
-            ListTile(
+            const ListTile(
               leading: Icon(LineIcons.questionCircle),
               title: Text('About app'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             EButton(
                 title: 'Sign Out',
                 function: () {
-                  Get.off(() => RegisterScreen());
+                  Get.off(() => const RegisterScreen());
                   auth.signOut();
                 },
                 h: 50,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+// ignore: must_be_immutable
 class LottieFile extends StatelessWidget {
   LottieFile({super.key, required this.file});
   String file;

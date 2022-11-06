@@ -25,8 +25,8 @@ class PostScreen extends StatelessWidget {
             },
           );
         },
-        child: Icon(Icons.add),
         mini: true,
+        child: const Icon(Icons.add),
       ),
       body: ListView(
         children: [
@@ -67,9 +67,7 @@ class PostScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 20),
                           child: EButton(
-                              title: 'إبدأ ', function: () {
-                                
-                              }, h: 30, w: 100),
+                              title: 'إبدأ ', function: () {}, h: 30, w: 100),
                         ),
                       ],
                     ),

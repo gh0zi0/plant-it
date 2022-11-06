@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plantit/components/intro_container.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,33 +28,9 @@ class _IntroScreenState extends State<IntroScreen> {
         },
         controller: controller,
         children: [
-          Container(
-            height: double.infinity,
-            child: Column(children: [
-              Image.network(
-                  'https://images.unsplash.com/photo-1458966480358-a0ac42de0a7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fHRyZWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
-              Text('dwqddqwdwdwdwwdw'),
-              Text('dqwd')
-            ]),
-          ),
-          Container(
-            height: double.infinity,
-            child: Column(children: [
-              Image.network(
-                  'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHRyZWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
-              Text('dwqddqwdwddwqfqwfwdwwdw'),
-              Text('dqwffasfd')
-            ]),
-          ),
-          Container(
-            height: double.infinity,
-            child: Column(children: [
-              Image.network(
-                  'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHRyZWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'),
-              Text('dwqddqwdwqfqwfdhyjudwdwwdw'),
-              Text('dqwdswqdwqdwqdwq')
-            ]),
-          ),
+          IntroContainer(image: '', title: '', content: ''),
+          IntroContainer(image: '', title: '', content: ''),
+          IntroContainer(image: '', title: '', content: '')
         ],
       ),
       bottomNavigationBar: Row(
@@ -87,7 +64,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     setState(() {
                       pref.setBool('intro', false);
                     });
-                    Get.off(() => RegisterScreen());
+                    Get.off(() => const RegisterScreen());
                   },
                 )
               : IconButton(

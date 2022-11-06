@@ -1,11 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:plantit/screens/account_screen.dart';
 import 'package:plantit/screens/map_screen.dart';
 import 'package:plantit/screens/post_screen.dart';
-import 'package:plantit/screens/register_screen.dart';
-import 'package:theme_mode_builder/theme_mode_builder.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children: [PostScreen(), MapPage(), AccountScreen()],
+        children:const [PostScreen(), MapPage(), AccountScreen()],
       ),
     );
   }

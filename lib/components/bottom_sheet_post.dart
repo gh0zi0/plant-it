@@ -8,8 +8,7 @@ import 'edit_text.dart';
 
 // ignore: must_be_immutable
 class BottomSheetPost extends StatefulWidget {
- const BottomSheetPost({super.key});
-  
+  const BottomSheetPost({super.key});
 
   @override
   State<BottomSheetPost> createState() => _BottomSheetPostState();
@@ -33,25 +32,23 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
     });
 
     try {
-     
-        await FirebaseFirestore.instance.collection('posts').add({
-          'title': title.text,
-          'content': content.text,
-          'image': image.text,
-          'uid': FirebaseAuth.instance.currentUser!.uid
-        });
-    
+      await FirebaseFirestore.instance.collection('posts').add({
+        'title': title.text,
+        'content': content.text,
+        'image': image.text,
+        'uid': FirebaseAuth.instance.currentUser!.uid
+      });
+
       Get.back();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('post added')));
+          .showSnackBar(const SnackBar(content: Text('post added')));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +60,9 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
         key: Gkey,
         child: Column(
           children: [
-            Text(
+            const Text(
               'Add post',
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             EditTextFiled(
               hint: 'Post title',
@@ -98,7 +95,12 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
             ),
             loading
                 ? const CircularProgressIndicator()
-                : EButton(title: 'Add', function: addPost,h: 50,w: 150,)
+                : EButton(
+                    title: 'Add',
+                    function: addPost,
+                    h: 50,
+                    w: 150,
+                  )
           ],
         ),
       ),
