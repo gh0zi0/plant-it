@@ -80,7 +80,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
               ),
               loading
                   ?  LottieFile(file: 'loading')
-                  : EButton(title: 'Submit', function: resetPass,h: 50,w: 150)
+                  : EButton(title: 'Submit', function: resetPass,h: 50,w: 150 ,color: Colors.green,)
             ],
           ),
         ),

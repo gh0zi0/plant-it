@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class EButton extends StatelessWidget {
-  EButton({super.key, required this.title, required this.function,required this.h,required this.w});
+  EButton({super.key, required this.title, required this.function,required this.h,required this.w,required this.color});
   String title;
   Function function;
   double h,w;
+  Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,9 @@ class EButton extends StatelessWidget {
       height: h,
       width: w,
       child: ElevatedButton(
+    
           style: ElevatedButton.styleFrom(
+            backgroundColor: color,
             shape: const StadiumBorder(),
           ),
           onPressed: () {

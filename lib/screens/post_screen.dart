@@ -67,6 +67,7 @@ class PostScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 10, bottom: 20),
                           child: EButton(
+                             color: Colors.green,
                               title: 'إبدأ ', function: () {}, h: 30, w: 100),
                         ),
                       ],
