@@ -20,6 +20,9 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
   var title = TextEditingController(),
       content = TextEditingController(),
       image = TextEditingController(),
+       focusT = FocusNode(),
+        focusC = FocusNode(),
+         focusI = FocusNode(),
       loading = false;
 
   addPost() async {
@@ -65,6 +68,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             EditTextFiled(
+              focus: focusT,
               hint: 'Post title',
               icon: Icons.text_fields_outlined,
               controller: title,
@@ -75,6 +79,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
               },
             ),
             EditTextFiled(
+                 focus: focusC,
               hint: 'Post content',
               icon: Icons.content_copy,
               controller: content,
@@ -85,6 +90,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
               },
             ),
             EditTextFiled(
+                 focus: focusI,
                 hint: 'Image url',
                 icon: Icons.photo,
                 controller: image,

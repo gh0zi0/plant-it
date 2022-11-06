@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
+import 'package:plantit/components/lottie_file.dart';
 
 import 'package:plantit/screens/home_screen.dart';
 import '../components/bottom_sheet_reset_password.dart';
@@ -26,6 +27,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       name = TextEditingController(),
       auth = FirebaseAuth.instance,
       store = FirebaseFirestore.instance,
+      focusE = FocusNode(),
+      focusP = FocusNode(),
+      focusN = FocusNode(),
       signIn = true,
       loading = false;
 
@@ -93,6 +97,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!key.currentState!.validate()) {
       return;
     }
+    focusE.unfocus();
+    focusN.unfocus();
+    focusP.unfocus();
     setState(() {
       loading = true;
     });
@@ -141,6 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                   EditTextFiled(
+                    focus: focusE,
                     hint: 'Email',
                     icon: Icons.email,
                     controller: email,
@@ -154,6 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   EditTextFiled(
+                    focus: focusP,
                     hint: 'Password',
                     secure: true,
                     icon: Icons.password,
@@ -175,6 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     opacity: signIn ? 0 : 1,
                     duration: const Duration(milliseconds: 500),
                     child: EditTextFiled(
+                      focus: focusN,
                       hint: 'Name',
                       secure: false,
                       icon: Icons.person,
@@ -196,8 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           : 'Already have account? Sign In',
                       function: changeState),
                   loading
-                      ? Lottie.asset('assets/lotties/loading.json',
-                          height: 75, width: 75)
+                      ? LottieFile(file: 'loading')
                       : EButton(
                           title: signIn ? 'Sign In' : 'Sign Up',
                           function: authentication,

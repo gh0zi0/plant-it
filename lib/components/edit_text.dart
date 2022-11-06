@@ -8,12 +8,14 @@ class EditTextFiled extends StatefulWidget {
       required this.secure,
       required this.controller,
       required this.validator,
+      required this.focus,
       required this.hint});
   IconData icon;
   TextEditingController controller;
   String? Function(String?)? validator;
   String hint;
   bool secure;
+  FocusNode focus;
 
   @override
   State<EditTextFiled> createState() => _EditTextFiledState();
@@ -26,6 +28,7 @@ class _EditTextFiledState extends State<EditTextFiled> {
     return Padding(
       padding: const EdgeInsets.only(top: 20, right: 10, left: 10),
       child: TextFormField(
+        focusNode: widget.focus,
         autocorrect: false,
         validator: widget.validator,
         controller: widget.controller,

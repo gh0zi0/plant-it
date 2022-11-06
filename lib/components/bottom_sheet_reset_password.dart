@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:plantit/components/lottie_file.dart';
 
 import 'e_button.dart';
 import 'edit_text.dart';
@@ -14,6 +15,7 @@ class BottomSheetReset extends StatefulWidget {
 class _BottomSheetResetState extends State<BottomSheetReset> {
   final GlobalKey<FormState> key = GlobalKey();
   var loading = false,
+   focus1 = FocusNode(),
       auth = FirebaseAuth.instance,
       email = TextEditingController();
 
@@ -62,6 +64,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
                 height: 20,
               ),
               EditTextFiled(
+                focus: focus1,
                   icon: Icons.email,
                   secure: false,
                   controller: email,
@@ -76,7 +79,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
                 height: 20,
               ),
               loading
-                  ? const CircularProgressIndicator()
+                  ?  LottieFile(file: 'loading')
                   : EButton(title: 'Submit', function: resetPass,h: 50,w: 150)
             ],
           ),
