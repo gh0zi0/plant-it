@@ -121,7 +121,7 @@ class _BottomSheetStudentState extends State<BottomSheetStudent> {
             ),
             loading
                 ? const CircularProgressIndicator()
-                : EButton(title: 'Add', function: addStudent)
+                : EButton(title: 'Add', function: addStudent,h: 50,w: 150)
           ],
         ),
       ),

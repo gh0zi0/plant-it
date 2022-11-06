@@ -77,7 +77,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
               ),
               loading
                   ? const CircularProgressIndicator()
-                  : EButton(title: 'Submit', function: resetPass)
+                  : EButton(title: 'Submit', function: resetPass,h: 50,w: 150)
             ],
           ),
         ),

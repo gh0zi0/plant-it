@@ -38,26 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.dark_mode,
-              color: Colors.black,
-            ),
-            onPressed: () async => await ThemeModeBuilderConfig.toggleTheme(),
-          ),
-        ],
-        leading: IconButton(
-          icon: const Icon(
-            Icons.power_settings_new,
-            color: Colors.black,
-          ),
-          onPressed: () => Get.off(() => const RegisterScreen()),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.green.shade100,
+      //   elevation: 0,
+      // ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
         itemCornerRadius: 20,

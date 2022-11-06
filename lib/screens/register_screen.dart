@@ -194,7 +194,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           height: 75, width: 75)
                       : EButton(
                           title: signIn ? 'Sign In' : 'Sign Up',
-                          function: authentication,
+                          function: authentication
+                          ,h: 50,w: 150
                         ),
                   const SizedBox(
                     height: 20,

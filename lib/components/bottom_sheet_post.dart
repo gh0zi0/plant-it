@@ -98,7 +98,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
             ),
             loading
                 ? const CircularProgressIndicator()
-                : EButton(title: 'Add', function: addPost)
+                : EButton(title: 'Add', function: addPost,h: 50,w: 150,)
           ],
         ),
       ),

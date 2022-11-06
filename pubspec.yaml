@@ -24,6 +24,7 @@ dependencies:
   google_sign_in: ^5.4.2
   cloud_firestore: ^4.0.3
   cached_network_image: ^3.2.2
+  line_icons: ^2.0.1
   get: ^4.6.5
   http: ^0.13.5
 
