@@ -15,7 +15,12 @@ class IntroContainer extends StatelessWidget {
     return SizedBox(
       height: double.infinity,
       child: Column(children: [
-        CachedNetworkImage(imageUrl: image),
+        Flexible(
+          child: Image.asset(
+            'assets/images/$image.png',
+            // height: 100,
+          ),
+        ),
         Text(
           title,
           style: TextStyle(

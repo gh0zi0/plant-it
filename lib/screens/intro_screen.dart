@@ -16,33 +16,43 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   PageController controller = PageController();
 
-  bool last = false;
+  bool last = false, first = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
         onPageChanged: (value) {
           setState(() {
+            first = value == 0;
             last = value == 2;
           });
         },
         controller: controller,
         children: [
-          IntroContainer(image: '', title: '', content: ''),
-          IntroContainer(image: '', title: '', content: ''),
-          IntroContainer(image: '', title: '', content: '')
+          IntroContainer(image: 'plant', title: 'ازرع أشجار أكثر', content: ''),
+          IntroContainer(
+              image: 'water', title: 'اسقي الأشجار المزروعة', content: ''),
+          IntroContainer(
+              image: 'save', title: 'احمي الأرض من التلوث', content: '')
         ],
       ),
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-              onPressed: () {
-                controller.previousPage(
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeIn);
-              },
-              icon: const Icon(Icons.arrow_back_ios)),
+          first
+              ? SizedBox(
+                  width: 50,
+                )
+              : IconButton(
+                  onPressed: () {
+                    controller.previousPage(
+                        duration: const Duration(milliseconds: 250),
+                        curve: Curves.easeIn);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.green,
+                  )),
           SmoothPageIndicator(
             controller: controller,
             count: 3,
@@ -73,7 +83,8 @@ class _IntroScreenState extends State<IntroScreen> {
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeIn);
                   },
-                  icon: const Icon(Icons.arrow_forward_ios))
+                  icon:
+                      const Icon(Icons.arrow_forward_ios, color: Colors.green))
         ],
       ),
     );
