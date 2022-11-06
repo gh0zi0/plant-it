@@ -13,7 +13,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   var signIn = true, show = false, loading = false;
-
   final SolidController _controller = SolidController();
 
   controlSheet() async {
@@ -30,19 +29,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: SolidBottomSheet(
-        maxHeight: MediaQuery.of(context).size.height / 1.05,
-        showOnAppear: show,
-        controller: _controller,
-        draggableBody: true,
-        headerBar: Container(),
-        body: signIn
-            ? SignIn(
-                function: controlSheet,
-              )
-            : SignUp(
-                function: controlSheet,
-              ),
+      bottomSheet: SingleChildScrollView(
+        child: SolidBottomSheet(
+          maxHeight: MediaQuery.of(context).size.height / 1.05,
+          showOnAppear: show,
+          controller: _controller,
+          draggableBody: true,
+          headerBar: Container(),
+          body: signIn
+              ? SignIn(
+                  function: controlSheet,
+                )
+              : SignUp(
+                  function: controlSheet,
+                ),
+        ),
       ),
       body: Container(
           height: double.infinity,
