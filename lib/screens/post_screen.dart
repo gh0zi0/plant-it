@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:plantit/components/e_button.dart';
 import '../components/bottom_sheet_post.dart';
 import '../components/list_tile_post.dart';
@@ -65,13 +64,11 @@ class PostScreen extends StatelessWidget {
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 20),
+                          child: EButton(
+                              title: 'إبدأ ', function: () {}, h: 25, w: 100),
                         ),
-                        EButton(title: 'إبدأ ', function: () {}, h: 25, w: 100),
-                        SizedBox(
-                          height: 20,
-                        )
                       ],
                     ),
                   ],
@@ -88,7 +85,7 @@ class PostScreen extends StatelessWidget {
                   );
                 }
                 return Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(5),
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: postData.length,
