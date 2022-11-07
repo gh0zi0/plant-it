@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -56,33 +58,62 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  setMarkerImage() async {
-    myMarkers.add(
-      Marker(
-          markerId: MarkerId("value 2"),
-          position: LatLng(37.4219983, -120.084),
-          icon: await BitmapDescriptor.fromAssetImage(
-              ImageConfiguration.empty, "images/RedTreePang")),
-    );
+  // setMarkerImage() async {
+  //   myMarkers.add(
+  //     Marker(
+  //         markerId: MarkerId("value 2"),
+  //         position: LatLng(37.4219983, -120.084),
+  //         icon: await BitmapDescriptor.fromAssetImage(
+  //             ImageConfiguration.empty, "images/RedTreePang")),
+  //   );
+  // }
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  void setMarker(lat, long) {
+    MarkerId markerId = MarkerId(lat.toString() + long.toString());
+    Marker marker = Marker(markerId: markerId, position: LatLng(lat, long));
+    setState(() {
+      markers[markerId] = marker;
+    });
   }
 
-  Set<Marker> myMarkers = {
-    Marker(
-        markerId: MarkerId("value 1"),
-        position: LatLng(37.4219983, -122.084),
-        infoWindow: InfoWindow(title: "value 1"))
-  };
+  void initMarker(specify, specifyId) async {
+    var markerIdval = specifyId;
+    MarkerId markerId = MarkerId(markerIdval);
+    Marker marker = Marker(
+      markerId: markerId,
+      position:
+          LatLng(specify["address"].latitude, specify["address"].longitude),
+      infoWindow: InfoWindow(title: specify["name"]),
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  getMarkers() async {
+    await FirebaseFirestore.instance.collection("Trees").get().then((value) {
+      if (value.docs.isNotEmpty) {
+        for (int i = 0; i < value.docs.length; i++) {
+          initMarker(value.docs[i].data(), value.docs[i].id);
+        }
+      }
+    });
+  }
 
   @override
   void initState() {
     getPermission();
     getLatAndLong();
+
+    getMarkers();
+
     serviceStatusStream =
         Geolocator.getPositionStream().listen((Position? position) {
-      // print(position == null
-      //     ? 'Unknown'
-      //     : '${position.latitude.toString()}, ${position.longitude.toString()}');
+      currentLocation = position;
     });
+
     // setMarkerImage();
     super.initState();
   }
@@ -93,7 +124,7 @@ class _MapPageState extends State<MapPage> {
       body: SafeArea(
         child: GoogleMap(
           mapType: MapType.normal,
-          markers: myMarkers,
+          markers: Set<Marker>.of(markers.values),
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
           initialCameraPosition: _kGooglePlex(latitude, longitude),
@@ -140,20 +171,23 @@ class _MapPageState extends State<MapPage> {
                   EButton(
                     title: 'Add',
                     function: () {
-                      setState(() {});
                       DateTime dateToday = DateTime.now();
+                      // setMarker(latitude, longitude);
 
                       FireStoreServices().addTree(
                           idController.text,
                           nameController.text,
                           "low",
                           dateToday.toString(),
-                          latitude,
-                          longitude);
+                          GeoPoint(currentLocation!.latitude,
+                              currentLocation!.longitude));
 
                       idController.clear();
                       nameController.clear();
                       Navigator.pop(context);
+                      setState(() {
+                        getMarkers();
+                      });
                     },
                     h: 50,
                     w: 150,
