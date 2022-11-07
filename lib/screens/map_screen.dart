@@ -2,13 +2,16 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/services/fireStore.dart';
 import 'package:unicons/unicons.dart';
+import 'dart:ui' as ui;
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -79,6 +82,9 @@ class _MapPageState extends State<MapPage> {
   }
 
   void initMarker(specify, specifyId) async {
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/images/GreenTree.png', 80);
+
     var markerIdval = specifyId;
     MarkerId markerId = MarkerId(markerIdval);
     Marker marker = Marker(
@@ -86,10 +92,21 @@ class _MapPageState extends State<MapPage> {
       position:
           LatLng(specify["address"].latitude, specify["address"].longitude),
       infoWindow: InfoWindow(title: specify["name"]),
+      icon: BitmapDescriptor.fromBytes(markerIcon),
     );
     setState(() {
       markers[markerId] = marker;
     });
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   getMarkers() async {
