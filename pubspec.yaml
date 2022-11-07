@@ -25,6 +25,7 @@ dependencies:
   cloud_firestore: ^4.0.3
   cached_network_image: ^3.2.2
   solid_bottom_sheet: ^0.1.10
+  image_picker: ^0.8.6
   get: ^4.6.5
   http: ^0.13.5
 
