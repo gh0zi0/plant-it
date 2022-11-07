@@ -317,13 +317,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.2.0"
-  google_maps:
-    dependency: "direct main"
-    description:
-      name: google_maps
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.2.0"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -436,13 +429,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
-  js_wrapping:
-    dependency: transitive
-    description:
-      name: js_wrapping
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.4"
   json_annotation:
     dependency: transitive
     description:
