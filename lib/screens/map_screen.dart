@@ -31,8 +31,9 @@ class _MapPageState extends State<MapPage> {
     bool sevices = await Geolocator.isLocationServiceEnabled();
     LocationPermission permission = await Geolocator.checkPermission();
     if (sevices != true) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Services Not Enabled")));
+          .showSnackBar(const SnackBar(content: Text("Services Not Enabled")));
     }
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -149,10 +150,10 @@ class _MapPageState extends State<MapPage> {
                           dateToday.toString(),
                           latitude,
                           longitude);
-                         
+
                       idController.clear();
-                      nameController.clear(); Navigator.pop(context);
-                      
+                      nameController.clear();
+                      Navigator.pop(context);
                     },
                     h: 50,
                     w: 150,

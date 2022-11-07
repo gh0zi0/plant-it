@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -23,12 +22,12 @@ class IntroContainer extends StatelessWidget {
         ),
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 25, fontWeight: FontWeight.bold, color: Colors.green),
         ),
         Text(
           content,
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         )
       ]),
     );

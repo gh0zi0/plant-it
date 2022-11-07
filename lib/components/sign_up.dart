@@ -9,6 +9,7 @@ import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';
 
+// ignore: must_be_immutable
 class SignUp extends StatefulWidget {
   SignUp({super.key, required this.function});
   Function function;
@@ -119,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                   'Join the group :)',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 EditTextFiled(

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/t_button.dart';
-import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 import '../screens/home_screen.dart';
 import 'bottom_sheet_reset_password.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';
 
+// ignore: must_be_immutable
 class SignIn extends StatefulWidget {
   SignIn({super.key, required this.function});
   Function function;

@@ -13,6 +13,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+
+  changeState() {
+    setState(() {
+      _currentIndex = 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: IndexedStack(
         index: _currentIndex,
-        children:const [PostScreen(), MapPage(), AccountScreen()],
+        children: [
+          PostScreen(
+            function: changeState,
+          ),
+          MapPage(),
+          AccountScreen()
+        ],
       ),
     );
   }

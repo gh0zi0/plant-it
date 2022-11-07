@@ -7,7 +7,8 @@ import '../components/lottie_file.dart';
 
 // ignore: must_be_immutable
 class PostScreen extends StatelessWidget {
-  const PostScreen({super.key});
+   PostScreen({super.key,required this.function});
+   Function function;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class PostScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 10, bottom: 20),
                           child: EButton(
                              color: Colors.green,
-                              title: 'إبدأ ', function: () {}, h: 30, w: 100),
+                              title: 'إبدأ ', function: function, h: 30, w: 100),
                         ),
                       ],
                     ),

@@ -40,7 +40,7 @@ class _IntroScreenState extends State<IntroScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           first
-              ? SizedBox(
+              ? const SizedBox(
                   width: 50,
                 )
               : IconButton(
