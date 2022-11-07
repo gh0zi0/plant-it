@@ -49,10 +49,16 @@ class _AccountScreenState extends State<AccountScreen> {
                               Icons.person,
                               size: 100,
                             )
-                          : CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  CachedNetworkImageProvider(data['image']),
+                          : ClipOval(
+                              child: SizedBox.fromSize(
+                                  size: const Size.fromRadius(50),
+                                  child: CachedNetworkImage(
+                                    imageUrl: data['image'],
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.person),
+                                  )),
                             ),
                       Container(
                           alignment: Alignment.center,

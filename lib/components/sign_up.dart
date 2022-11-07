@@ -128,14 +128,12 @@ class _SignUpState extends State<SignUp> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    // if (pickedFile != null) {
-    //   imageFile = File(pickedFile.path);
-    // }
+   
 
     if (pickedFile == null) return;
     imageFile = await ImageCropper().cropImage(
         sourcePath: pickedFile.path,
-        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1));
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1));
     if (imageFile == null) return;
     imageFile = await compressImage(imageFile.path, 35);
     setState(() {});
