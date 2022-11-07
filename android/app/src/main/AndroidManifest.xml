@@ -3,14 +3,16 @@
 
      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+     <uses-permission android:name="android.permission.CAMERA" />
 
    <application
         android:label="Plant it"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
-        <!-- <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR-KEY-HERE"/> -->
+      
             <meta-data android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyCmy_9IX2paWvtzw8heJOSxpw5YmoKGVek"/>
 

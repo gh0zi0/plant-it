@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:plantit/components/t_button.dart';
 import '../screens/home_screen.dart';
 import 'e_button.dart';
@@ -30,6 +33,8 @@ class _SignUpState extends State<SignUp> {
       focusP = FocusNode(),
       focusN = FocusNode(),
       loading = false;
+  var imageFile;
+  // final ImagePicker _picker = ImagePicker();
 
   signInGoogle() async {
     try {
@@ -105,13 +110,25 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
         key: key,
         child: Padding(
-          padding: const EdgeInsets.only(top: 100),
+          padding: const EdgeInsets.only(top: 50),
           child: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -123,6 +140,27 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
+                GestureDetector(
+                    onTap: () {
+                      _getFromGallery();
+                    },
+                    child: imageFile == null
+                        ? Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(width: 1)),
+                            child: const Icon(
+                              Icons.person,
+                              size: 75,
+                            ),
+                          )
+                        : CircleAvatar(
+                            radius: 75,
+                            backgroundImage: FileImage(
+                              imageFile,
+                            ))),
                 EditTextFiled(
                   focus: focusE,
                   hint: 'Email',

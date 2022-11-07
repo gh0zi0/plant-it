@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/screens/register_screen.dart';
+import 'package:unicons/unicons.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -82,7 +82,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const Icon(
-                                    LineIcons.tree,
+                                    UniconsLine.trees,
                                     color: Colors.green,
                                     size: 30,
                                   ),
@@ -104,7 +104,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   const Icon(
-                                    LineIcons.coins,
+                                    UniconsLine.coins,
                                     color: Colors.amberAccent,
                                     size: 30,
                                   ),
@@ -122,15 +122,15 @@ class _AccountScreenState extends State<AccountScreen> {
               },
             ),
             const ListTile(
-              leading: Icon(LineIcons.alternateTicket),
+              leading: Icon(UniconsLine.ticket),
               title: Text('Vouchers'),
             ),
             const ListTile(
-              leading: Icon(LineIcons.hireahelper),
+              leading: Icon(UniconsLine.comment_question),
               title: Text('Get help'),
             ),
             const ListTile(
-              leading: Icon(LineIcons.questionCircle),
+              leading: Icon(UniconsLine.question_circle),
               title: Text('About app'),
             ),
             const SizedBox(
