@@ -1,13 +1,17 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:plantit/components/t_button.dart';
 import '../screens/home_screen.dart';
+import 'package:path/path.dart' as p;
 import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';
@@ -32,9 +36,9 @@ class _SignUpState extends State<SignUp> {
       focusE = FocusNode(),
       focusP = FocusNode(),
       focusN = FocusNode(),
-      loading = false;
-  var imageFile;
-  // final ImagePicker _picker = ImagePicker();
+      loading = false,
+      imageFile,
+      url;
 
   signInGoogle() async {
     try {
@@ -90,13 +94,21 @@ class _SignUpState extends State<SignUp> {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email.text, password: password.text);
+      if (imageFile != null) {
+        final ref = await FirebaseStorage.instance
+            .ref()
+            .child('Profile/')
+            .child(DateTime.now().toIso8601String());
+        final result = await ref.putFile(imageFile);
+        url = await result.ref.getDownloadURL();
+      }
       await store.collection('users').doc(auth.currentUser!.uid).set({
         'name': name.text,
         'points': 0,
         'plants': 0,
         'email': email.text,
         'uid': auth.currentUser!.uid,
-        'image': ''
+        'image': url ?? ''
       });
 
       Get.off(() => const HomeScreen());
@@ -111,14 +123,21 @@ class _SignUpState extends State<SignUp> {
   }
 
   _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
-    }
+    // if (pickedFile != null) {
+    //   imageFile = File(pickedFile.path);
+    // }
+
+    if (pickedFile == null) return;
+    imageFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1));
+    if (imageFile == null) return;
+    imageFile = await compressImage(imageFile.path, 35);
     setState(() {});
   }
 
@@ -242,4 +261,15 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+}
+
+Future<File> compressImage(String path, int i) async {
+  final newFile = await p.join((await getTemporaryDirectory()).path,
+      '${DateTime.now()}${p.extension(path)}');
+  var result;
+
+  result =
+      await FlutterImageCompress.compressAndGetFile(path, newFile, quality: i);
+
+  return result;
 }
