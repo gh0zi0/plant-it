@@ -56,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           PostScreen(
             function: changeState,
           ),
-          MapPage(),
-          AccountScreen()
+          const MapPage(),
+          const AccountScreen()
         ],
       ),
     );

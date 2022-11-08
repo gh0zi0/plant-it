@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/t_button.dart';
-import '../screens/home_screen.dart';
-import 'bottom_sheet_reset_password.dart';
+import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';
@@ -20,83 +18,13 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final GlobalKey<FormState> key = GlobalKey();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   var email = TextEditingController(),
       password = TextEditingController(),
       auth = FirebaseAuth.instance,
       focusE = FocusNode(),
       focusP = FocusNode(),
-      loading = false;
-
-  signInGoogle() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        setState(() {
-          loading = false;
-        });
-        return null;
-      }
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      await auth.signInWithCredential(credential);
-
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-  }
-
-  forgetPass() async {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return const BottomSheetReset();
-      },
-    );
-  }
-
-  authentication() async {
-    if (!key.currentState!.validate()) {
-      return;
-    }
-    focusE.unfocus();
-
-    focusP.unfocus();
-    setState(() {
-      loading = true;
-    });
-    try {
-      await auth.signInWithEmailAndPassword(
-          email: email.text, password: password.text);
-
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-  }
+      loading = false,
+      get = Get.put(Functions());
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +75,10 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.only(right: 10),
                     alignment: Alignment.centerRight,
                     child: TButton(
-                        title: 'Forgot password?', function: forgetPass)),
+                        title: 'Forgot password?',
+                        function: () {
+                          get.forgetPass(context);
+                        })),
                 const SizedBox(
                   height: 50,
                 ),
@@ -155,7 +86,24 @@ class _SignInState extends State<SignIn> {
                     ? LottieFile(file: 'loading')
                     : EButton(
                         title: 'Sign In',
-                        function: authentication,
+                        function: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          await get.authentication(
+                              context,
+                              email.text,
+                              password.text,
+                              '',
+                              key,
+                              focusE,
+                              focusP,
+                              focusP,
+                              false);
+                          setState(() {
+                            loading = false;
+                          });
+                        },
                         h: 50,
                         w: 200,
                         color: Colors.green,
@@ -172,7 +120,15 @@ class _SignInState extends State<SignIn> {
                           backgroundColor: Colors.grey,
                           shape: const StadiumBorder(),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          await get.signInGoogle(context);
+                          setState(() {
+                            loading = false;
+                          });
+                        },
                         icon: Image.asset(
                           'assets/images/g.png',
                           height: 24,

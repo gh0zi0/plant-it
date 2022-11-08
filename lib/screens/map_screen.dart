@@ -1,15 +1,12 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
-import 'package:plantit/services/fireStore.dart';
+import 'package:plantit/services/firestore.dart';
 import 'package:unicons/unicons.dart';
 import 'dart:ui' as ui;
 
@@ -23,8 +20,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
 
-  var longitude;
-  var latitude;
+  var longitude, latitude;
   GoogleMapController? gController;
 
   TextEditingController nameController = TextEditingController();

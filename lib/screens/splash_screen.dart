@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:plantit/screens/register_screen.dart';
-
-import 'home_screen.dart';
+import 'package:plantit/services/functions.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,20 +11,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  getData() async {
-    var user = FirebaseAuth.instance.currentUser?.uid;
-    await Future.delayed(const Duration(milliseconds: 3500));
-   
-    if (user == null) {
-      Get.off(() => const RegisterScreen());
-    } else {
-      Get.off(() => const HomeScreen());
-    }
-  }
+  var get = Get.put(Functions());
 
   @override
   void initState() {
-    getData();
+    get.auth();
     super.initState();
   }
 

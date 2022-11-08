@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:plantit/components/lottie_file.dart';
+import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 
@@ -17,41 +16,9 @@ class BottomSheetPost extends StatefulWidget {
 class _BottomSheetPostState extends State<BottomSheetPost> {
   // ignore: non_constant_identifier_names
   final GlobalKey<FormState> Gkey = GlobalKey();
-  var title = TextEditingController(),
-      content = TextEditingController(),
-      image = TextEditingController(),
-       focusT = FocusNode(),
-        focusC = FocusNode(),
-         focusI = FocusNode(),
-      loading = false;
-
-  addPost() async {
-    if (!Gkey.currentState!.validate()) {
-      return;
-    }
-
-    setState(() {
-      loading = !loading;
-    });
-
-    try {
-      await FirebaseFirestore.instance.collection('posts').add({
-        'title': title.text,
-        'content': content.text,
-        'image': image.text,
-        'uid': FirebaseAuth.instance.currentUser!.uid
-      });
-
-      Get.back();
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('post added')));
-    } on FirebaseException catch (e) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
+  var content = TextEditingController(),
+      loading = false,
+      get = Get.put(Functions());
 
   @override
   Widget build(BuildContext context) {
@@ -61,54 +28,82 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
       height: double.infinity,
       child: Form(
         key: Gkey,
-        child: Column(
-          children: [
-            const Text(
-              'Add post',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            EditTextFiled(
-              focus: focusT,
-              hint: 'Post title',
-              icon: Icons.text_fields_outlined,
-              controller: title,
-              secure: false,
-              validator: (val) {
-                if (val!.isEmpty) return 'Please enter a post title';
-                return null;
-              },
-            ),
-            EditTextFiled(
-                 focus: focusC,
-              hint: 'Post content',
-              icon: Icons.content_copy,
-              controller: content,
-              secure: false,
-              validator: (val) {
-                if (val!.isEmpty) return 'Please enter a post content';
-                return null;
-              },
-            ),
-            EditTextFiled(
-                 focus: focusI,
-                hint: 'Image url',
-                icon: Icons.photo,
-                controller: image,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text(
+                'New post',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Stack(children: [
+                GestureDetector(
+                    onTap: () async {
+                      await get.getFromGallery();
+                      setState(() {});
+                    },
+                    child: Container(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width / 1.15,
+                      decoration: BoxDecoration(
+                          image: get.file != null
+                              ? DecorationImage(
+                                  image: FileImage(get.file),
+                                  fit: BoxFit.fitWidth)
+                              : null,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 1)),
+                      child: get.file == null
+                          ? const Icon(
+                              Icons.photo,
+                              size: 75,
+                            )
+                          : null,
+                    )),
+                if (get.imageFile != null)
+                  IconButton(
+                      onPressed: () {
+                        get.deleteFile();
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ))
+              ]),
+              EditTextFiled(
+                hint: 'Post content',
+                icon: Icons.text_fields_outlined,
+                controller: content,
                 secure: false,
-                validator: null),
-            const SizedBox(
-              height: 50,
-            ),
-            loading
-                ? const CircularProgressIndicator()
-                : EButton(
-                   color: Colors.green,
-                    title: 'Add',
-                    function: addPost,
-                    h: 50,
-                    w: 150,
-                  )
-          ],
+                validator: (val) {
+                  if (val!.isEmpty) return 'Please enter a post content';
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              loading
+                  ? LottieFile(
+                      file: 'loading',
+                    )
+                  : EButton(
+                      color: Colors.green,
+                      title: 'Share',
+                      function: () {
+                        setState(() {
+                          loading = !loading;
+                        });
+                        get.sharePost(Gkey, context, content.text);
+                      },
+                      h: 50,
+                      w: 150,
+                    )
+            ],
+          ),
         ),
       ),
     );

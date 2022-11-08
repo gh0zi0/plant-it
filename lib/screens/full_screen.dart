@@ -12,7 +12,7 @@ class FullScreen extends StatelessWidget {
         backgroundColor: Colors.grey.shade900,
       ),
       body: Hero(
-        tag: imageurl,
+        tag: imageurl.toString(),
         child: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(

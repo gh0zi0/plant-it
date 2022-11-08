@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:plantit/components/e_button.dart';
+import 'package:plantit/components/card_post.dart';
 import '../components/bottom_sheet_post.dart';
 import '../components/list_tile_post.dart';
 import '../components/lottie_file.dart';
 
 // ignore: must_be_immutable
 class PostScreen extends StatelessWidget {
-   PostScreen({super.key,required this.function});
-   Function function;
+  PostScreen({super.key, required this.function});
+  Function function;
 
   @override
   Widget build(BuildContext context) {
@@ -31,51 +31,9 @@ class PostScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          Card(
-              color: Colors.green.shade100,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10, top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/images/tree.png',
-                      height: 150,
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: const Text(
-                            'هذه الارض تستحق الحياة',
-                            style: TextStyle(fontSize: 22),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: const Text(
-                            'الطبيعة مصدر إلهامنا',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: const Text(
-                            'لنحافظ عليها',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 20),
-                          child: EButton(
-                             color: Colors.green,
-                              title: 'إبدأ ', function: function, h: 30, w: 100),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )),
+          CardPost(
+            function: function,
+          ),
           StreamBuilder(
             stream: FirebaseFirestore.instance.collection('posts').snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -89,6 +47,7 @@ class PostScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.all(5),
                   child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: postData.length,
                     itemBuilder: (context, index) {

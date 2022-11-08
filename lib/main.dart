@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/screens/intro_screen.dart';
 import 'package:plantit/screens/splash_screen.dart';
+import 'package:plantit/services/restart_app.dart';
+import 'package:plantit/translations/codegen_loader.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_mode_builder/theme_mode_builder.dart';
 import 'firebase_options.dart';
@@ -12,23 +15,35 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await EasyLocalization.ensureInitialized();
   await ThemeModeBuilderConfig.ensureInitialized();
-  runApp(ThemeModeBuilder(
-    builder: (BuildContext context, ThemeMode themeMode) {
-      return GetMaterialApp(
-        themeMode: themeMode,
-        theme: ThemeData(
-            brightness: Brightness.light,
-            primaryColor: Colors.green,
-            primarySwatch: Colors.green),
-        darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            primaryColor: Colors.green,
-            primarySwatch: Colors.green),
-        debugShowCheckedModeBanner: false,
-        home: const MyApp(),
-      );
-    },
+  runApp(EasyLocalization(
+    path: 'assets/translations/',
+    supportedLocales: const [Locale('en'), Locale('ar')],
+    fallbackLocale: const Locale('en'),
+    assetLoader: const CodegenLoader(),
+    child: RestartWidget(
+      child: ThemeModeBuilder(
+        builder: (BuildContext context, ThemeMode themeMode) {
+          return GetMaterialApp(
+            themeMode: themeMode,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            theme: ThemeData(
+                brightness: Brightness.light,
+                primaryColor: Colors.green,
+                primarySwatch: Colors.green),
+            darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                primaryColor: Colors.green,
+                primarySwatch: Colors.green),
+            debugShowCheckedModeBanner: false,
+            home: const MyApp(),
+          );
+        },
+      ),
+    ),
   ));
 }
 
