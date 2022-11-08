@@ -128,7 +128,6 @@ class _SignUpState extends State<SignUp> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-   
 
     if (pickedFile == null) return;
     imageFile = await ImageCropper().cropImage(
@@ -160,6 +159,7 @@ class _SignUpState extends State<SignUp> {
                 GestureDetector(
                     onTap: () {
                       _getFromGallery();
+                   
                     },
                     child: imageFile == null
                         ? Container(

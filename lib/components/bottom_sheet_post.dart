@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 
@@ -20,10 +21,12 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
   var title = TextEditingController(),
       content = TextEditingController(),
       image = TextEditingController(),
-       focusT = FocusNode(),
-        focusC = FocusNode(),
-         focusI = FocusNode(),
-      loading = false;
+      focusT = FocusNode(),
+      focusC = FocusNode(),
+      focusI = FocusNode(),
+      loading = false,
+      imageFile,
+      url;
 
   addPost() async {
     if (!Gkey.currentState!.validate()) {
@@ -36,7 +39,6 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
 
     try {
       await FirebaseFirestore.instance.collection('posts').add({
-        'title': title.text,
         'content': content.text,
         'image': image.text,
         'uid': FirebaseAuth.instance.currentUser!.uid
@@ -45,7 +47,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
       Get.back();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('post added')));
+          .showSnackBar(const SnackBar(content: Text('post shared')));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
@@ -64,24 +66,13 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
         child: Column(
           children: [
             const Text(
-              'Add post',
+              'New post',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
             EditTextFiled(
-              focus: focusT,
-              hint: 'Post title',
-              icon: Icons.text_fields_outlined,
-              controller: title,
-              secure: false,
-              validator: (val) {
-                if (val!.isEmpty) return 'Please enter a post title';
-                return null;
-              },
-            ),
-            EditTextFiled(
-                 focus: focusC,
+              focus: focusC,
               hint: 'Post content',
-              icon: Icons.content_copy,
+              icon: Icons.text_fields_outlined,
               controller: content,
               secure: false,
               validator: (val) {
@@ -89,21 +80,37 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                 return null;
               },
             ),
-            EditTextFiled(
-                 focus: focusI,
-                hint: 'Image url',
-                icon: Icons.photo,
-                controller: image,
-                secure: false,
-                validator: null),
+            GestureDetector(
+                onTap: () {
+                  Get.put(Functions()).getFromGallery();
+                 
+                  
+                },
+                child: imageFile == null
+                    ? Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(width: 1)),
+                        child: const Icon(
+                          Icons.person,
+                          size: 75,
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 75,
+                        backgroundImage: FileImage(
+                          imageFile,
+                        ))),
             const SizedBox(
               height: 50,
             ),
             loading
                 ? const CircularProgressIndicator()
                 : EButton(
-                   color: Colors.green,
-                    title: 'Add',
+                    color: Colors.green,
+                    title: 'Share',
                     function: addPost,
                     h: 50,
                     w: 150,

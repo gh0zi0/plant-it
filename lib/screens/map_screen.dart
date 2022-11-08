@@ -23,8 +23,8 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
 
-  var longitude;
-  var latitude;
+  var longitude = 0.0;
+  var latitude = 0.0;
   GoogleMapController? gController;
 
   TextEditingController idController = TextEditingController();

@@ -20,6 +20,7 @@ class PostContainer extends StatefulWidget {
 
 class _PostContainerState extends State<PostContainer> {
   var name = '', image = '';
+
   getUserData() async {
     FirebaseFirestore.instance
         .collection('users')
@@ -54,39 +55,49 @@ class _PostContainerState extends State<PostContainer> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ClipOval(
-                      child: SizedBox.fromSize(
-                          size: const Size.fromRadius(15),
-                          child: CachedNetworkImage(
-                            imageUrl: image,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.person),
-                          )),
+                    Row(
+                      children: [
+                        ClipOval(
+                          child: SizedBox.fromSize(
+                              size: const Size.fromRadius(15),
+                              child: CachedNetworkImage(
+                                imageUrl: image,
+                                placeholder: (context, url) =>
+                                    const Icon(Icons.person),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.person),
+                              )),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          name,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
                     if (widget.likes != 0)
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    if (widget.likes != 0)
-                      const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      ),
-                    if (widget.likes != 0)
-                      const SizedBox(
-                        width: 5,
-                      ),
-                    if (widget.likes != 0) Text(widget.likes.toString())
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(widget.likes.toString())
+                        ],
+                      )
                   ],
                 ),
               ),
@@ -106,9 +117,13 @@ class _PostContainerState extends State<PostContainer> {
                                           ['image']
                                       .toString()))))),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(widget.list![widget.index]['content']),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(
+                    top: 5, right: 10, left: 10, bottom: 10),
+                child: Text(
+                  widget.list![widget.index]['content'],
+                ),
               )
             ],
           )),

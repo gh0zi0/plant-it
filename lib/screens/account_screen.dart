@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plantit/components/card.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/screens/register_screen.dart';
@@ -29,130 +30,98 @@ class _AccountScreenState extends State<AccountScreen> {
               color: Colors.black,
             ))
       ]),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(auth.currentUser!.uid)
-                  .get(),
-              builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  Map<String, dynamic> data =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  return Column(
-                    children: [
-                      data['image'].toString().isEmpty
-                          ? const Icon(
-                              Icons.person,
-                              size: 100,
-                            )
-                          : ClipOval(
-                              child: SizedBox.fromSize(
-                                  size: const Size.fromRadius(50),
-                                  child: CachedNetworkImage(
-                                    imageUrl: data['image'],
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.person),
-                                  )),
-                            ),
-                      Container(
-                          alignment: Alignment.center,
-                          child: Text(
-                            data['name'],
-                            style: const TextStyle(fontSize: 20),
-                          )),
-                      Container(
-                          alignment: Alignment.center,
-                          child: Text(data['email'])),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: Card(
-                              color: Colors.grey.shade200,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Icon(
-                                    UniconsLine.trees,
-                                    color: Colors.green,
-                                    size: 30,
-                                  ),
-                                  Text(data['plants'].toString())
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: Card(
-                              color: Colors.grey.shade200,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Icon(
-                                    UniconsLine.coins,
-                                    color: Colors.amberAccent,
-                                    size: 30,
-                                  ),
-                                  Text(data['points'].toString())
-                                ],
-                              ),
-                            ),
+      body: Column(
+        children: [
+          FutureBuilder<DocumentSnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('users')
+                .doc(auth.currentUser!.uid)
+                .get(),
+            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData) {
+                Map<String, dynamic> data =
+                    snapshot.data!.data() as Map<String, dynamic>;
+                return Column(
+                  children: [
+                    data['image'].toString().isEmpty
+                        ? const Icon(
+                            Icons.person,
+                            size: 100,
                           )
-                        ],
-                      ),
-                    ],
-                  );
-                }
-                return LottieFile(file: 'loading');
+                        : ClipOval(
+                            child: SizedBox.fromSize(
+                                size: const Size.fromRadius(75),
+                                child: CachedNetworkImage(
+                                  imageUrl: data['image'],
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.person),
+                                )),
+                          ),
+                    Container(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        alignment: Alignment.center,
+                        child: Text(
+                          data['name'],
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        )),
+                    Container(
+                        alignment: Alignment.center,
+                        child: Text(data['email'])),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CardAcc(
+                          text: data['plants'].toString(),
+                          icon: UniconsLine.trees,
+                          color: Colors.green,
+                        ),
+                        CardAcc(
+                          text: data['points'].toString(),
+                          icon: UniconsLine.coins,
+                          color: Colors.amber,
+                        )
+                      ],
+                    ),
+                  ],
+                );
+              }
+              return LottieFile(file: 'loading');
+            },
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          const ListTile(
+            leading: Icon(UniconsLine.ticket),
+            title: Text('Vouchers'),
+          ),
+          const ListTile(
+            leading: Icon(UniconsLine.comment_question),
+            title: Text('Get help'),
+          ),
+          const ListTile(
+            leading: Icon(UniconsLine.question_circle),
+            title: Text('About app'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          EButton(
+              title: 'Sign Out',
+              function: () {
+                Get.off(() => const RegisterScreen());
+                auth.signOut();
               },
-            ),
-            const ListTile(
-              leading: Icon(UniconsLine.ticket),
-              title: Text('Vouchers'),
-            ),
-            const ListTile(
-              leading: Icon(UniconsLine.comment_question),
-              title: Text('Get help'),
-            ),
-            const ListTile(
-              leading: Icon(UniconsLine.question_circle),
-              title: Text('About app'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            EButton(
-                title: 'Sign Out',
-                function: () {
-                  Get.off(() => const RegisterScreen());
-                  auth.signOut();
-                },
-                color: Colors.red,
-                h: 50,
-                w: 200)
-          ],
-        ),
+              color: Colors.red,
+              h: 50,
+              w: 200)
+        ],
       ),
     );
   }

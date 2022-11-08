@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
@@ -57,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
           PostScreen(
             function: changeState,
           ),
-          MapPage(),
-          AccountScreen()
+          const MapPage(),
+          const AccountScreen()
         ],
       ),
     );
