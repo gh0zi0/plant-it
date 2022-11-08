@@ -23,22 +23,23 @@ class AccDetails extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Column(
             children: [
-              data['image'].toString().isEmpty
-                  ? const Icon(
-                      Icons.person,
-                      size: 100,
-                    )
-                  : ClipOval(
-                      child: SizedBox.fromSize(
-                          size: const Size.fromRadius(75),
-                          child: CachedNetworkImage(
-                            imageUrl: data['image'],
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.person),
-                          )),
-                    ),
+              Container(
+                height: 150,
+                width: 150,
+                decoration: BoxDecoration(
+                    image: data['image'].toString().isNotEmpty
+                        ? DecorationImage(
+                            image: CachedNetworkImageProvider(data['image']))
+                        : null,
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(width: 1)),
+                child: data['image'].toString().isEmpty
+                    ? const Icon(
+                        Icons.person,
+                        size: 75,
+                      )
+                    : null,
+              ),
               Container(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   alignment: Alignment.center,
