@@ -27,7 +27,6 @@ class _MapPageState extends State<MapPage> {
   var latitude;
   GoogleMapController? gController;
 
-  TextEditingController idController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
   late StreamSubscription<Position> serviceStatusStream;
@@ -54,34 +53,9 @@ class _MapPageState extends State<MapPage> {
     setState(() {});
   }
 
-  CameraPosition _kGooglePlex(latitude, longitude) {
-    return CameraPosition(
-      target: LatLng(latitude, longitude),
-      zoom: 14.4746,
-    );
-  }
-
-  // setMarkerImage() async {
-  //   myMarkers.add(
-  //     Marker(
-  //         markerId: MarkerId("value 2"),
-  //         position: LatLng(37.4219983, -120.084),
-  //         icon: await BitmapDescriptor.fromAssetImage(
-  //             ImageConfiguration.empty, "images/RedTreePang")),
-  //   );
-  // }
-
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  void setMarker(lat, long) {
-    MarkerId markerId = MarkerId(lat.toString() + long.toString());
-    Marker marker = Marker(markerId: markerId, position: LatLng(lat, long));
-    setState(() {
-      markers[markerId] = marker;
-    });
-  }
-
-  void initMarker(specify, specifyId) async {
+  void initMarker(val, specifyId) async {
     final Uint8List markerIcon =
         await getBytesFromAsset('assets/images/GreenTree.png', 80);
 
@@ -90,13 +64,47 @@ class _MapPageState extends State<MapPage> {
     Marker marker = Marker(
       markerId: markerId,
       position:
-          LatLng(specify["address"].latitude, specify["address"].longitude),
-      infoWindow: InfoWindow(title: specify["name"]),
+          LatLng(val["address"].latitude, val["address"].longitude),
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              DateTime plantDate = val["datePlant"].toDate();
+              return AlertDialog(actions: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                        "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
+                    Text("needOfWatring : ${val["needOfWatring"]}"),
+                  ],
+                )
+              ]);
+            });
+      },
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
     setState(() {
       markers[markerId] = marker;
     });
+  }
+
+  calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+
+    int age = currentDate.year - birthDate.year;
+    int month1 = currentDate.month;
+    int month2 = birthDate.month;
+    if (month2 > month1) {
+      age--;
+    } else if (month1 == month2) {
+      int day1 = currentDate.day;
+      int day2 = birthDate.day;
+      if (day2 > day1) {
+        age--;
+      }
+    }
+    return age;
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -131,7 +139,6 @@ class _MapPageState extends State<MapPage> {
       currentLocation = position;
     });
 
-    // setMarkerImage();
     super.initState();
   }
 
@@ -144,7 +151,11 @@ class _MapPageState extends State<MapPage> {
           markers: Set<Marker>.of(markers.values),
           myLocationEnabled: true,
           myLocationButtonEnabled: true,
-          initialCameraPosition: _kGooglePlex(latitude, longitude),
+          initialCameraPosition: CameraPosition(
+            target:
+                LatLng(currentLocation!.latitude, currentLocation!.longitude),
+            zoom: 14.4746,
+          ),
           onMapCreated: (GoogleMapController controller) {
             gController = controller;
           },
@@ -169,21 +180,21 @@ class _MapPageState extends State<MapPage> {
             builder: (context) {
               return Column(
                 children: [
-                  const Text(
-                    'Tree',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  const SizedBox(
+                    height: 10,
                   ),
-                  EditTextFiled(
-                    hint: 'Id',
-                    icon: Icons.text_fields_outlined,
-                    controller: idController,
-                    secure: false,
+                  const Text(
+                    'Plant',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   EditTextFiled(
                     hint: 'Name',
                     icon: Icons.text_fields_outlined,
                     controller: nameController,
                     secure: false,
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   EButton(
                     title: 'Add',
@@ -192,14 +203,14 @@ class _MapPageState extends State<MapPage> {
                       // setMarker(latitude, longitude);
 
                       FireStoreServices().addTree(
-                          idController.text,
+                          currentLocation!.longitude +
+                              currentLocation!.latitude,
                           nameController.text,
                           "low",
-                          dateToday.toString(),
+                          dateToday,
                           GeoPoint(currentLocation!.latitude,
                               currentLocation!.longitude));
 
-                      idController.clear();
                       nameController.clear();
                       Navigator.pop(context);
                       setState(() {
@@ -208,14 +219,14 @@ class _MapPageState extends State<MapPage> {
                     },
                     h: 50,
                     w: 150,
-                  )
+                  ),
                 ],
               );
             },
           );
         },
         label: Row(
-          children: [
+          children: const [
             Icon(UniconsLine.shovel),
             SizedBox(
               width: 10,
