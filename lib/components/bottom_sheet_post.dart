@@ -16,12 +16,7 @@ class BottomSheetPost extends StatefulWidget {
 class _BottomSheetPostState extends State<BottomSheetPost> {
   // ignore: non_constant_identifier_names
   final GlobalKey<FormState> Gkey = GlobalKey();
-  var title = TextEditingController(),
-      content = TextEditingController(),
-      image = TextEditingController(),
-      focusT = FocusNode(),
-      focusC = FocusNode(),
-      focusI = FocusNode(),
+  var content = TextEditingController(),
       loading = false,
       get = Get.put(Functions());
 
@@ -40,17 +35,6 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                 'New post',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
-              EditTextFiled(
-                focus: focusC,
-                hint: 'Post content',
-                icon: Icons.text_fields_outlined,
-                controller: content,
-                secure: false,
-                validator: (val) {
-                  if (val!.isEmpty) return 'Please enter a post content';
-                  return null;
-                },
-              ),
               const SizedBox(
                 height: 20,
               ),
@@ -62,7 +46,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                     },
                     child: Container(
                       height: 200,
-                      width: MediaQuery.of(context).size.width / 1.25,
+                      width: MediaQuery.of(context).size.width / 1.15,
                       decoration: BoxDecoration(
                           image: get.file != null
                               ? DecorationImage(
@@ -89,6 +73,16 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                         color: Colors.red,
                       ))
               ]),
+              EditTextFiled(
+                hint: 'Post content',
+                icon: Icons.text_fields_outlined,
+                controller: content,
+                secure: false,
+                validator: (val) {
+                  if (val!.isEmpty) return 'Please enter a post content';
+                  return null;
+                },
+              ),
               const SizedBox(
                 height: 25,
               ),

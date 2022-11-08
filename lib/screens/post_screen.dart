@@ -48,6 +48,7 @@ class PostScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.all(5),
                   child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: postData.length,
                     itemBuilder: (context, index) {

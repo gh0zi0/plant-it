@@ -34,8 +34,10 @@ class Functions {
         'image': url ?? '',
         'uid': FirebaseAuth.instance.currentUser!.uid
       });
-
+      imageFile = null;
+      url = null;
       Get.back();
+
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('post shared')));
@@ -52,6 +54,7 @@ class Functions {
 
   deleteFile() {
     imageFile = null;
+    url = null;
   }
 
   getFromGallery() async {

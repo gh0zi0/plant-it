@@ -101,6 +101,9 @@ class _PostContainerState extends State<PostContainer> {
                   ],
                 ),
               ),
+              SizedBox(
+                height: 5,
+              ),
               if (widget.list![widget.index]['image'].toString().isNotEmpty)
                 Hero(
                   tag: widget.list![widget.index]['image'].toString(),
