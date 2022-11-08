@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:plantit/components/t_button.dart';
 import '../screens/home_screen.dart';
 import 'package:path/path.dart' as p;
+import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';
@@ -27,7 +28,6 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> key = GlobalKey();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   var email = TextEditingController(),
       password = TextEditingController(),
       name = TextEditingController(),
@@ -37,106 +37,7 @@ class _SignUpState extends State<SignUp> {
       focusP = FocusNode(),
       focusN = FocusNode(),
       loading = false,
-      imageFile,
-      url;
-
-  signInGoogle() async {
-    try {
-      setState(() {
-        loading = true;
-      });
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
-      if (googleSignInAccount == null) {
-        setState(() {
-          loading = false;
-        });
-        return null;
-      }
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      await auth.signInWithCredential(credential);
-
-      await store.collection('users').doc(auth.currentUser!.uid).set({
-        'name': googleSignInAccount.displayName,
-        'points': 0,
-        'plants': 0,
-        'email': googleSignInAccount.email,
-        'uid': auth.currentUser!.uid,
-        'image': googleSignInAccount.photoUrl
-      });
-
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-  }
-
-  authentication() async {
-    if (!key.currentState!.validate()) {
-      return;
-    }
-    focusE.unfocus();
-    focusN.unfocus();
-    focusP.unfocus();
-    setState(() {
-      loading = true;
-    });
-    try {
-      await auth.createUserWithEmailAndPassword(
-          email: email.text, password: password.text);
-      if (imageFile != null) {
-        final ref = await FirebaseStorage.instance
-            .ref()
-            .child('Profile/')
-            .child(DateTime.now().toIso8601String());
-        final result = await ref.putFile(imageFile);
-        url = await result.ref.getDownloadURL();
-      }
-      await store.collection('users').doc(auth.currentUser!.uid).set({
-        'name': name.text,
-        'points': 0,
-        'plants': 0,
-        'email': email.text,
-        'uid': auth.currentUser!.uid,
-        'image': url ?? ''
-      });
-
-      Get.off(() => const HomeScreen());
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        loading = false;
-      });
-
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.message.toString())));
-    }
-  }
-
-  _getFromGallery() async {
-    final pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-
-    if (pickedFile == null) return;
-    imageFile = await ImageCropper().cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1));
-    if (imageFile == null) return;
-    imageFile = await compressImage(imageFile.path, 35);
-    setState(() {});
-  }
+      get = Get.put(Functions());
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +59,10 @@ class _SignUpState extends State<SignUp> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      _getFromGallery();
-                     
+                      get.getFromGallery();
+                      setState(() {});
                     },
-                    child: imageFile == null
+                    child: get.imageFile == null
                         ? Container(
                             height: 100,
                             width: 100,
@@ -174,9 +75,9 @@ class _SignUpState extends State<SignUp> {
                             ),
                           )
                         : CircleAvatar(
-                            radius: 75,
+                            radius: 60,
                             backgroundImage: FileImage(
-                              imageFile,
+                              get.imageFile,
                             ))),
                 EditTextFiled(
                   focus: focusE,
@@ -225,7 +126,24 @@ class _SignUpState extends State<SignUp> {
                     ? LottieFile(file: 'loading')
                     : EButton(
                         title: 'Sign Up',
-                        function: authentication,
+                        function: () async {
+                          setState(() {
+                            loading = true;
+                          });
+                          await get.authentication(
+                              context,
+                              email.text,
+                              password.text,
+                              name.text,
+                              key,
+                              focusE,
+                              focusP,
+                              focusN,
+                              true);
+                          setState(() {
+                            loading = false;
+                          });
+                        },
                         h: 50,
                         w: 200,
                         color: Colors.green,
@@ -242,7 +160,9 @@ class _SignUpState extends State<SignUp> {
                           backgroundColor: Colors.grey,
                           shape: const StadiumBorder(),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          get.signInGoogle(context);
+                        },
                         icon: Image.asset(
                           'assets/images/g.png',
                           height: 24,
@@ -259,15 +179,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-Future<File> compressImage(String path, int i) async {
-  final newFile = await p.join((await getTemporaryDirectory()).path,
-      '${DateTime.now()}${p.extension(path)}');
-  var result;
-
-  result =
-      await FlutterImageCompress.compressAndGetFile(path, newFile, quality: i);
-
-  return result;
 }
