@@ -33,7 +33,7 @@ dependencies:
   firebase_core: ^1.14.0
   cloud_firestore: ^3.1.11
   firebase_core_platform_interface: ^4.5.1
-
+  easy_localization: ^3.0.1
   location: ^4.4.0
   google_maps_flutter: ^2.2.1
   geocoding: ^2.0.5
@@ -57,6 +57,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lotties/
+    - assets/translations/
 
   # fonts:
   #   - family: Schyler

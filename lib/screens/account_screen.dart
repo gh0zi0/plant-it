@@ -1,10 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/acc_details.dart';
 import 'package:plantit/components/e_button.dart';
+
 import 'package:plantit/screens/register_screen.dart';
 import 'package:unicons/unicons.dart';
+
+import '../services/restart_app.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -21,7 +25,15 @@ class _AccountScreenState extends State<AccountScreen> {
       appBar:
           AppBar(backgroundColor: Colors.transparent, elevation: 0, actions: [
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              if (context.locale.toString() != 'ar') {
+                context.setLocale(Locale('ar'));
+                RestartWidget.restartApp(context);
+              } else {
+                context.setLocale(Locale('en'));
+                RestartWidget.restartApp(context);
+              }
+            },
             icon: const Icon(
               Icons.settings,
               color: Colors.black,

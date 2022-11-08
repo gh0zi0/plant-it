@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
-import 'package:plantit/services/fire_store.dart';
+import 'package:plantit/services/firestore.dart';
 import 'package:unicons/unicons.dart';
 import 'dart:ui' as ui;
 

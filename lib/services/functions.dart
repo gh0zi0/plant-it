@@ -24,7 +24,7 @@ class Functions {
       store = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  sharPost(
+  sharePost(
       GlobalKey<FormState> key, BuildContext context, String content) async {
     if (!key.currentState!.validate()) {
       return;
@@ -164,7 +164,7 @@ class Functions {
   }
 
   auth() async {
-    await Future.delayed(const Duration(milliseconds: 3500));
+    await Future.delayed(const Duration(milliseconds: 2000));
     if (user.currentUser?.uid == null) {
       Get.off(() => const RegisterScreen());
     } else {

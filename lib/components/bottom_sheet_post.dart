@@ -97,7 +97,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                         setState(() {
                           loading = !loading;
                         });
-                        get.sharPost(Gkey, context, content.text);
+                        get.sharePost(Gkey, context, content.text);
                       },
                       h: 50,
                       w: 150,
