@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -23,8 +22,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
 
-  var longitude = 0.0;
-  var latitude = 0.0 ;
+  var longitude, latitude;
   GoogleMapController? gController;
 
   TextEditingController idController = TextEditingController();
@@ -215,7 +213,7 @@ class _MapPageState extends State<MapPage> {
           );
         },
         label: Row(
-          children: const[
+          children: const [
             Icon(UniconsLine.shovel),
             SizedBox(
               width: 10,

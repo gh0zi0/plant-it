@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -10,26 +12,28 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Functions {
-  var imageFile;
+  var imageFile, url;
 
- 
-
-  sharPost(Gkey, context, content) async {
+  sharPost(
+      GlobalKey<FormState> Gkey, BuildContext context, String content) async {
     if (!Gkey.currentState!.validate()) {
       return;
     }
 
-    // setState(() {
-    //   loading = !loading;
-    // });
-
     try {
-      print(content);
-      // await FirebaseFirestore.instance.collection('posts').add({
-      //   'content': content.text,
-      //   'image': image.text,
-      //   'uid': FirebaseAuth.instance.currentUser!.uid
-      // });
+      if (imageFile != null) {
+        final ref = await FirebaseStorage.instance
+            .ref()
+            .child('Post/')
+            .child(DateTime.now().toIso8601String());
+        final result = await ref.putFile(imageFile);
+        url = await result.ref.getDownloadURL();
+      }
+      await FirebaseFirestore.instance.collection('posts').add({
+        'content': content,
+        'image': url ?? '',
+        'uid': FirebaseAuth.instance.currentUser!.uid
+      });
 
       Get.back();
       // ignore: use_build_context_synchronously

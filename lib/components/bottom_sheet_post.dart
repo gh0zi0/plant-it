@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/lottie_file.dart';
-
 import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
@@ -26,8 +23,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
       focusC = FocusNode(),
       focusI = FocusNode(),
       loading = false,
-      get = Get.put(Functions()),
-      url;
+      get = Get.put(Functions());
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +99,12 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                   : EButton(
                       color: Colors.green,
                       title: 'Share',
-                      function: get.sharPost(Gkey, context, content.text),
+                      function: () {
+                        setState(() {
+                          loading = !loading;
+                        });
+                        get.sharPost(Gkey, context, content.text);
+                      },
                       h: 50,
                       w: 150,
                     )
