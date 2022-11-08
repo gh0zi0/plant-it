@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -6,11 +10,44 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Functions {
-
   var imageFile;
 
-  get (){
-    
+ 
+
+  sharPost(Gkey, context, content) async {
+    if (!Gkey.currentState!.validate()) {
+      return;
+    }
+
+    // setState(() {
+    //   loading = !loading;
+    // });
+
+    try {
+      print(content);
+      // await FirebaseFirestore.instance.collection('posts').add({
+      //   'content': content.text,
+      //   'image': image.text,
+      //   'uid': FirebaseAuth.instance.currentUser!.uid
+      // });
+
+      Get.back();
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('post shared')));
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
+    }
+  }
+
+  dynamic get file {
+    return imageFile;
+  }
+
+  deleteFile() {
+    imageFile = null;
   }
 
   getFromGallery() async {

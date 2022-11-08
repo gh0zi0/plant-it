@@ -24,7 +24,7 @@ class _MapPageState extends State<MapPage> {
   Position? currentLocation;
 
   var longitude = 0.0;
-  var latitude = 0.0;
+  var latitude = 0.0 ;
   GoogleMapController? gController;
 
   TextEditingController idController = TextEditingController();
@@ -215,7 +215,7 @@ class _MapPageState extends State<MapPage> {
           );
         },
         label: Row(
-          children: [
+          children: const[
             Icon(UniconsLine.shovel),
             SizedBox(
               width: 10,

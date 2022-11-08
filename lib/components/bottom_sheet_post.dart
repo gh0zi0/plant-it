@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plantit/components/lottie_file.dart';
 
 import '../services/functions.dart';
 import 'e_button.dart';
@@ -25,35 +26,8 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
       focusC = FocusNode(),
       focusI = FocusNode(),
       loading = false,
-      imageFile,
+      get = Get.put(Functions()),
       url;
-
-  addPost() async {
-    if (!Gkey.currentState!.validate()) {
-      return;
-    }
-
-    setState(() {
-      loading = !loading;
-    });
-
-    try {
-      await FirebaseFirestore.instance.collection('posts').add({
-        'content': content.text,
-        'image': image.text,
-        'uid': FirebaseAuth.instance.currentUser!.uid
-      });
-
-      Get.back();
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('post shared')));
-    } on FirebaseException catch (e) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,59 +37,78 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
       height: double.infinity,
       child: Form(
         key: Gkey,
-        child: Column(
-          children: [
-            const Text(
-              'New post',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            EditTextFiled(
-              focus: focusC,
-              hint: 'Post content',
-              icon: Icons.text_fields_outlined,
-              controller: content,
-              secure: false,
-              validator: (val) {
-                if (val!.isEmpty) return 'Please enter a post content';
-                return null;
-              },
-            ),
-            GestureDetector(
-                onTap: () {
-                  Get.put(Functions()).getFromGallery();
-                 
-                  
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text(
+                'New post',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ),
+              EditTextFiled(
+                focus: focusC,
+                hint: 'Post content',
+                icon: Icons.text_fields_outlined,
+                controller: content,
+                secure: false,
+                validator: (val) {
+                  if (val!.isEmpty) return 'Please enter a post content';
+                  return null;
                 },
-                child: imageFile == null
-                    ? Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(width: 1)),
-                        child: const Icon(
-                          Icons.person,
-                          size: 75,
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: 75,
-                        backgroundImage: FileImage(
-                          imageFile,
-                        ))),
-            const SizedBox(
-              height: 50,
-            ),
-            loading
-                ? const CircularProgressIndicator()
-                : EButton(
-                    color: Colors.green,
-                    title: 'Share',
-                    function: addPost,
-                    h: 50,
-                    w: 150,
-                  )
-          ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Stack(children: [
+                GestureDetector(
+                    onTap: () async {
+                      await get.getFromGallery();
+                      setState(() {});
+                    },
+                    child: Container(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width / 1.25,
+                      decoration: BoxDecoration(
+                          image: get.file != null
+                              ? DecorationImage(
+                                  image: FileImage(get.file),
+                                  fit: BoxFit.fitWidth)
+                              : null,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 1)),
+                      child: get.file == null
+                          ? const Icon(
+                              Icons.photo,
+                              size: 75,
+                            )
+                          : null,
+                    )),
+                if (get.imageFile != null)
+                  IconButton(
+                      onPressed: () {
+                        get.deleteFile();
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ))
+              ]),
+              const SizedBox(
+                height: 25,
+              ),
+              loading
+                  ? LottieFile(
+                      file: 'loading',
+                    )
+                  : EButton(
+                      color: Colors.green,
+                      title: 'Share',
+                      function: get.sharPost(Gkey, context, content.text),
+                      h: 50,
+                      w: 150,
+                    )
+            ],
+          ),
         ),
       ),
     );

@@ -159,7 +159,7 @@ class _SignUpState extends State<SignUp> {
                 GestureDetector(
                     onTap: () {
                       _getFromGallery();
-                   
+                     
                     },
                     child: imageFile == null
                         ? Container(

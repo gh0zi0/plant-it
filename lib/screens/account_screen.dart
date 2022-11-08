@@ -77,10 +77,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         CardAcc(
-                          text: data['plants'].toString(),
-                          icon: UniconsLine.trees,
-                          color: Colors.green,
-                        ),
+                            text: data['plants'].toString(),
+                            icon: UniconsLine.trees,color: Colors.green,),
                         CardAcc(
                           text: data['points'].toString(),
                           icon: UniconsLine.coins,
@@ -94,9 +92,7 @@ class _AccountScreenState extends State<AccountScreen> {
               return LottieFile(file: 'loading');
             },
           ),
-          SizedBox(
-            height: 25,
-          ),
+          SizedBox(height: 25,),
           const ListTile(
             leading: Icon(UniconsLine.ticket),
             title: Text('Vouchers'),
