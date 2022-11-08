@@ -1,12 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/acc_details.dart';
-import 'package:plantit/components/card_acc.dart';
 import 'package:plantit/components/e_button.dart';
-import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/screens/register_screen.dart';
 import 'package:unicons/unicons.dart';
 

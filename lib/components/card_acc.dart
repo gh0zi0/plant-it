@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unicons/unicons.dart';
 
+// ignore: must_be_immutable
 class CardAcc extends StatelessWidget {
   CardAcc(
       {super.key, required this.text, required this.icon, required this.color});

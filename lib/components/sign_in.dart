@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/t_button.dart';
-import '../screens/home_screen.dart';
 import '../services/functions.dart';
-import 'bottom_sheet_reset_password.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 import 'lottie_file.dart';

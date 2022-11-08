@@ -17,6 +17,7 @@ import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
 
 class Functions {
+  // ignore: prefer_typing_uninitialized_variables
   var imageFile,
       url,
       user = FirebaseAuth.instance,
@@ -24,14 +25,14 @@ class Functions {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   sharPost(
-      GlobalKey<FormState> Gkey, BuildContext context, String content) async {
-    if (!Gkey.currentState!.validate()) {
+      GlobalKey<FormState> key, BuildContext context, String content) async {
+    if (!key.currentState!.validate()) {
       return;
     }
 
     try {
       if (imageFile != null) {
-        final ref = await FirebaseStorage.instance
+        final ref = FirebaseStorage.instance
             .ref()
             .child('Post/')
             .child(DateTime.now().toIso8601String());
@@ -79,7 +80,7 @@ class Functions {
         await user.createUserWithEmailAndPassword(
             email: email, password: password);
         if (imageFile != null) {
-          final ref = await FirebaseStorage.instance
+          final ref = FirebaseStorage.instance
               .ref()
               .child('Profile/')
               .child(DateTime.now().toIso8601String());
@@ -177,6 +178,7 @@ class Functions {
   }
 
   getFromGallery() async {
+    // ignore: deprecated_member_use
     final pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
       maxWidth: 1800,

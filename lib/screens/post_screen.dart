@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plantit/components/card_post.dart';
-import 'package:plantit/components/e_button.dart';
 import '../components/bottom_sheet_post.dart';
 import '../components/list_tile_post.dart';
 import '../components/lottie_file.dart';

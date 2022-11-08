@@ -10,7 +10,6 @@ class FireStoreServices {
       "needOfWatring": needOfWatring,
       "datePlant": datePlant,
       "address": latlong,
-      
     });
   }
 }

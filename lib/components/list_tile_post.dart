@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/components/post_container.dart';
-import 'package:plantit/components/t_button.dart';
 
 // ignore: must_be_immutable
 class ListTilePost extends StatefulWidget {

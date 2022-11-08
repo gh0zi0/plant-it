@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'e_button.dart';
 
+// ignore: must_be_immutable
 class CardPost extends StatelessWidget {
-   CardPost({super.key,required this.function});
-   Function function;
+  CardPost({super.key, required this.function});
+  Function function;
 
   @override
   Widget build(BuildContext context) {
