@@ -84,7 +84,7 @@ class AccDetails extends StatelessWidget {
                           ),
                           Image.asset(
                             'assets/images/can.png',
-                            height: 38,
+                            height: 35,
                           ),
                           Text(data['water'].toString())
                         ],

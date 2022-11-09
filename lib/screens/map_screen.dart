@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
+import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:unicons/unicons.dart';
 import 'dart:ui' as ui;
@@ -20,7 +21,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
 
-  var longitude, latitude;
+  var longitude, latitude, loading = true;
   GoogleMapController? gController;
 
   TextEditingController nameController = TextEditingController();
@@ -59,8 +60,7 @@ class _MapPageState extends State<MapPage> {
     MarkerId markerId = MarkerId(markerIdval);
     Marker marker = Marker(
       markerId: markerId,
-      position:
-          LatLng(val["address"].latitude, val["address"].longitude),
+      position: LatLng(val["address"].latitude, val["address"].longitude),
       onTap: () {
         showDialog(
             context: context,
@@ -127,12 +127,13 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     getPermission();
     getLatAndLong();
-
     getMarkers();
-
     serviceStatusStream =
         Geolocator.getPositionStream().listen((Position? position) {
       currentLocation = position;
+      setState(() {
+        loading = false;
+      });
     });
 
     super.initState();
@@ -142,95 +143,100 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GoogleMap(
-          mapType: MapType.normal,
-          markers: Set<Marker>.of(markers.values),
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          initialCameraPosition: CameraPosition(
-            target:
-                LatLng(currentLocation!.latitude, currentLocation!.longitude),
-            zoom: 14.4746,
-          ),
-          onMapCreated: (GoogleMapController controller) {
-            gController = controller;
-          },
-        ),
+        child: loading
+            ? LottieFile(file: 'loading')
+            : GoogleMap(
+                mapType: MapType.normal,
+                markers: Set<Marker>.of(markers.values),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                      currentLocation!.latitude, currentLocation!.longitude),
+                  zoom: 14.4746,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  gController = controller;
+                },
+              ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // List<Placemark> placemarks =
-          //     await placemarkFromCoordinates(latitude, longitude);
-          // print(placemarks[0].locality);
+      floatingActionButton: loading
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: () {
+                // List<Placemark> placemarks =
+                //     await placemarkFromCoordinates(latitude, longitude);
+                // print(placemarks[0].locality);
 
-          // gController?.animateCamera(
-          //     CameraUpdate.newLatLng(LatLng(latitude, longitude)));
+                // gController?.animateCamera(
+                //     CameraUpdate.newLatLng(LatLng(latitude, longitude)));
 
-          showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: Colors.white,
-            builder: (context) {
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  const Text(
-                    'Plant',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  EditTextFiled(
-                    hint: 'Name',
-                    icon: Icons.text_fields_outlined,
-                    controller: nameController,
-                    secure: false,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  EButton(
-                    title: 'Add',
-                    function: () {
-                      DateTime dateToday = DateTime.now();
-                      // setMarker(latitude, longitude);
+                  backgroundColor: Colors.white,
+                  builder: (context) {
+                    return Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Plant',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        EditTextFiled(
+                          hint: 'Name',
+                          icon: Icons.text_fields_outlined,
+                          controller: nameController,
+                          secure: false,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        EButton(
+                          title: 'Add',
+                          function: () {
+                            DateTime dateToday = DateTime.now();
+                            // setMarker(latitude, longitude);
 
-                      FireStoreServices().addTree(
-                          currentLocation!.longitude +
-                              currentLocation!.latitude,
-                          nameController.text,
-                          "low",
-                          dateToday,
-                          GeoPoint(currentLocation!.latitude,
-                              currentLocation!.longitude));
+                            FireStoreServices().addTree(
+                                currentLocation!.longitude +
+                                    currentLocation!.latitude,
+                                nameController.text,
+                                "low",
+                                dateToday,
+                                GeoPoint(currentLocation!.latitude,
+                                    currentLocation!.longitude));
 
-                      nameController.clear();
-                      Navigator.pop(context);
-                      setState(() {
-                        getMarkers();
-                      });
-                    },
-                    h: 50,
-                    w: 150,
+                            nameController.clear();
+                            Navigator.pop(context);
+                            setState(() {
+                              getMarkers();
+                            });
+                          },
+                          h: 50,
+                          w: 150,
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              label: Row(
+                children: const [
+                  Icon(UniconsLine.shovel),
+                  SizedBox(
+                    width: 10,
                   ),
+                  Text("Plant")
                 ],
-              );
-            },
-          );
-        },
-        label: Row(
-          children: const [
-            Icon(UniconsLine.shovel),
-            SizedBox(
-              width: 10,
+              ),
             ),
-            Text("Plant")
-          ],
-        ),
-      ),
     );
   }
 }

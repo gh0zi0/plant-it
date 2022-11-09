@@ -45,7 +45,7 @@ class CardPost extends StatelessWidget {
                     ).tr(),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 20),
+                    padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: EButton(
                         color: Colors.green,
                         title: 'start',
