@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,10 @@ class _SignInState extends State<SignIn> {
       focusE = FocusNode(),
       focusP = FocusNode(),
       loading = false,
+      semail = tr('email'),
+      spass = tr('password'),
+      pemail = tr('pleaseEmail'),
+      ppass = tr('pleasePass'),
       get = Get.put(Functions());
 
   @override
@@ -38,21 +43,21 @@ class _SignInState extends State<SignIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Welcome',
+                  'welcome',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 20,
                 ),
                 EditTextFiled(
                   focus: focusE,
-                  hint: 'Email',
+                  hint: semail,
                   icon: Icons.email,
                   controller: email,
                   secure: false,
                   validator: (val) {
                     if (val!.isEmpty || !val.contains('@')) {
-                      return 'Enter valid email';
+                      return pemail;
                     }
 
                     return null;
@@ -60,13 +65,13 @@ class _SignInState extends State<SignIn> {
                 ),
                 EditTextFiled(
                   focus: focusP,
-                  hint: 'Password',
+                  hint: spass,
                   secure: true,
                   icon: Icons.password,
                   controller: password,
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Enter a password at least 6 characters';
+                      return ppass;
                     }
                     return null;
                   },
@@ -75,7 +80,7 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.only(right: 10),
                     alignment: Alignment.centerRight,
                     child: TButton(
-                        title: 'Forgot password?',
+                        title: 'forgot',
                         function: () {
                           get.forgetPass(context);
                         })),
@@ -85,7 +90,7 @@ class _SignInState extends State<SignIn> {
                 loading
                     ? LottieFile(file: 'loading')
                     : EButton(
-                        title: 'Sign In',
+                        title: 'signIn',
                         function: () async {
                           setState(() {
                             loading = true;
@@ -133,11 +138,9 @@ class _SignInState extends State<SignIn> {
                           'assets/images/g.png',
                           height: 24,
                         ),
-                        label: const Text('Sign In with google')),
+                        label: const Text('google').tr()),
                   ),
-                TButton(
-                    title: 'Don\'t have account? Sign Up',
-                    function: widget.function),
+                TButton(title: 'dontHaveAcc', function: widget.function),
               ],
             ),
           ),

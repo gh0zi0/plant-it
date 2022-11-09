@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'e_button.dart';
@@ -25,29 +26,29 @@ class CardPost extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerRight,
                     child: const Text(
-                      'هذه الارض تستحق الحياة',
+                      'deserves',
                       style: TextStyle(fontSize: 22),
-                    ),
+                    ).tr(),
                   ),
                   Container(
                     alignment: Alignment.centerRight,
                     child: const Text(
-                      'الطبيعة مصدر إلهامنا',
+                      'inspiration',
                       style: TextStyle(fontSize: 16),
-                    ),
+                    ).tr(),
                   ),
                   Container(
                     alignment: Alignment.centerRight,
                     child: const Text(
-                      'لنحافظ عليها',
+                      'keep',
                       style: TextStyle(fontSize: 16),
-                    ),
+                    ).tr(),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 20),
                     child: EButton(
                         color: Colors.green,
-                        title: 'إبدأ ',
+                        title: 'start',
                         function: function,
                         h: 30,
                         w: 100),

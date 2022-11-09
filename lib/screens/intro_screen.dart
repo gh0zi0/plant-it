@@ -33,10 +33,8 @@ class _IntroScreenState extends State<IntroScreen> {
         controller: controller,
         children: [
           IntroContainer(image: 'plant', title: 'plantMore', content: ''),
-          IntroContainer(
-              image: 'water', title: 'اسقي الأشجار المزروعة', content: ''),
-          IntroContainer(
-              image: 'save', title: 'احمي الأرض من التلوث', content: '')
+          IntroContainer(image: 'water', title: 'watering', content: ''),
+          IntroContainer(image: 'save', title: 'protect', content: '')
         ],
       ),
       bottomNavigationBar: Row(
@@ -71,7 +69,7 @@ class _IntroScreenState extends State<IntroScreen> {
           ),
           last
               ? TButton(
-                  title: 'Start',
+                  title: 'start',
                   function: () async {
                     final pref = await SharedPreferences.getInstance();
                     setState(() {

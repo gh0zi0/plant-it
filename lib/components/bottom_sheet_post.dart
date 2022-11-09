@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/lottie_file.dart';
@@ -18,6 +19,8 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
   final GlobalKey<FormState> Gkey = GlobalKey();
   var content = TextEditingController(),
       loading = false,
+      caption = tr('caption'),
+      pleaseCaption = tr('pleaseCaption'),
       get = Get.put(Functions());
 
   @override
@@ -32,9 +35,9 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
           child: Column(
             children: [
               const Text(
-                'New post',
+                'newPost',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
+              ).tr(),
               const SizedBox(
                 height: 20,
               ),
@@ -74,12 +77,12 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                       ))
               ]),
               EditTextFiled(
-                hint: 'Post content',
+                hint: caption,
                 icon: Icons.text_fields_outlined,
                 controller: content,
                 secure: false,
                 validator: (val) {
-                  if (val!.isEmpty) return 'Please enter a post content';
+                  if (val!.isEmpty) return pleaseCaption;
                   return null;
                 },
               ),
@@ -92,7 +95,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                     )
                   : EButton(
                       color: Colors.green,
-                      title: 'Share',
+                      title: 'post',
                       function: () {
                         setState(() {
                           loading = !loading;

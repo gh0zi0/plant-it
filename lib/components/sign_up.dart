@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,12 @@ class _SignUpState extends State<SignUp> {
       focusP = FocusNode(),
       focusN = FocusNode(),
       loading = false,
+      semail = tr('email'),
+      spass = tr('password'),
+      sname = tr('name'),
+      pemail = tr('pleaseEmail'),
+      ppass = tr('pleasePass'),
+      pname = tr('pleaseName'),
       get = Get.put(Functions());
 
   @override
@@ -42,9 +49,9 @@ class _SignUpState extends State<SignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Join the group :)',
+                  'join',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
+                ).tr(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -72,13 +79,13 @@ class _SignUpState extends State<SignUp> {
                             ))),
                 EditTextFiled(
                   focus: focusE,
-                  hint: 'Email',
+                  hint: semail,
                   icon: Icons.email,
                   controller: email,
                   secure: false,
                   validator: (val) {
                     if (val!.isEmpty || !val.contains('@')) {
-                      return 'Enter valid email';
+                      return pemail;
                     }
 
                     return null;
@@ -86,26 +93,26 @@ class _SignUpState extends State<SignUp> {
                 ),
                 EditTextFiled(
                   focus: focusP,
-                  hint: 'Password',
+                  hint: spass,
                   secure: true,
                   icon: Icons.password,
                   controller: password,
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Enter a password at least 6 characters';
+                      return ppass;
                     }
                     return null;
                   },
                 ),
                 EditTextFiled(
                   focus: focusN,
-                  hint: 'Name',
+                  hint: sname,
                   secure: false,
                   icon: Icons.person,
                   controller: name,
                   validator: (val) {
                     if (val!.isEmpty) {
-                      return 'Please enter your name';
+                      return pname;
                     }
                     return null;
                   },
@@ -116,7 +123,7 @@ class _SignUpState extends State<SignUp> {
                 loading
                     ? LottieFile(file: 'loading')
                     : EButton(
-                        title: 'Sign Up',
+                        title: 'signUp',
                         function: () async {
                           setState(() {
                             loading = true;
@@ -158,11 +165,9 @@ class _SignUpState extends State<SignUp> {
                           'assets/images/g.png',
                           height: 24,
                         ),
-                        label: const Text('Sign Up with google')),
+                        label: const Text('google').tr()),
                   ),
-                TButton(
-                    title: 'Already have account? Sign In',
-                    function: widget.function),
+                TButton(title: 'alreadyHaveAcc', function: widget.function),
               ],
             ),
           ),

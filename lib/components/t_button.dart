@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -14,6 +15,6 @@ class TButton extends StatelessWidget {
         },
         child: Text(
           title,
-        ));
+        ).tr());
   }
 }

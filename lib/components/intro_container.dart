@@ -12,24 +12,21 @@ class IntroContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: double.infinity,
-      child: Column(children: [
-        Flexible(
-          child: Image.asset(
-            'assets/images/$image.png',
-          ),
+    return Column(children: [
+      Flexible(
+        child: Image.asset(
+          'assets/images/$image.png',
         ),
-        Text(
-          title,
-          style: const TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.green),
-        ).tr(),
-        Text(
-          content,
-          style: const TextStyle(fontSize: 18),
-        )
-      ]),
-    );
+      ),
+      Text(
+        title,
+        style: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.green),
+      ).tr(),
+      Text(
+        content,
+        style: const TextStyle(fontSize: 18),
+      )
+    ]);
   }
 }

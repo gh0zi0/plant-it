@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:plantit/screens/account_screen.dart';
 import 'package:plantit/screens/map_screen.dart';
@@ -30,21 +31,21 @@ class _HomeScreenState extends State<HomeScreen> {
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
             icon: const Icon(Icons.home_filled),
-            title: const Text('Home'),
+            title: const Text('home').tr(),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(Icons.map),
             title: const Text(
-              'Map',
-            ),
+              'map',
+            ).tr(),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(Icons.person),
-            title: const Text('Account'),
+            title: const Text('account').tr(),
             activeColor: Colors.green,
             textAlign: TextAlign.center,
           ),

@@ -57,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               EButton(
-                title: 'Log In',
+                title: 'signIn',
                 function: () {
                   setState(() {
                     show = true;
@@ -71,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 50),
                 child: EButton(
-                  title: 'Sign Up',
+                  title: 'signUp',
                   function: () {
                     setState(() {
                       show = true;
