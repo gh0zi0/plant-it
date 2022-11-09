@@ -108,7 +108,7 @@ class Functions {
                 EButton(
                     title: 'done',
                     function: () {
-                      if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                      if (user.currentUser!.emailVerified) {
                         Get.off(() => const HomeScreen());
                       }
                     },
@@ -167,6 +167,9 @@ class Functions {
           'uid': user.currentUser!.uid,
           'image': url ?? ''
         });
+        // ignore: use_build_context_synchronously
+
+        await user.currentUser!.sendEmailVerification();
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);
       }
