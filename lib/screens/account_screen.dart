@@ -27,10 +27,10 @@ class _AccountScreenState extends State<AccountScreen> {
         IconButton(
             onPressed: () {
               if (context.locale.toString() != 'ar') {
-                context.setLocale(Locale('ar'));
+                context.setLocale(const Locale('ar'));
                 RestartWidget.restartApp(context);
               } else {
-                context.setLocale(Locale('en'));
+                context.setLocale(const Locale('en'));
                 RestartWidget.restartApp(context);
               }
             },
