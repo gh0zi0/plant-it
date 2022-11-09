@@ -19,7 +19,6 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
       auth = FirebaseAuth.instance,
       semail = tr('email'),
       pemail = tr('pleaseEmail'),
-     
       email = TextEditingController();
 
   resetPass() async {
@@ -49,49 +48,47 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        alignment: Alignment.topCenter,
-        height: double.infinity,
-        child: Form(
-          key: key,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'resetPass',
-                style: TextStyle(fontSize: 25),
-              ).tr(),
-              const SizedBox(
-                height: 20,
-              ),
-              EditTextFiled(
-                  focus: focus1,
-                  icon: Icons.email,
-                  secure: false,
-                  controller: email,
-                  validator: (val) {
-                    if (val!.isEmpty || !val.contains('@')) {
-                      return pemail;
-                    }
-                    return null;
-                  },
-                  hint: semail),
-              const SizedBox(
-                height: 20,
-              ),
-              loading
-                  ? LottieFile(file: 'loading')
-                  : EButton(
-                      title: 'submit',
-                      function: resetPass,
-                      h: 50,
-                      w: 150,
-                      color: Colors.green,
-                    )
-            ],
-          ),
+    return Container(
+      padding: const EdgeInsets.all(10),
+      alignment: Alignment.topCenter,
+      height: double.infinity,
+      child: Form(
+        key: key,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'resetPass',
+              style: TextStyle(fontSize: 25),
+            ).tr(),
+            const SizedBox(
+              height: 20,
+            ),
+            EditTextFiled(
+                focus: focus1,
+                icon: Icons.email,
+                secure: false,
+                controller: email,
+                validator: (val) {
+                  if (val!.isEmpty || !val.contains('@')) {
+                    return pemail;
+                  }
+                  return null;
+                },
+                hint: semail),
+            const SizedBox(
+              height: 20,
+            ),
+            loading
+                ? LottieFile(file: 'loading')
+                : EButton(
+                    title: 'submit',
+                    function: resetPass,
+                    h: 50,
+                    w: 150,
+                    color: Colors.green,
+                  )
+          ],
         ),
       ),
     );

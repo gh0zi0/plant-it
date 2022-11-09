@@ -102,6 +102,7 @@ class CodegenLoader extends AssetLoader{
   "post": "انشر",
   "voucher": "القسائم",
   "help": "احصل على مساعدة",
+  "sendAgain": "ارسل مرة أخرى",
   "aboutApp": "حول التطبيق",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
 };
@@ -197,6 +198,7 @@ static const Map<String,dynamic> en = {
   "post": "Post",
   "voucher": "Vouchers",
   "help": "Get help",
+  "sendAgain": "Send again",
   "aboutApp": "About app",
   "verify": "Please check your email and verify your account"
 };

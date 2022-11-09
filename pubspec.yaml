@@ -24,7 +24,7 @@ dependencies:
   image_cropper: ^3.0.1
   cached_network_image: ^3.2.2
   solid_bottom_sheet: ^0.1.10
-  timer_count_down: ^2.2.1
+  flutter_countdown_timer: ^4.1.0
   image_picker: ^0.8.6
   get: ^4.6.5
   http: ^0.13.5

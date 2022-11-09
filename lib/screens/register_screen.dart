@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:plantit/components/sign_in.dart';
 import 'package:plantit/components/sign_up.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 import '../components/e_button.dart';
 
 class RegisterScreen extends StatefulWidget {

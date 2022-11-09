@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 // ignore: depend_on_referenced_packages
@@ -12,7 +14,8 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:plantit/components/e_button.dart';
+import 'package:plantit/components/t_button.dart';
 import '../components/bottom_sheet_reset_password.dart';
 import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
@@ -59,15 +62,70 @@ class Functions {
     }
   }
 
+  countdownDialog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return Container(
+            padding: const EdgeInsets.all(30),
+            height: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'verify',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
+                ).tr(),
+                const SizedBox(
+                  height: 20,
+                ),
+                CountdownTimer(
+                  widgetBuilder: (context, time) {
+                    return time == null
+                        ? TButton(
+                            title: 'sendAgain',
+                            function: () {
+                              Get.back();
+                              verifyEmail(context);
+                            })
+                        : Text(
+                            time.sec.toString(),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.green),
+                          );
+                  },
+                  endTime: DateTime.now().millisecondsSinceEpoch + 60000,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                EButton(
+                    title: 'done',
+                    function: () {
+                      if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                        Get.off(() => const HomeScreen());
+                      }
+                    },
+                    h: 40,
+                    w: 100)
+              ],
+            ));
+      },
+    );
+  }
+
   verifyEmail(BuildContext context) async {
-    if (user.currentUser!.emailVerified) {
+    if (!user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
+      countdownDialog(context);
       await user.currentUser!.sendEmailVerification();
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: const Text('verify').tr()));
-          user.signOut();
     }
   }
 
@@ -112,7 +170,6 @@ class Functions {
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);
       }
-
       // ignore: use_build_context_synchronously
       await verifyEmail(context);
     } on FirebaseAuthException catch (e) {
@@ -124,8 +181,9 @@ class Functions {
   forgetPass(BuildContext context) async {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
       ),
       backgroundColor: Colors.white,
       builder: (context) {

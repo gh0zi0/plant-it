@@ -258,6 +258,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_countdown_timer:
+    dependency: "direct main"
+    description:
+      name: flutter_countdown_timer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -894,13 +901,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  timer_count_down:
-    dependency: "direct main"
-    description:
-      name: timer_count_down
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1"
   typed_data:
     dependency: transitive
     description:
