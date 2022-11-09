@@ -91,6 +91,7 @@ class Functions {
           'name': name,
           'points': 0,
           'plants': 0,
+          'water': 0,
           'email': email,
           'uid': user.currentUser!.uid,
           'image': url ?? ''
@@ -143,6 +144,7 @@ class Functions {
             'name': googleSignInAccount.displayName,
             'points': 0,
             'plants': 0,
+            'water': 0,
             'email': googleSignInAccount.email,
             'uid': user.currentUser!.uid,
             'image': googleSignInAccount.photoUrl ?? ''

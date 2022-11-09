@@ -79,7 +79,6 @@ class CodegenLoader extends AssetLoader{
   "privacy": "السياسة والخصوصية",
   "report": "الإبلاغ عن خطأ",
   "save": "حفظ",
-  "noCode": "كود الخصم غير موجود",
   "code": "لقد حصلت على خصم",
   "darkMode": "الوضع الداكن",
   "lightMode": "الوضع الفاتح",
@@ -100,7 +99,10 @@ class CodegenLoader extends AssetLoader{
   "start": "إبدأ",
   "newPost": "إنشاء منشور",
   "caption ": "شرح المنشور",
-  "post": "انشر"
+  "post": "انشر",
+  "voucher": "القسائم",
+  "help": "احصل على مساعدة",
+  "aboutApp": "حول التطبيق"
 };
 static const Map<String,dynamic> en = {
   "language": "English",
@@ -168,7 +170,6 @@ static const Map<String,dynamic> en = {
   "privacy": "Privacy policy",
   "report": "Report a bug",
   "save": "Save",
-  "noCode": "Voucher code Invalid",
   "code": "You got a discount",
   "darkMode": "Dark mode",
   "lightMode": "Light mode",
@@ -192,7 +193,10 @@ static const Map<String,dynamic> en = {
   "newPost": "Create new post",
   "caption": "Post caption",
   "pleaseCaption": "Please enter your caption",
-  "post": "Post"
+  "post": "Post",
+  "voucher": "Vouchers",
+  "help": "Get help",
+  "aboutApp": "About app"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": ar, "en": en};
 }
