@@ -121,6 +121,9 @@ class _MapPageState extends State<MapPage> {
         }
       }
     });
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -131,9 +134,6 @@ class _MapPageState extends State<MapPage> {
     serviceStatusStream =
         Geolocator.getPositionStream().listen((Position? position) {
       currentLocation = position;
-      setState(() {
-        loading = false;
-      });
     });
 
     super.initState();

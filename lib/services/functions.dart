@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,18 @@ class Functions {
     }
   }
 
+  verifyEmail(BuildContext context) async {
+    if (user.currentUser!.emailVerified) {
+      Get.off(() => const HomeScreen());
+    } else {
+      await user.currentUser!.sendEmailVerification();
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: const Text('verify').tr()));
+          user.signOut();
+    }
+  }
+
   authentication(
       BuildContext context,
       String email,
@@ -100,7 +113,8 @@ class Functions {
         await user.signInWithEmailAndPassword(email: email, password: password);
       }
 
-      Get.off(() => const HomeScreen());
+      // ignore: use_build_context_synchronously
+      await verifyEmail(context);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message.toString())));
@@ -154,6 +168,9 @@ class Functions {
 
       await user.signInWithCredential(credential);
 
+      // ignore: use_build_context_synchronously
+      await verifyEmail(context);
+
       Get.off(() => const HomeScreen());
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -167,10 +184,10 @@ class Functions {
 
   auth() async {
     await Future.delayed(const Duration(milliseconds: 2000));
-    if (user.currentUser?.uid == null) {
-      Get.off(() => const RegisterScreen());
-    } else {
+    if (user.currentUser?.uid != null && user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
+    } else {
+      Get.off(() => const RegisterScreen());
     }
   }
 

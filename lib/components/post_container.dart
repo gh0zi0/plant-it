@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:plantit/screens/full_screen.dart';
 
 // ignore: must_be_immutable
 class PostContainer extends StatefulWidget {
@@ -105,21 +103,14 @@ class _PostContainerState extends State<PostContainer> {
                 height: 5,
               ),
               if (widget.list![widget.index]['image'].toString().isNotEmpty)
-                Hero(
-                  tag: widget.list![widget.index]['image'].toString(),
-                  child: GestureDetector(
-                      onTap: () => Get.to(() => FullScreen(
-                            imageurl: widget.list![widget.index]['image'],
-                          )),
-                      child: Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.fitWidth,
-                                  image: NetworkImage(widget.list![widget.index]
-                                          ['image']
-                                      .toString()))))),
-                ),
+                Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.fitWidth,
+                            image: NetworkImage(widget.list![widget.index]
+                                    ['image']
+                                .toString())))),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(
