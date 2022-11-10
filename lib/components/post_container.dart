@@ -114,7 +114,7 @@ class _PostContainerState extends State<PostContainer> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(
-                    top: 5, right: 10, left: 10, bottom: 10),
+                    top: 10, right: 10, left: 15, bottom: 10),
                 child: Text(
                   widget.list![widget.index]['content'],
                 ),
