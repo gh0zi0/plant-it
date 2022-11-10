@@ -1,15 +1,14 @@
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as p;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as p;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -121,7 +120,7 @@ class Functions {
   }
 
   verifyEmail(BuildContext context) async {
-    if (!user.currentUser!.emailVerified) {
+    if (user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
       countdownDialog(context);
