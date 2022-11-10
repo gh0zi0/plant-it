@@ -73,6 +73,11 @@ class _MapPageState extends State<MapPage> {
                     Text(
                         "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
                     Text("needOfWatring : ${val["needOfWatring"]}"),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      label: const Text("Watring"),
+                      icon: Icon(UniconsLine.tear),
+                    )
                   ],
                 )
               ]);
@@ -158,7 +163,16 @@ class _MapPageState extends State<MapPage> {
                 onMapCreated: (GoogleMapController controller) {
                   gController = controller;
                 },
-              ),
+                circles: {
+                    Circle(
+                        circleId: CircleId("1"),
+                        center: LatLng(currentLocation!.latitude,
+                            currentLocation!.longitude),
+                        strokeWidth: 2,
+                        radius: 30,
+                        strokeColor: Colors.black54,
+                        fillColor: Colors.blueGrey.shade100),
+                  }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: loading
