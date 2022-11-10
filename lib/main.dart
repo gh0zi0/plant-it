@@ -31,10 +31,16 @@ Future<void> main() async {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: ThemeData(
+                textTheme:
+                  const  TextTheme(titleSmall: TextStyle(color: Colors.black)),
+                iconTheme: const IconThemeData(color: Colors.black),
                 brightness: Brightness.light,
                 primaryColor: Colors.green,
                 primarySwatch: Colors.green),
             darkTheme: ThemeData(
+                textTheme:
+                  const  TextTheme(titleSmall: TextStyle(color: Colors.white)),
+                iconTheme: const IconThemeData(color: Colors.white),
                 brightness: Brightness.dark,
                 primaryColor: Colors.green,
                 primarySwatch: Colors.green),
