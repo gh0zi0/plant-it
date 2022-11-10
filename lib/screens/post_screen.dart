@@ -36,7 +36,10 @@ class PostScreen extends StatelessWidget {
             function: function,
           ),
           StreamBuilder(
-            stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('posts')
+                .orderBy('timestamp', descending: true)
+                .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               final postData = snapshot.data?.docs;
               if (snapshot.hasData) {

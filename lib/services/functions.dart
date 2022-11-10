@@ -15,14 +15,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/t_button.dart';
+import 'package:plantit/components/verify.dart';
+import 'package:plantit/services/restart_app.dart';
+import 'package:theme_mode_builder/theme_mode_builder.dart';
 import '../components/bottom_sheet_reset_password.dart';
 import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
 
 class Functions {
-  // ignore: prefer_typing_uninitialized_variables
   var imageFile,
       url,
+      sure = tr('sure'),
       user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -45,7 +48,8 @@ class Functions {
       await FirebaseFirestore.instance.collection('posts').add({
         'content': content,
         'image': url ?? '',
-        'uid': FirebaseAuth.instance.currentUser!.uid
+        'uid': FirebaseAuth.instance.currentUser!.uid,
+        'timestamp': DateTime.now()
       });
       imageFile = null;
       url = null;
@@ -61,7 +65,7 @@ class Functions {
     }
   }
 
-  countdownDialog(BuildContext context) {
+  settingsDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -72,58 +76,91 @@ class Functions {
       builder: (context) {
         return Container(
             padding: const EdgeInsets.all(30),
-            height: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            height: 300,
+            child: ListView(
               children: [
-                const Text(
-                  'verify',
-                  style: TextStyle(fontSize: 25),
-                  textAlign: TextAlign.center,
-                ).tr(),
-                const SizedBox(
-                  height: 20,
+                ListTile(
+                  trailing: const Icon(Icons.language),
+                  title: const Text('changeLan').tr(),
+                  onTap: () {
+                    if (context.locale.toString() != 'ar') {
+                      context.setLocale(const Locale('ar'));
+                      RestartWidget.restartApp(context);
+                    } else {
+                      context.setLocale(const Locale('en'));
+                      RestartWidget.restartApp(context);
+                    }
+                  },
                 ),
-                CountdownTimer(
-                  widgetBuilder: (context, time) {
-                    return time == null
-                        ? TButton(
-                            title: 'sendAgain',
+                ListTile(
+                  trailing:
+                      Icon(Get.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                  title: Text(Get.isDarkMode ? 'lightMode' : 'darkMode').tr(),
+                  onTap: () {
+                    ThemeModeBuilderConfig.toggleTheme();
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.share),
+                  title: const Text('share').tr(),
+                  onTap: () {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text('Cooming soon')));
+                  },
+                ),
+                ListTile(
+                  trailing: const Icon(Icons.disabled_by_default_rounded),
+                  title: const Text('deleteAcc').tr(),
+                  onTap: () {
+                    Get.defaultDialog(
+                        title: sure,
+                        content: const Text('deleteAccM').tr(),
+                        confirm: TButton(
+                            title: 'yes',
+                            function: () async {
+                              Get.off(() => const RegisterScreen());
+                              await store
+                                  .collection('users')
+                                  .doc(user.currentUser!.uid)
+                                  .delete();
+                              await user.currentUser!.delete();
+                              user.signOut();
+                            }),
+                        cancel: TButton(
+                            title: 'no',
                             function: () {
                               Get.back();
-                              verifyEmail(context);
-                            })
-                        : Text(
-                            time.sec.toString(),
-                            style: const TextStyle(
-                                fontSize: 25, color: Colors.green),
-                          );
+                            }));
                   },
-                  endTime: DateTime.now().millisecondsSinceEpoch + 60000,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                EButton(
-                    title: 'done',
-                    function: () {
-                      if (user.currentUser!.emailVerified) {
-                        Get.off(() => const HomeScreen());
-                      }
-                    },
-                    h: 40,
-                    w: 100)
               ],
             ));
       },
     );
   }
 
-  verifyEmail(BuildContext context) async {
+  countdownDialog(BuildContext context, String email, String pass) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return Verify(
+          email: email,
+          password: pass,
+        );
+      },
+    );
+  }
+
+  verifyEmail(BuildContext context, String email, dynamic pass) async {
     if (user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
-      countdownDialog(context);
+      countdownDialog(context, email, pass);
       await user.currentUser!.sendEmailVerification();
     }
   }
@@ -167,13 +204,11 @@ class Functions {
           'image': url ?? ''
         });
         // ignore: use_build_context_synchronously
-
-        await user.currentUser!.sendEmailVerification();
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);
       }
       // ignore: use_build_context_synchronously
-      await verifyEmail(context);
+      await verifyEmail(context, email, password);
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.message.toString())));
@@ -229,7 +264,7 @@ class Functions {
       await user.signInWithCredential(credential);
 
       // ignore: use_build_context_synchronously
-      await verifyEmail(context);
+      await verifyEmail(context,'google',credential);
 
       Get.off(() => const HomeScreen());
     } on FirebaseAuthException catch (e) {

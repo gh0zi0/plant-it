@@ -1,6 +1,7 @@
 {
   "language": "English",
   "hello": "Hello",
+  "deleteAcc": "Delete account",
   "welcome": "Welcome",
   "home": "Home",
   "signIn": "Log In",
@@ -84,6 +85,7 @@
   "deserves": "This land deserves life",
   "inspiration": "Nature is our inspiration",
   "keep": "let's keep it",
+  "start": "Start",
   "newPost": "Create new post",
   "caption": "Post caption",
   "pleaseCaption": "Please enter your caption",
@@ -92,5 +94,6 @@
   "help": "Get help",
   "sendAgain": "Send again",
   "aboutApp": "About app",
+  "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
 }

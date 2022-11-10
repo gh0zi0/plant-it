@@ -13,49 +13,52 @@ class CardPost extends StatelessWidget {
     return Card(
         color: Colors.green.shade100,
         child: Padding(
-          padding: const EdgeInsets.only(right: 10, top: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(
-                'assets/images/tree.png',
-                height: 150,
-              ),
-              Column(
-                children: [
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: const Text(
-                      'deserves',
-                      style: TextStyle(fontSize: 22),
-                    ).tr(),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: const Text(
-                      'inspiration',
-                      style: TextStyle(fontSize: 16),
-                    ).tr(),
-                  ),
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: const Text(
-                      'keep',
-                      style: TextStyle(fontSize: 16),
-                    ).tr(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 10),
-                    child: EButton(
-                        color: Colors.green,
-                        title: 'start',
-                        function: function,
-                        h: 30,
-                        w: 100),
-                  ),
-                ],
-              ),
-            ],
+          padding: const EdgeInsets.only(right: 10, top: 20, left: 10),
+          child: FittedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  'assets/images/tree.png',
+                  height: 150,
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      alignment: Alignment.centerRight,
+                      child: const Text(
+                        'deserves',
+                        style: TextStyle(fontSize: 22),
+                      ).tr(),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: const Text(
+                        'inspiration',
+                        style: TextStyle(fontSize: 16),
+                      ).tr(),
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: const Text(
+                        'keep',
+                        style: TextStyle(fontSize: 16),
+                      ).tr(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, bottom: 10),
+                      child: EButton(
+                          color: Colors.green,
+                          title: 'start',
+                          function: function,
+                          h: 30,
+                          w: 100),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }

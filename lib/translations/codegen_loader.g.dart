@@ -17,6 +17,7 @@ class CodegenLoader extends AssetLoader{
   static const Map<String,dynamic> ar = {
   "language": "العربية",
   "hello": "مرحبا بك",
+  "deleteAcc": "احذف الحساب",
   "welcome": "أهلا بك",
   "home": "الصفحة الرئيسية",
   "signIn": "تسجيل الدخول",
@@ -54,7 +55,7 @@ class CodegenLoader extends AssetLoader{
   "note": "ملاحظة",
   "chose": "اختر:",
   "undo": "تراجع",
-  "sure": "؟هل انت متأكد",
+  "sure": "هل انت متأكد؟",
   "total": "المجموع",
   "plantMore": "ازرع اشجار اكثر",
   "watering": "اسقي الاشجار المزروعة",
@@ -96,6 +97,9 @@ class CodegenLoader extends AssetLoader{
   "chats": "المحادثات",
   "map": "الخريطة",
   "account": "الحساب",
+  "deserves": "هذه الأرض تستحق الحياة",
+  "inspiration": "الطبيعة مصدر الهامنا",
+  "keep": "لنحافظ عليها",
   "start": "إبدأ",
   "newPost": "إنشاء منشور",
   "caption ": "شرح المنشور",
@@ -104,11 +108,13 @@ class CodegenLoader extends AssetLoader{
   "help": "احصل على مساعدة",
   "sendAgain": "ارسل مرة أخرى",
   "aboutApp": "حول التطبيق",
+  "deleteAccM": "سيتم حذف حسابك وفقد جميع بياناتك",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
 };
 static const Map<String,dynamic> en = {
   "language": "English",
   "hello": "Hello",
+  "deleteAcc": "Delete account",
   "welcome": "Welcome",
   "home": "Home",
   "signIn": "Log In",
@@ -192,6 +198,7 @@ static const Map<String,dynamic> en = {
   "deserves": "This land deserves life",
   "inspiration": "Nature is our inspiration",
   "keep": "let's keep it",
+  "start": "Start",
   "newPost": "Create new post",
   "caption": "Post caption",
   "pleaseCaption": "Please enter your caption",
@@ -200,6 +207,7 @@ static const Map<String,dynamic> en = {
   "help": "Get help",
   "sendAgain": "Send again",
   "aboutApp": "About app",
+  "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ar": ar, "en": en};

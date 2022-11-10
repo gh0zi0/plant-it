@@ -6,7 +6,7 @@ import 'package:plantit/components/acc_details.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/screens/register_screen.dart';
 import 'package:unicons/unicons.dart';
-import '../services/restart_app.dart';
+import '../services/functions.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -16,7 +16,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  var auth = FirebaseAuth.instance;
+  var auth = FirebaseAuth.instance, get = Get.put(Functions());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +24,8 @@ class _AccountScreenState extends State<AccountScreen> {
           AppBar(backgroundColor: Colors.transparent, elevation: 0, actions: [
         IconButton(
             onPressed: () {
-              if (context.locale.toString() != 'ar') {
-                context.setLocale(const Locale('ar'));
-                RestartWidget.restartApp(context);
-              } else {
-                context.setLocale(const Locale('en'));
-                RestartWidget.restartApp(context);
-              }
+              get.settingsDialog(context);
+           
             },
             icon: const Icon(
               Icons.settings,
@@ -45,7 +40,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
           ListTile(
             leading: const Icon(UniconsLine.ticket),
-            title: const Text('Vouchers').tr(),
+            title: const Text('voucher').tr(),
           ),
           ListTile(
             leading: const Icon(UniconsLine.comment_question),

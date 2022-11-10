@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/intro_container.dart';
@@ -6,8 +5,6 @@ import 'package:plantit/components/t_button.dart';
 import 'package:plantit/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../main.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
