@@ -55,7 +55,7 @@ class _AccountScreenState extends State<AccountScreen> {
             onTap: () {
               // Get.to(() => const HelpScreen());
               // FirebaseAuth.instance.currentUser!.updateDisplayName('dqwd');
-              print(_googleSignIn.clientId);
+            
             },
           ),
           ListTile(

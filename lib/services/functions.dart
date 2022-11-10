@@ -47,10 +47,10 @@ class Functions {
         'image': url ?? '',
         'uid': FirebaseAuth.instance.currentUser!.uid,
         'timestamp': DateTime.now(),
-        'name': user.currentUser!.providerData[0].providerId == 'google.com'
-            ? _googleSignIn.currentUser!.displayName
-            : user.currentUser!.displayName,
-        'Uimage': user.currentUser!.photoURL ?? ''
+        // 'name': user.currentUser!.providerData[0].providerId == 'google.com'
+        //     ? _googleSignIn.currentUser!.displayName
+        //     : user.currentUser!.displayName,
+        // 'Uimage': user.currentUser!.photoURL ?? ''
       });
       imageFile = null;
       url = null;
