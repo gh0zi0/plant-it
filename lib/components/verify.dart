@@ -51,12 +51,8 @@ class Verify extends StatelessWidget {
           EButton(
               title: 'done',
               function: () async {
-                if (email == 'google') {
-                  await user.signInWithCredential(password);
-                } else {
-                  await user.signInWithEmailAndPassword(
-                      email: email.toString(), password: password.toString());
-                }
+                await user.signInWithEmailAndPassword(
+                    email: email.toString(), password: password.toString());
 
                 if (user.currentUser!.emailVerified) {
                   Get.off(() => const HomeScreen());

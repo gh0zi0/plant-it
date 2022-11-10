@@ -46,12 +46,15 @@ class Functions {
         'content': content,
         'image': url ?? '',
         'uid': FirebaseAuth.instance.currentUser!.uid,
-        'timestamp': DateTime.now()
+        'timestamp': DateTime.now(),
+        'name': user.currentUser!.providerData[0].providerId == 'google.com'
+            ? _googleSignIn.currentUser!.displayName
+            : user.currentUser!.displayName,
+        'Uimage': user.currentUser!.photoURL ?? ''
       });
       imageFile = null;
       url = null;
       Get.back();
-
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('post shared')));
@@ -156,7 +159,7 @@ class Functions {
     );
   }
 
-  verifyEmail(BuildContext context, String email, dynamic pass) async {
+  verifyEmail(BuildContext context, String email, String pass) async {
     if (user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
@@ -193,6 +196,7 @@ class Functions {
               .child(DateTime.now().toIso8601String());
           final result = await ref.putFile(imageFile);
           url = await result.ref.getDownloadURL();
+          await user.currentUser!.updatePhotoURL(url);
         }
         await store.collection('users').doc(user.currentUser!.uid).set({
           'name': name,
@@ -203,6 +207,7 @@ class Functions {
           'uid': user.currentUser!.uid,
           'image': url ?? ''
         });
+
         // ignore: use_build_context_synchronously
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);
@@ -243,6 +248,8 @@ class Functions {
         idToken: googleSignInAuthentication.idToken,
       );
 
+      await user.signInWithCredential(credential);
+
       await store
           .collection('users')
           .doc(user.currentUser!.uid)
@@ -260,12 +267,10 @@ class Functions {
           });
         }
       });
-
-      await user.signInWithCredential(credential);
-
-      // ignore: use_build_context_synchronously
-      await verifyEmail(context, 'google', credential);
-
+      await user.currentUser!
+          .updateDisplayName(googleSignInAccount.displayName);
+      await user.currentUser!
+          .updateDisplayName(googleSignInAccount.photoUrl ?? '');
       Get.off(() => const HomeScreen());
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)

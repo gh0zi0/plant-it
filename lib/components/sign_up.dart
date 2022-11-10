@@ -159,7 +159,13 @@ class _SignUpState extends State<SignUp> {
                           shape: const StadiumBorder(),
                         ),
                         onPressed: () {
+                          setState(() {
+                            loading = true;
+                          });
                           get.signInGoogle(context);
+                          setState(() {
+                            loading = false;
+                          });
                         },
                         icon: Image.asset(
                           'assets/images/g.png',

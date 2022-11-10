@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -227,13 +228,14 @@ class _MapPageState extends State<MapPage> {
                   },
                 );
               },
+              heroTag: null,
               label: Row(
-                children: const [
-                  Icon(UniconsLine.shovel),
-                  SizedBox(
+                children: [
+                  const Icon(UniconsLine.shovel),
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text("Plant")
+                  const Text("plant").tr()
                 ],
               ),
             ),

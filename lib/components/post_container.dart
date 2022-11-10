@@ -17,27 +17,6 @@ class PostContainer extends StatefulWidget {
 }
 
 class _PostContainerState extends State<PostContainer> {
-  var name = '', image = '';
-
-  getUserData() async {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.list![widget.index]['uid'])
-        .get()
-        .then((value) {
-      setState(() {
-        image = value['image'];
-        name = value['name'];
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    getUserData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +42,7 @@ class _PostContainerState extends State<PostContainer> {
                           child: SizedBox.fromSize(
                               size: const Size.fromRadius(15),
                               child: CachedNetworkImage(
-                                imageUrl: image,
+                                imageUrl: widget.list![widget.index]['Uimage'],
                                 placeholder: (context, url) =>
                                     const Icon(Icons.person),
                                 errorWidget: (context, url, error) =>
@@ -74,7 +53,7 @@ class _PostContainerState extends State<PostContainer> {
                           width: 10,
                         ),
                         Text(
-                          name,
+                          widget.list![widget.index]['name'],
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
