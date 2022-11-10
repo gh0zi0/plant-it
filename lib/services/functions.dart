@@ -6,14 +6,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/verify.dart';
 import 'package:plantit/services/restart_app.dart';
@@ -25,7 +23,6 @@ import '../screens/register_screen.dart';
 class Functions {
   var imageFile,
       url,
-      sure = tr('sure'),
       user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -104,8 +101,8 @@ class Functions {
                   trailing: const Icon(Icons.share),
                   title: const Text('share').tr(),
                   onTap: () {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Cooming soon')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Cooming soon')));
                   },
                 ),
                 ListTile(
@@ -113,8 +110,11 @@ class Functions {
                   title: const Text('deleteAcc').tr(),
                   onTap: () {
                     Get.defaultDialog(
-                        title: sure,
-                        content: const Text('deleteAccM').tr(),
+                        title: tr('sure'),
+                        content: const Text(
+                          'deleteAccM',
+                          textAlign: TextAlign.center,
+                        ).tr(),
                         confirm: TButton(
                             title: 'yes',
                             function: () async {
@@ -264,7 +264,7 @@ class Functions {
       await user.signInWithCredential(credential);
 
       // ignore: use_build_context_synchronously
-      await verifyEmail(context,'google',credential);
+      await verifyEmail(context, 'google', credential);
 
       Get.off(() => const HomeScreen());
     } on FirebaseAuthException catch (e) {
