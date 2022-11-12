@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:math' show cos, sqrt, asin;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:unicons/unicons.dart';
+
 import 'dart:ui' as ui;
 
 class MapPage extends StatefulWidget {
@@ -21,6 +24,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
+  double zoomLevel = 14;
 
   var longitude, latitude, loading = true;
   GoogleMapController? gController;
@@ -56,33 +60,48 @@ class _MapPageState extends State<MapPage> {
   void initMarker(val, specifyId) async {
     final Uint8List markerIcon =
         await getBytesFromAsset('assets/images/GreenTree.png', 80);
+    double markerlatitude = val["address"].latitude;
+    double markerlongitude = val["address"].longitude;
 
     var markerIdval = specifyId;
     MarkerId markerId = MarkerId(markerIdval);
     Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(val["address"].latitude, val["address"].longitude),
+      position: LatLng(markerlatitude, markerlongitude),
       onTap: () {
-        showDialog(
-            context: context,
-            builder: (context) {
-              DateTime plantDate = val["datePlant"].toDate();
-              return AlertDialog(actions: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                        "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
-                    Text("needOfWatring : ${val["needOfWatring"]}"),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      label: const Text("Watring"),
-                      icon: Icon(UniconsLine.tear),
-                    )
-                  ],
-                )
-              ]);
-            });
+        gController?.animateCamera(CameraUpdate.newLatLngZoom(
+            LatLng(markerlatitude, markerlongitude), 20.0));
+
+        bool inUser = detectIfMarkerWithinBoundary(
+            markerlatitude,
+            markerlongitude,
+            currentLocation!.latitude,
+            currentLocation!.longitude);
+        if (inUser) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                DateTime plantDate = val["datePlant"].toDate();
+                return AlertDialog(actions: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                          "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
+                      Text("needOfWatring : ${val["needOfWatring"]}"),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        label: const Text("Watring"),
+                        icon: Icon(UniconsLine.tear),
+                      )
+                    ],
+                  )
+                ]);
+              });
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("outside")));
+        }
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
@@ -91,22 +110,18 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  calculateAge(DateTime birthDate) {
-    DateTime currentDate = DateTime.now();
+  bool detectIfMarkerWithinBoundary(
+      latitude1, longitude1, latitude2, longitude2) {
+    bool inUser;
+    double distance = Geolocator.distanceBetween(
+        latitude1, longitude1, latitude2, longitude2);
 
-    int age = currentDate.year - birthDate.year;
-    int month1 = currentDate.month;
-    int month2 = birthDate.month;
-    if (month2 > month1) {
-      age--;
-    } else if (month1 == month2) {
-      int day1 = currentDate.day;
-      int day2 = birthDate.day;
-      if (day2 > day1) {
-        age--;
-      }
+    if (distance <= 10) {
+      inUser = true;
+    } else {
+      inUser = false;
     }
-    return age;
+    return inUser;
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -159,18 +174,18 @@ class _MapPageState extends State<MapPage> {
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
                       currentLocation!.latitude, currentLocation!.longitude),
-                  zoom: 14.4746,
+                  zoom: zoomLevel,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   gController = controller;
                 },
                 circles: {
                     Circle(
-                        circleId: CircleId("1"),
+                        circleId: const CircleId("1"),
                         center: LatLng(currentLocation!.latitude,
                             currentLocation!.longitude),
                         strokeWidth: 2,
-                        radius: 30,
+                        radius: 10,
                         strokeColor: Colors.black54,
                         fillColor: Colors.blueGrey.shade100),
                   }),

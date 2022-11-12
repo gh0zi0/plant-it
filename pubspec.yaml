@@ -41,6 +41,7 @@ dependencies:
   geocoding: ^2.0.5
   geolocator: ^9.0.2
   unicons: ^2.1.0
+  maps_toolkit: ^2.0.1
 
 dev_dependencies:
   flutter_test:
