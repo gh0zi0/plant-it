@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:math' show cos, sqrt, asin;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:plantit/MapUtils.dart';
 
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
@@ -24,7 +25,6 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   Position? currentLocation;
-  double zoomLevel = 14;
 
   var longitude, latitude, loading = true;
   GoogleMapController? gController;
@@ -47,6 +47,7 @@ class _MapPageState extends State<MapPage> {
     return permission;
   }
 
+//
   Future<void> getLatAndLong() async {
     currentLocation =
         await Geolocator.getCurrentPosition().then((value) => value);
@@ -58,8 +59,14 @@ class _MapPageState extends State<MapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void initMarker(val, specifyId) async {
-    final Uint8List markerIcon =
-        await getBytesFromAsset('assets/images/GreenTree.png', 80);
+    String imag = 'assets/images/GreenTree.png';
+    if (val["needOfWatring"] == "high") {
+      imag = 'assets/images/RedTree.png';
+    } else if (val["needOfWatring"] == "medium") {
+      imag = 'assets/images/OrangeTree.png';
+    }
+
+    final Uint8List markerIcon = await MapUtils().getBytesFromAsset(imag, 80);
     double markerlatitude = val["address"].latitude;
     double markerlongitude = val["address"].longitude;
 
@@ -72,7 +79,7 @@ class _MapPageState extends State<MapPage> {
         gController?.animateCamera(CameraUpdate.newLatLngZoom(
             LatLng(markerlatitude, markerlongitude), 20.0));
 
-        bool inUser = detectIfMarkerWithinBoundary(
+        bool inUser = MapUtils().detectIfMarkerWithinBoundary(
             markerlatitude,
             markerlongitude,
             currentLocation!.latitude,
@@ -108,30 +115,6 @@ class _MapPageState extends State<MapPage> {
     setState(() {
       markers[markerId] = marker;
     });
-  }
-
-  bool detectIfMarkerWithinBoundary(
-      latitude1, longitude1, latitude2, longitude2) {
-    bool inUser;
-    double distance = Geolocator.distanceBetween(
-        latitude1, longitude1, latitude2, longitude2);
-
-    if (distance <= 10) {
-      inUser = true;
-    } else {
-      inUser = false;
-    }
-    return inUser;
-  }
-
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   getMarkers() async {
@@ -174,7 +157,7 @@ class _MapPageState extends State<MapPage> {
                 initialCameraPosition: CameraPosition(
                   target: LatLng(
                       currentLocation!.latitude, currentLocation!.longitude),
-                  zoom: zoomLevel,
+                  zoom: 14,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   gController = controller;
@@ -195,13 +178,6 @@ class _MapPageState extends State<MapPage> {
           ? null
           : FloatingActionButton.extended(
               onPressed: () {
-                // List<Placemark> placemarks =
-                //     await placemarkFromCoordinates(latitude, longitude);
-                // print(placemarks[0].locality);
-
-                // gController?.animateCamera(
-                //     CameraUpdate.newLatLng(LatLng(latitude, longitude)));
-
                 showModalBottomSheet(
                   context: context,
                   shape: RoundedRectangleBorder(
