@@ -42,8 +42,8 @@ class PostScreen extends StatelessWidget {
                 .orderBy('timestamp', descending: true)
                 .snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              final postData = snapshot.data?.docs;
               if (snapshot.hasData) {
+                final postData = snapshot.data?.docs;
                 if (postData!.isEmpty) {
                   return LottieFile(
                     file: 'error',

@@ -18,32 +18,39 @@ class DrawerCustom extends StatefulWidget {
 }
 
 class _DrawerCustomState extends State<DrawerCustom> {
-  var user = FirebaseAuth.instance, store = FirebaseFirestore.instance;
+  var user = FirebaseAuth.instance,
+      store = FirebaseFirestore.instance,
+      dark = Get.isDarkMode;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   leading: const SizedBox(),
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   title: Text(
-      //     'Hello ${user.currentUser!.displayName}',
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      // ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Text(
-                'Hello ${user.currentUser!.displayName}',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
+              child: Row(
+                children: [
+                  const Text(
+                    'hello',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ).tr(),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    user.currentUser!.displayName.toString(),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ],
               ),
             ),
             const Divider(),
@@ -61,12 +68,13 @@ class _DrawerCustomState extends State<DrawerCustom> {
               },
             ),
             ListTile(
-              trailing:
-                  Icon(Get.isDarkMode ? Icons.light_mode : Icons.dark_mode),
-              title: Text(Get.isDarkMode ? 'lightMode' : 'darkMode').tr(),
-              onTap: () {
-                ThemeModeBuilderConfig.toggleTheme();
-                setState(() {});
+              trailing: Icon(dark ? Icons.light_mode : Icons.dark_mode),
+              title: Text(dark ? 'lightMode' : 'darkMode').tr(),
+              onTap: () async {
+                await ThemeModeBuilderConfig.toggleTheme();
+                setState(() {
+                  dark = !dark;
+                });
               },
             ),
             ListTile(
