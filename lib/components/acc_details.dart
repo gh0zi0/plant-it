@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
+import '../screens/voucher_screen.dart';
 import 'lottie_file.dart';
 
 class AccDetails extends StatelessWidget {
@@ -117,6 +120,16 @@ class AccDetails extends StatelessWidget {
                     ),
                   )
                 ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.ticket),
+                title: const Text('voucher').tr(),
+                onTap: () {
+                  Get.to(() =>  VoucherScreen(points: data['points']));
+                },
               ),
             ],
           );

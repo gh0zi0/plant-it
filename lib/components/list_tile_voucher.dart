@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:plantit/components/voucher_details.dart';
 import 'package:unicons/unicons.dart';
 import 'lottie_file.dart';
 
 // ignore: must_be_immutable
 class VoucherListTile extends StatelessWidget {
-  VoucherListTile({super.key, required this.id});
+  VoucherListTile({super.key, required this.id, required this.points});
   String id;
+  int points;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +56,11 @@ class VoucherListTile extends StatelessWidget {
                 title: Text(voucherData[index]['title']),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(voucherData[index]['description']),
+                onTap: () => Get.to(() => VoucherDetails(
+                      list: voucherData,
+                      index: index,
+                      points:points
+                    )),
               );
             },
           );

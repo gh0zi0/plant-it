@@ -4,7 +4,8 @@ import 'package:plantit/components/list_tile_voucher.dart';
 import 'package:plantit/components/voucher_card.dart';
 
 class VoucherScreen extends StatefulWidget {
-  const VoucherScreen({super.key});
+  VoucherScreen({super.key, required this.points});
+  int points;
 
   @override
   State<VoucherScreen> createState() => _VoucherScreenState();
@@ -37,7 +38,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
           ),
         ),
         body: id != null
-            ? VoucherListTile(id: id)
+            ? VoucherListTile(id: id, points: widget.points)
             : VoucherCard(
                 function: changeState,
               ));

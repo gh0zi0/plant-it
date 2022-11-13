@@ -29,7 +29,6 @@ class _AccountScreenState extends State<AccountScreen> {
             return IconButton(
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
-                 
                 },
                 icon: const Icon(
                   UniconsLine.align_center_alt,
@@ -42,16 +41,7 @@ class _AccountScreenState extends State<AccountScreen> {
       body: ListView(
         children: [
           const AccDetails(),
-          const SizedBox(
-            height: 25,
-          ),
-          ListTile(
-            leading: const Icon(UniconsLine.ticket),
-            title: const Text('voucher').tr(),
-            onTap: () {
-              Get.to(() => const VoucherScreen());
-            },
-          ),
+        
           ListTile(
             leading: const Icon(UniconsLine.comment_question),
             title: const Text('help').tr(),
@@ -69,16 +59,6 @@ class _AccountScreenState extends State<AccountScreen> {
           const SizedBox(
             height: 20,
           ),
-          // EButton(
-          //     title: 'signout',
-          //     function: () async {
-          //       await auth.signOut();
-          //       await _googleSignIn.signOut();
-          //       Get.off(() => const RegisterScreen());
-          //     },
-          //     color: Colors.red,
-          //     h: 50,
-          //     w: 200)
         ],
       ),
     );
