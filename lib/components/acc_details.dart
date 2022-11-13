@@ -77,7 +77,9 @@ class AccDetails extends StatelessWidget {
                             color: Colors.green,
                             size: 30,
                           ),
-                          Text(data['plants'].toString()),
+                          Text(data['plants'].toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           const VerticalDivider(
                             color: Colors.black,
                             thickness: 1,
@@ -86,7 +88,9 @@ class AccDetails extends StatelessWidget {
                             'assets/images/can.png',
                             height: 35,
                           ),
-                          Text(data['water'].toString())
+                          Text(data['water'].toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold))
                         ],
                       ),
                     ),
@@ -107,7 +111,10 @@ class AccDetails extends StatelessWidget {
                             color: Colors.amberAccent,
                             size: 30,
                           ),
-                          Text(data['points'].toString()),
+                          Text(
+                            data['points'].toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),

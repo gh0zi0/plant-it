@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:plantit/components/voucher_card.dart';
 import '../components/lottie_file.dart';
 
 class VoucherScreen extends StatefulWidget {
@@ -18,8 +19,9 @@ class _VoucherScreenState extends State<VoucherScreen> {
         stream: FirebaseFirestore.instance.collection('vouchers').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            final postData = snapshot.data?.docs;
-            if (postData!.isEmpty) {
+            final voucherData = snapshot.data?.docs;
+
+            if (voucherData!.isEmpty) {
               return LottieFile(
                 file: 'error',
               );
@@ -29,9 +31,11 @@ class _VoucherScreenState extends State<VoucherScreen> {
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: postData.length,
+                itemCount: voucherData.length,
                 itemBuilder: (context, index) {
-                  return Container();
+                  return VoucherCard(
+                    image: voucherData[index]['image'],
+                  );
                 },
               ),
             );
