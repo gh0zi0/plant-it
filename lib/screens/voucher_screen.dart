@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:plantit/components/list_tile_voucher.dart';
 import 'package:plantit/components/voucher_card.dart';
 
+// ignore: must_be_immutable
 class VoucherScreen extends StatefulWidget {
   VoucherScreen({super.key, required this.points});
   int points;
@@ -12,7 +13,7 @@ class VoucherScreen extends StatefulWidget {
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {
-  var id;
+  var id='';
 
   changeState(x) {
     setState(() {
@@ -28,16 +29,16 @@ class _VoucherScreenState extends State<VoucherScreen> {
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
               setState(() {
-                if (id == null) {
+                if (id == '') {
                   Get.back();
                 } else {
-                  id = null;
+                  id = '';
                 }
               });
             },
           ),
         ),
-        body: id != null
+        body: id != ''
             ? VoucherListTile(id: id, points: widget.points)
             : VoucherCard(
                 function: changeState,

@@ -6,7 +6,6 @@ import 'package:plantit/components/acc_details.dart';
 import 'package:plantit/components/drawer.dart';
 import 'package:plantit/screens/aboutapp_screen.dart';
 import 'package:plantit/screens/help_screen.dart';
-import 'package:plantit/screens/voucher_screen.dart';
 import 'package:unicons/unicons.dart';
 import '../services/functions.dart';
 

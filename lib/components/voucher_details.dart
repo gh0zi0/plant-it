@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plantit/components/e_button.dart';
 
+// ignore: must_be_immutable
 class VoucherDetails extends StatelessWidget {
   VoucherDetails(
       {super.key,
