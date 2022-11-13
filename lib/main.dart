@@ -32,14 +32,14 @@ Future<void> main() async {
             locale: context.locale,
             theme: ThemeData(
                 textTheme:
-                  const  TextTheme(titleSmall: TextStyle(color: Colors.black)),
+                    const TextTheme(titleSmall: TextStyle(color: Colors.black)),
                 iconTheme: const IconThemeData(color: Colors.black),
                 brightness: Brightness.light,
                 primaryColor: Colors.green,
                 primarySwatch: Colors.green),
             darkTheme: ThemeData(
                 textTheme:
-                  const  TextTheme(titleSmall: TextStyle(color: Colors.white)),
+                    const TextTheme(titleSmall: TextStyle(color: Colors.white)),
                 iconTheme: const IconThemeData(color: Colors.white),
                 brightness: Brightness.dark,
                 primaryColor: Colors.green,
@@ -61,7 +61,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool first = true;
+  bool first = false;
 
   checkData() async {
     final pref = await SharedPreferences.getInstance();
