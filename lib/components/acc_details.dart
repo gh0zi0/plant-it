@@ -22,29 +22,26 @@ class AccDetails extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Column(
             children: [
-              data['image'].toString().isEmpty
-                  ? Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(width: 1)),
-                      child: data['image'].toString().isEmpty
-                          ? const Icon(
-                              Icons.person,
-                              size: 75,
-                            )
-                          : null,
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: CachedNetworkImage(
-                        height: 150,
-                        imageUrl: data['image'],
-                        placeholder: (context, url) => const Icon(Icons.person),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.person),
-                      )),
+              CircleAvatar(
+                radius: 76,
+                backgroundColor: Colors.black,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: data['image'].toString(),
+                    placeholder: (context, url) => const Icon(
+                      Icons.person,
+                      size: 100,
+                    ),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.person,
+                      size: 100,
+                    ),
+                    fit: BoxFit.cover,
+                    width: 150,
+                    height: 150,
+                  ),
+                ),
+              ),
               Container(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   alignment: Alignment.center,

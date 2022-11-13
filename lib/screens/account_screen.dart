@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/acc_details.dart';
 import 'package:plantit/components/drawer.dart';
 import 'package:plantit/screens/aboutapp_screen.dart';

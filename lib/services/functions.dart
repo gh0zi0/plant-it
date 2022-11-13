@@ -2,7 +2,6 @@
 import 'package:path/path.dart' as p;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +11,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/verify.dart';
-import 'package:plantit/services/restart_app.dart';
-import 'package:theme_mode_builder/theme_mode_builder.dart';
 import '../components/bottom_sheet_reset_password.dart';
 import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
