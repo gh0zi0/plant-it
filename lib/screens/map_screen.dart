@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:plantit/MapUtils.dart';
+import 'package:plantit/services/MapUtils.dart';
 
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';

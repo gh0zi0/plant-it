@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/acc_details.dart';
+import 'package:plantit/components/drawer.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/screens/aboutapp_screen.dart';
 import 'package:plantit/screens/help_screen.dart';
@@ -25,18 +26,23 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(backgroundColor: Colors.transparent, elevation: 0, actions: [
-        IconButton(
-            onPressed: () {
-              get.settingsDialog(context);
-            },
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.black,
-            ))
-      ]),
-      body: Column(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Builder(builder: (context) {
+            return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: const Icon(
+                  UniconsLine.align_center_alt,
+                  color: Colors.black,
+                ));
+          })),
+      drawer: const Drawer(
+        child: DrawerCustom(),
+      ),
+      body: ListView(
         children: [
           const AccDetails(),
           const SizedBox(
@@ -53,9 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
             leading: const Icon(UniconsLine.comment_question),
             title: const Text('help').tr(),
             onTap: () {
-              // Get.to(() => const HelpScreen());
-              // FirebaseAuth.instance.currentUser!.updateDisplayName('dqwd');
-            
+              Get.to(() => const HelpScreen());
             },
           ),
           ListTile(
@@ -68,16 +72,16 @@ class _AccountScreenState extends State<AccountScreen> {
           const SizedBox(
             height: 20,
           ),
-          EButton(
-              title: 'signout',
-              function: () async {
-                await auth.signOut();
-                await _googleSignIn.signOut();
-                Get.off(() => const RegisterScreen());
-              },
-              color: Colors.red,
-              h: 50,
-              w: 200)
+          // EButton(
+          //     title: 'signout',
+          //     function: () async {
+          //       await auth.signOut();
+          //       await _googleSignIn.signOut();
+          //       Get.off(() => const RegisterScreen());
+          //     },
+          //     color: Colors.red,
+          //     h: 50,
+          //     w: 200)
         ],
       ),
     );
