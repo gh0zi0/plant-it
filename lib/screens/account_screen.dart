@@ -5,10 +5,8 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:plantit/components/acc_details.dart';
 import 'package:plantit/components/drawer.dart';
-import 'package:plantit/components/e_button.dart';
 import 'package:plantit/screens/aboutapp_screen.dart';
 import 'package:plantit/screens/help_screen.dart';
-import 'package:plantit/screens/register_screen.dart';
 import 'package:plantit/screens/voucher_screen.dart';
 import 'package:unicons/unicons.dart';
 import '../services/functions.dart';
@@ -22,7 +20,6 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   var auth = FirebaseAuth.instance, get = Get.put(Functions());
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +30,7 @@ class _AccountScreenState extends State<AccountScreen> {
             return IconButton(
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
+                 
                 },
                 icon: const Icon(
                   UniconsLine.align_center_alt,
