@@ -22,6 +22,32 @@ class _DrawerCustomState extends State<DrawerCustom> {
       store = FirebaseFirestore.instance,
       dark = Get.isDarkMode;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  dialogDelete() {
+    Get.defaultDialog(
+        title: tr('sure'),
+        content: const Text(
+          'deleteAccM',
+          textAlign: TextAlign.center,
+        ).tr(),
+        confirm: TButton(
+            title: 'yes',
+            function: () async {
+              Get.off(() => const RegisterScreen());
+              await store
+                  .collection('users')
+                  .doc(user.currentUser!.uid)
+                  .delete();
+              await user.currentUser!.delete();
+              user.signOut();
+            }),
+        cancel: TButton(
+            title: 'no',
+            function: () {
+              Get.back();
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,30 +114,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
             ListTile(
               trailing: const Icon(Icons.disabled_by_default_rounded),
               title: const Text('deleteAcc').tr(),
-              onTap: () {
-                Get.defaultDialog(
-                    title: tr('sure'),
-                    content: const Text(
-                      'deleteAccM',
-                      textAlign: TextAlign.center,
-                    ).tr(),
-                    confirm: TButton(
-                        title: 'yes',
-                        function: () async {
-                          Get.off(() => const RegisterScreen());
-                          await store
-                              .collection('users')
-                              .doc(user.currentUser!.uid)
-                              .delete();
-                          await user.currentUser!.delete();
-                          user.signOut();
-                        }),
-                    cancel: TButton(
-                        title: 'no',
-                        function: () {
-                          Get.back();
-                        }));
-              },
+              onTap: dialogDelete,
             ),
             ListTile(
               trailing: const Icon(

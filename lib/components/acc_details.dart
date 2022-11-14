@@ -28,22 +28,27 @@ class AccDetails extends StatelessWidget {
               CircleAvatar(
                 radius: 76,
                 backgroundColor: Colors.black,
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: data['image'].toString(),
-                    placeholder: (context, url) => const Icon(
-                      Icons.person,
-                      size: 100,
-                    ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.person,
-                      size: 100,
-                    ),
-                    fit: BoxFit.cover,
-                    width: 150,
-                    height: 150,
-                  ),
-                ),
+                child: data['image'].toString().isEmpty
+                    ? const Icon(
+                        Icons.person,
+                        size: 100,
+                      )
+                    : ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: data['image'].toString(),
+                          placeholder: (context, url) => const Icon(
+                            Icons.person,
+                            size: 100,
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.person,
+                            size: 100,
+                          ),
+                          fit: BoxFit.cover,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
               ),
               Container(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -128,7 +133,7 @@ class AccDetails extends StatelessWidget {
                 leading: const Icon(UniconsLine.ticket),
                 title: const Text('voucher').tr(),
                 onTap: () {
-                  Get.to(() =>  VoucherScreen(points: data['points']));
+                  Get.to(() => VoucherScreen(points: data['points']));
                 },
               ),
             ],

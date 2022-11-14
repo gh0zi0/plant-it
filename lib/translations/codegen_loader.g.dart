@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String path, Locale locale ) {
+  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -111,6 +111,11 @@ class CodegenLoader extends AssetLoader{
   "aboutApp": "حول التطبيق",
   "plant": "ازرع",
   "redeem": "استرداد",
+  "yourTicket": "تذكرتك",
+  "theCode": "الرمز",
+  "time": "الوقت",
+  "yourPoints": "نقاطك الآن",
+  "shop": "المتجر",
   "redeemless": "نعتذر نقاطك أقل من النقاط المطلوبة",
   "deleteAccM": "سيتم حذف حسابك وفقد جميع بياناتك",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
@@ -214,6 +219,11 @@ static const Map<String,dynamic> en = {
   "aboutApp": "About app",
   "plant": "Plant",
   "redeem": "Redeem",
+  "yourTicket": "Your code",
+  "theCode": "The code",
+  "time": "Time",
+  "yourPoints": "Your points now",
+  "shop": "Shop",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
