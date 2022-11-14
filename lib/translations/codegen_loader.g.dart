@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String path, Locale locale ) {
+  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -93,7 +93,8 @@ class CodegenLoader extends AssetLoader{
   "keep": "لنحافظ عليها",
   "start": "إبدأ",
   "newPost": "إنشاء منشور",
-  "caption ": "شرح المنشور",
+  "caption": "شرح المنشور",
+  "pleaseCaption": "يرجى كتابة شرح للمنشور",
   "post": "انشر",
   "voucher": "القسائم",
   "help": "احصل على مساعدة",

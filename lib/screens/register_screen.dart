@@ -31,7 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       bottomSheet: SingleChildScrollView(
         child: SolidBottomSheet(
-          maxHeight: MediaQuery.of(context).size.height / 1.05,
+          maxHeight: MediaQuery.of(context).size.height / 1.1,
           showOnAppear: show,
           controller: _controller,
           draggableBody: true,
