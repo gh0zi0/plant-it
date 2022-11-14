@@ -42,6 +42,8 @@ class VoucherListTile extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: voucherData[index]['image'],
                       fit: BoxFit.cover,
+                      height: 100,
+                      width: 100,
                       placeholder: (context, url) => const Icon(
                         UniconsLine.store,
                         size: 40,
@@ -57,10 +59,7 @@ class VoucherListTile extends StatelessWidget {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(voucherData[index]['description']),
                 onTap: () => Get.to(() => VoucherDetails(
-                      list: voucherData,
-                      index: index,
-                      points:points
-                    )),
+                    list: voucherData, index: index, points: points)),
               );
             },
           );
