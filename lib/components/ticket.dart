@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:plantit/components/row_text.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
@@ -27,71 +28,27 @@ class Ticket extends StatelessWidget {
         children: [
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'theCode',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ).tr(),
-                  Text(
-                    ': $code',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+              RowText(
+                  t1: 'theCode', t2: code, alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'time',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ).tr(),
-                  Text(
-                    ': ${DateFormat('dd/MM/yyyy , hh:mm').format(time)}',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+              RowText(
+                  t1: 'time',
+                  t2: DateFormat('dd/MM/yyyy , hh:mm').format(time),
+                  alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'yourPoints',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ).tr(),
-                  Text(
-                    ': $points',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+              RowText(
+                  t1: 'yourPoints',
+                  t2: points,
+                  alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'shop',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ).tr(),
-                  Text(
-                    ': $shop',
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+              RowText(
+                  t1: 'shop', t2: shop, alignment: MainAxisAlignment.center),
             ],
           ),
           QrImage(

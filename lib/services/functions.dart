@@ -52,15 +52,13 @@ class Functions {
       Get.back();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(content: const Text('shared').tr()));
+          .showSnackBar(SnackBar(content: const Text('shared').tr()));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
-
-  
 
   countdownDialog(BuildContext context, String email, String pass) {
     showModalBottomSheet(
@@ -127,7 +125,7 @@ class Functions {
           'uid': user.currentUser!.uid,
           'image': url ?? ''
         });
-
+        await user.currentUser!.updateDisplayName(name);
         // ignore: use_build_context_synchronously
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);

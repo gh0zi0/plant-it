@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/e_button.dart';
+import 'package:plantit/components/lottie_file.dart';
+import 'package:plantit/components/row_text.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/ticket.dart';
 import 'package:plantit/screens/home_screen.dart';
@@ -27,11 +29,15 @@ class VoucherDetails extends StatefulWidget {
 }
 
 class _VoucherDetailsState extends State<VoucherDetails> {
+  var loading = false;
   redeem() async {
     if (widget.points < widget.list![widget.index]['cost']) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: const Text('redeemless').tr()));
     } else {
+      setState(() {
+        loading = true;
+      });
       int result = 0, cost, points;
 
       setState(() {
@@ -43,6 +49,9 @@ class _VoucherDetailsState extends State<VoucherDetails> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'points': result});
+      setState(() {
+        loading = false;
+      });
 
       Get.defaultDialog(
           title: tr('yourCode'),
@@ -94,25 +103,31 @@ class _VoucherDetailsState extends State<VoucherDetails> {
                   Container(
                       padding: const EdgeInsets.only(top: 30),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Category: ${widget.category}',
-                        style: const TextStyle(fontSize: 18),
+                      child: RowText(
+                        t1: 'category',
+                        t2: widget.category,
+                        alignment: MainAxisAlignment.start,
                       )),
                   Container(
                       padding: const EdgeInsets.only(top: 10),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Location: ${widget.list![widget.index]['location']}',
-                        style: const TextStyle(fontSize: 18),
+                      child: RowText(
+                        t1: 'location',
+                        t2: widget.list![widget.index]['location'],
+                        alignment: MainAxisAlignment.start,
                       )),
                   Container(
                       padding: const EdgeInsets.only(top: 10, bottom: 50),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Phone number: ${widget.list![widget.index]['phone']}',
-                        style: const TextStyle(fontSize: 18),
+                      child: RowText(
+                        t1: 'phone',
+                        t2: widget.list![widget.index]['phone'],
+                        alignment: MainAxisAlignment.start,
                       )),
-                  EButton(title: 'redeem', function: redeem, h: 50, w: 200),
+                  loading
+                      ? LottieFile(file: 'loading')
+                      : EButton(
+                          title: 'redeem', function: redeem, h: 50, w: 200),
                 ]),
               ),
             ),

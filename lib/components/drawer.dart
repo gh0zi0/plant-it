@@ -30,16 +30,19 @@ class _DrawerCustomState extends State<DrawerCustom> {
           'deleteAccM',
           textAlign: TextAlign.center,
         ).tr(),
+        titlePadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
         confirm: TButton(
             title: 'yes',
             function: () async {
-              Get.off(() => const RegisterScreen());
+              Get.offAll(() => const RegisterScreen());
               await store
                   .collection('users')
                   .doc(user.currentUser!.uid)
                   .delete();
               await user.currentUser!.delete();
               user.signOut();
+              GoogleSignIn().signOut();
             }),
         cancel: TButton(
             title: 'no',
