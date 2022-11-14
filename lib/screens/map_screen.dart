@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,6 @@ import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:unicons/unicons.dart';
-
-import 'dart:ui' as ui;
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -83,7 +80,7 @@ class _MapPageState extends State<MapPage> {
                       ElevatedButton.icon(
                         onPressed: () {},
                         label: const Text("Watring"),
-                        icon: Icon(UniconsLine.tear),
+                        icon: const Icon(UniconsLine.tear),
                       )
                     ],
                   )
@@ -91,7 +88,7 @@ class _MapPageState extends State<MapPage> {
               });
         } else {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text("outside")));
+              .showSnackBar(const SnackBar(content: Text("outside")));
         }
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),

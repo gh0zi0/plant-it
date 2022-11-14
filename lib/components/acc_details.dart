@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
+import '../screens/voucher_screen.dart';
 import 'lottie_file.dart';
 
 class AccDetails extends StatelessWidget {
@@ -22,29 +25,31 @@ class AccDetails extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Column(
             children: [
-              data['image'].toString().isEmpty
-                  ? Container(
-                      height: 150,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(width: 1)),
-                      child: data['image'].toString().isEmpty
-                          ? const Icon(
-                              Icons.person,
-                              size: 75,
-                            )
-                          : null,
-                    )
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: CachedNetworkImage(
-                        height: 150,
-                        imageUrl: data['image'],
-                        placeholder: (context, url) => const Icon(Icons.person),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.person),
-                      )),
+              CircleAvatar(
+                radius: 76,
+                backgroundColor: Colors.black,
+                child: data['image'].toString().isEmpty
+                    ? const Icon(
+                        Icons.person,
+                        size: 100,
+                      )
+                    : ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: data['image'].toString(),
+                          placeholder: (context, url) => const Icon(
+                            Icons.person,
+                            size: 100,
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.person,
+                            size: 100,
+                          ),
+                          fit: BoxFit.cover,
+                          width: 150,
+                          height: 150,
+                        ),
+                      ),
+              ),
               Container(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   alignment: Alignment.center,
@@ -77,7 +82,9 @@ class AccDetails extends StatelessWidget {
                             color: Colors.green,
                             size: 30,
                           ),
-                          Text(data['plants'].toString()),
+                          Text(data['plants'].toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
                           const VerticalDivider(
                             color: Colors.black,
                             thickness: 1,
@@ -86,7 +93,9 @@ class AccDetails extends StatelessWidget {
                             'assets/images/can.png',
                             height: 35,
                           ),
-                          Text(data['water'].toString())
+                          Text(data['water'].toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold))
                         ],
                       ),
                     ),
@@ -107,12 +116,25 @@ class AccDetails extends StatelessWidget {
                             color: Colors.amberAccent,
                             size: 30,
                           ),
-                          Text(data['points'].toString()),
+                          Text(
+                            data['points'].toString(),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
                   )
                 ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              ListTile(
+                leading: const Icon(UniconsLine.ticket),
+                title: const Text('voucher').tr(),
+                onTap: () {
+                  Get.to(() => VoucherScreen(points: data['points']));
+                },
               ),
             ],
           );

@@ -1,8 +1,8 @@
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as p;
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +12,9 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/verify.dart';
-import 'package:plantit/services/restart_app.dart';
-import 'package:theme_mode_builder/theme_mode_builder.dart';
 import '../components/bottom_sheet_reset_password.dart';
+import '../components/t_button.dart';
 import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
 
@@ -25,6 +23,7 @@ class Functions {
       url,
       user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance;
+  
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   sharePost(
@@ -47,17 +46,15 @@ class Functions {
         'image': url ?? '',
         'uid': FirebaseAuth.instance.currentUser!.uid,
         'timestamp': DateTime.now(),
-        // 'name': user.currentUser!.providerData[0].providerId == 'google.com'
-        //     ? _googleSignIn.currentUser!.displayName
-        //     : user.currentUser!.displayName,
-        // 'Uimage': user.currentUser!.photoURL ?? ''
+        'name': user.currentUser!.displayName,
+        'Uimage': user.currentUser!.photoURL ?? ''
       });
       imageFile = null;
       url = null;
       Get.back();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('post shared')));
+          .showSnackBar(SnackBar(content: const Text('shared').tr()));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)
@@ -65,82 +62,7 @@ class Functions {
     }
   }
 
-  settingsDialog(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return Container(
-            padding: const EdgeInsets.all(30),
-            height: 300,
-            child: ListView(
-              children: [
-                ListTile(
-                  trailing: const Icon(Icons.language),
-                  title: const Text('changeLan').tr(),
-                  onTap: () {
-                    if (context.locale.toString() != 'ar') {
-                      context.setLocale(const Locale('ar'));
-                      RestartWidget.restartApp(context);
-                    } else {
-                      context.setLocale(const Locale('en'));
-                      RestartWidget.restartApp(context);
-                    }
-                  },
-                ),
-                ListTile(
-                  trailing:
-                      Icon(Get.isDarkMode ? Icons.light_mode : Icons.dark_mode),
-                  title: Text(Get.isDarkMode ? 'lightMode' : 'darkMode').tr(),
-                  onTap: () {
-                    ThemeModeBuilderConfig.toggleTheme();
-                  },
-                ),
-                ListTile(
-                  trailing: const Icon(Icons.share),
-                  title: const Text('share').tr(),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Cooming soon')));
-                  },
-                ),
-                ListTile(
-                  trailing: const Icon(Icons.disabled_by_default_rounded),
-                  title: const Text('deleteAcc').tr(),
-                  onTap: () {
-                    Get.defaultDialog(
-                        title: tr('sure'),
-                        content: const Text(
-                          'deleteAccM',
-                          textAlign: TextAlign.center,
-                        ).tr(),
-                        confirm: TButton(
-                            title: 'yes',
-                            function: () async {
-                              Get.off(() => const RegisterScreen());
-                              await store
-                                  .collection('users')
-                                  .doc(user.currentUser!.uid)
-                                  .delete();
-                              await user.currentUser!.delete();
-                              user.signOut();
-                            }),
-                        cancel: TButton(
-                            title: 'no',
-                            function: () {
-                              Get.back();
-                            }));
-                  },
-                ),
-              ],
-            ));
-      },
-    );
-  }
+  
 
   countdownDialog(BuildContext context, String email, String pass) {
     showModalBottomSheet(
@@ -157,6 +79,34 @@ class Functions {
         );
       },
     );
+  }
+
+  dialogDelete() {
+    Get.defaultDialog(
+        title: tr('sure'),
+        content: const Text(
+          'deleteAccM',
+          textAlign: TextAlign.center,
+        ).tr(),
+        titlePadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
+        confirm: TButton(
+            title: 'yes',
+            function: () async {
+              Get.offAll(() => const RegisterScreen());
+              await store
+                  .collection('users')
+                  .doc(user.currentUser!.uid)
+                  .delete();
+              await user.currentUser!.delete();
+              user.signOut();
+              _googleSignIn.signOut();
+            }),
+        cancel: TButton(
+            title: 'no',
+            function: () {
+              Get.back();
+            }));
   }
 
   verifyEmail(BuildContext context, String email, String pass) async {
@@ -207,7 +157,7 @@ class Functions {
           'uid': user.currentUser!.uid,
           'image': url ?? ''
         });
-
+        await user.currentUser!.updateDisplayName(name);
         // ignore: use_build_context_synchronously
       } else {
         await user.signInWithEmailAndPassword(email: email, password: password);
@@ -267,10 +217,7 @@ class Functions {
           });
         }
       });
-      await user.currentUser!
-          .updateDisplayName(googleSignInAccount.displayName);
-      await user.currentUser!
-          .updateDisplayName(googleSignInAccount.photoUrl ?? '');
+
       Get.off(() => const HomeScreen());
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
@@ -283,7 +230,7 @@ class Functions {
   }
 
   auth() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 3000));
     if (user.currentUser?.uid != null && user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
