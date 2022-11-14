@@ -1,6 +1,6 @@
 // ignore: depend_on_referenced_packages
-import 'package:easy_localization/easy_localization.dart';
 import 'package:path/path.dart' as p;
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:plantit/components/verify.dart';
 import '../components/bottom_sheet_reset_password.dart';
+import '../components/t_button.dart';
 import '../screens/home_screen.dart';
 import '../screens/register_screen.dart';
 
@@ -76,6 +77,35 @@ class Functions {
       },
     );
   }
+
+   dialogDelete() {
+    Get.defaultDialog(
+        title: tr('sure'),
+        content: const Text(
+          'deleteAccM',
+          textAlign: TextAlign.center,
+        ).tr(),
+        titlePadding: const EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
+        confirm: TButton(
+            title: 'yes',
+            function: () async {
+              Get.offAll(() => const RegisterScreen());
+              await store
+                  .collection('users')
+                  .doc(user.currentUser!.uid)
+                  .delete();
+              await user.currentUser!.delete();
+              user.signOut();
+              GoogleSignIn().signOut();
+            }),
+        cancel: TButton(
+            title: 'no',
+            function: () {
+              Get.back();
+            }));
+  }
+
 
   verifyEmail(BuildContext context, String email, String pass) async {
     if (user.currentUser!.emailVerified) {

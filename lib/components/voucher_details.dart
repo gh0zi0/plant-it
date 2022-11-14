@@ -10,7 +10,6 @@ import 'package:plantit/components/row_text.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/ticket.dart';
 import 'package:plantit/screens/home_screen.dart';
-import 'package:ticket_widget/ticket_widget.dart';
 
 // ignore: must_be_immutable
 class VoucherDetails extends StatefulWidget {

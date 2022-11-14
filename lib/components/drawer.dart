@@ -4,10 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:plantit/components/t_button.dart';
 import 'package:theme_mode_builder/theme_mode_builder.dart';
 import 'package:unicons/unicons.dart';
 import '../screens/register_screen.dart';
+import '../services/functions.dart';
 import '../services/restart_app.dart';
 
 class DrawerCustom extends StatefulWidget {
@@ -20,36 +20,9 @@ class DrawerCustom extends StatefulWidget {
 class _DrawerCustomState extends State<DrawerCustom> {
   var user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance,
-      dark = Get.isDarkMode;
+      dark = Get.isDarkMode,
+      get = Get.put(Functions());
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  dialogDelete() {
-    Get.defaultDialog(
-        title: tr('sure'),
-        content: const Text(
-          'deleteAccM',
-          textAlign: TextAlign.center,
-        ).tr(),
-        titlePadding: const EdgeInsets.all(20),
-        contentPadding: const EdgeInsets.all(20),
-        confirm: TButton(
-            title: 'yes',
-            function: () async {
-              Get.offAll(() => const RegisterScreen());
-              await store
-                  .collection('users')
-                  .doc(user.currentUser!.uid)
-                  .delete();
-              await user.currentUser!.delete();
-              user.signOut();
-              GoogleSignIn().signOut();
-            }),
-        cancel: TButton(
-            title: 'no',
-            function: () {
-              Get.back();
-            }));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +90,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
             ListTile(
               trailing: const Icon(Icons.disabled_by_default_rounded),
               title: const Text('deleteAcc').tr(),
-              onTap: dialogDelete,
+              onTap: get.dialogDelete,
             ),
             ListTile(
               trailing: const Icon(

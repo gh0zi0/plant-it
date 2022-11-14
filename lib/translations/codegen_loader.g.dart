@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
+  Future<Map<String, dynamic>> load(String path, Locale locale ) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -50,19 +50,11 @@ class CodegenLoader extends AssetLoader{
   "emailSent": "تم ارسال البريد الإلكتروني",
   "jod": "دينار",
   "suggests": "مقترحات",
-  "haveNote": "هل لديك ملاحظة؟",
-  "note": "ملاحظة",
-  "chose": "اختر:",
-  "undo": "تراجع",
   "sure": "هل انت متأكد؟",
   "total": "المجموع",
   "plantMore": "ازرع اشجار اكثر",
   "watering": "اسقي الاشجار المزروعة",
   "protect": "احمي الأرض من التلوث",
-  "terrible": "سيئة جدا",
-  "bad": "سيئة",
-  "good": "جيد جدا",
-  "great": "ممتاز",
   "done": "تم",
   "submit": "ارسال",
   "next": "التالي",
@@ -76,7 +68,6 @@ class CodegenLoader extends AssetLoader{
   "share": "مشاركة التطبيق",
   "shared": "تم النشر",
   "chatting": "محادثة",
-  "whatsapp": "واتس اب",
   "privacy": "السياسة والخصوصية",
   "report": "الإبلاغ عن خطأ",
   "save": "حفظ",
@@ -159,19 +150,11 @@ static const Map<String,dynamic> en = {
   "emailSent": "Email sent",
   "jod": "JOD",
   "suggests": "Suggests",
-  "haveNote": "Do you have note?",
-  "note": "Note",
-  "chose": "Choose:",
-  "undo": "UNDO",
   "sure": "Are you sure?",
   "total": "Total",
   "plantMore": "Plant more trees",
   "watering": "Watering the planted trees",
   "protect": "Protect the earth from pollution",
-  "terrible": "Terrible",
-  "bad": "Bad",
-  "good": "Good",
-  "great": "Great",
   "done": "Done",
   "submit": "Submit",
   "next": "Next",
@@ -185,7 +168,6 @@ static const Map<String,dynamic> en = {
   "share": "Share app",
   "shared": "Post shared",
   "chatting": "Chatting",
-  "whatsapp": "Whatsapp",
   "privacy": "Privacy policy",
   "report": "Report a bug",
   "save": "Save",
