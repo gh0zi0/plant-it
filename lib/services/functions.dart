@@ -78,7 +78,7 @@ class Functions {
     );
   }
 
-   dialogDelete() {
+  dialogDelete() {
     Get.defaultDialog(
         title: tr('sure'),
         content: const Text(
@@ -97,7 +97,7 @@ class Functions {
                   .delete();
               await user.currentUser!.delete();
               user.signOut();
-              GoogleSignIn().signOut();
+              _googleSignIn.signOut();
             }),
         cancel: TButton(
             title: 'no',
@@ -105,7 +105,6 @@ class Functions {
               Get.back();
             }));
   }
-
 
   verifyEmail(BuildContext context, String email, String pass) async {
     if (user.currentUser!.emailVerified) {
