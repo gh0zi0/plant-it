@@ -7,7 +7,6 @@ import 'lottie_file.dart';
 // ignore: must_be_immutable
 class VoucherCard extends StatelessWidget {
   VoucherCard({super.key, required this.function});
-
   Function function;
 
   @override
@@ -29,7 +28,7 @@ class VoucherCard extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  function(voucherData[index].id);
+                  function(voucherData[index].id, voucherData[index]['title']);
                 },
                 child: Column(
                   children: [

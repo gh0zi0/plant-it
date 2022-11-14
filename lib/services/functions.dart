@@ -1,4 +1,5 @@
 // ignore: depend_on_referenced_packages
+import 'package:easy_localization/easy_localization.dart';
 import 'package:path/path.dart' as p;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -51,7 +52,7 @@ class Functions {
       Get.back();
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('post shared')));
+          .showSnackBar( SnackBar(content: const Text('shared').tr()));
     } on FirebaseException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context)

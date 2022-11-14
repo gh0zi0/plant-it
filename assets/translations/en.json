@@ -60,6 +60,7 @@
   "notification": "Notifications",
   "points": "Points",
   "share": "Share app",
+  "shared": "Post shared",
   "chatting": "Chatting",
   "whatsapp": "Whatsapp",
   "privacy": "Privacy policy",
@@ -96,6 +97,7 @@
   "aboutApp": "About app",
   "plant": "Plant",
   "redeem": "Redeem",
+  "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
 }

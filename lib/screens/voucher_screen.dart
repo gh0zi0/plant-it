@@ -13,11 +13,12 @@ class VoucherScreen extends StatefulWidget {
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {
-  var id='';
+  var id='',category='';
 
-  changeState(x) {
+  changeState(idx,cat) {
     setState(() {
-      id = x;
+      id = idx;
+      category = cat;
     });
   }
 
@@ -39,7 +40,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
           ),
         ),
         body: id != ''
-            ? VoucherListTile(id: id, points: widget.points)
+            ? VoucherListTile(id: id, points: widget.points,category:category)
             : VoucherCard(
                 function: changeState,
               ));

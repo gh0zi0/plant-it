@@ -8,8 +8,8 @@ import 'lottie_file.dart';
 
 // ignore: must_be_immutable
 class VoucherListTile extends StatelessWidget {
-  VoucherListTile({super.key, required this.id, required this.points});
-  String id;
+  VoucherListTile({super.key, required this.id, required this.points,required this.category});
+  String id,category;
   int points;
 
   @override
@@ -59,7 +59,7 @@ class VoucherListTile extends StatelessWidget {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 subtitle: Text(voucherData[index]['description']),
                 onTap: () => Get.to(() => VoucherDetails(
-                    list: voucherData, index: index, points: points)),
+                    list: voucherData, index: index, points: points,category:category)),
               );
             },
           );

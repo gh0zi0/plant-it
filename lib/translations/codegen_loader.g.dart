@@ -75,6 +75,7 @@ class CodegenLoader extends AssetLoader{
   "notification": "الاشعارات",
   "points": "النقاط",
   "share": "مشاركة التطبيق",
+  "shared": "تم النشر",
   "chatting": "محادثة",
   "whatsapp": "واتس اب",
   "privacy": "السياسة والخصوصية",
@@ -110,6 +111,7 @@ class CodegenLoader extends AssetLoader{
   "aboutApp": "حول التطبيق",
   "plant": "ازرع",
   "redeem": "استرداد",
+  "redeemless": "نعتذر نقاطك أقل من النقاط المطلوبة",
   "deleteAccM": "سيتم حذف حسابك وفقد جميع بياناتك",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
 };
@@ -175,6 +177,7 @@ static const Map<String,dynamic> en = {
   "notification": "Notifications",
   "points": "Points",
   "share": "Share app",
+  "shared": "Post shared",
   "chatting": "Chatting",
   "whatsapp": "Whatsapp",
   "privacy": "Privacy policy",
@@ -211,6 +214,7 @@ static const Map<String,dynamic> en = {
   "aboutApp": "About app",
   "plant": "Plant",
   "redeem": "Redeem",
+  "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
 };
