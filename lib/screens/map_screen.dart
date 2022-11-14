@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:plantit/MapUtils.dart';
+import 'package:plantit/services/MapUtils.dart';
 
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
@@ -34,26 +34,10 @@ class _MapPageState extends State<MapPage> {
   late StreamSubscription<Position> serviceStatusStream;
 
   Future getPermission() async {
-    bool sevices = await Geolocator.isLocationServiceEnabled();
     LocationPermission permission = await Geolocator.checkPermission();
-    if (sevices != true) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Services Not Enabled")));
-    }
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-    }
-    return permission;
-  }
-
-//
-  Future<void> getLatAndLong() async {
-    currentLocation =
-        await Geolocator.getCurrentPosition().then((value) => value);
-    latitude = currentLocation!.latitude;
-    longitude = currentLocation!.longitude;
-    setState(() {});
+    } else {}
   }
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -133,12 +117,12 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     getPermission();
-    getLatAndLong();
-    getMarkers();
     serviceStatusStream =
         Geolocator.getPositionStream().listen((Position? position) {
       currentLocation = position;
     });
+
+    getMarkers();
 
     super.initState();
   }
@@ -147,31 +131,28 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: loading
-            ? LottieFile(file: 'loading')
-            : GoogleMap(
-                mapType: MapType.normal,
-                markers: Set<Marker>.of(markers.values),
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
+        child: GoogleMap(
+            mapType: MapType.normal,
+            markers: Set<Marker>.of(markers.values),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            initialCameraPosition: CameraPosition(
+              target: LatLng(32.05745, 35.972675),
+              zoom: 14,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              gController = controller;
+            },
+            circles: {
+              Circle(
+                  circleId: const CircleId("1"),
+                  center: LatLng(
                       currentLocation!.latitude, currentLocation!.longitude),
-                  zoom: 14,
-                ),
-                onMapCreated: (GoogleMapController controller) {
-                  gController = controller;
-                },
-                circles: {
-                    Circle(
-                        circleId: const CircleId("1"),
-                        center: LatLng(currentLocation!.latitude,
-                            currentLocation!.longitude),
-                        strokeWidth: 2,
-                        radius: 10,
-                        strokeColor: Colors.black54,
-                        fillColor: Colors.blueGrey.shade100),
-                  }),
+                  strokeWidth: 2,
+                  radius: 10,
+                  strokeColor: Colors.black54,
+                  fillColor: Colors.blueGrey.shade100),
+            }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: loading
