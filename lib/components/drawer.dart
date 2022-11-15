@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:plantit/components/row_text.dart';
 import 'package:theme_mode_builder/theme_mode_builder.dart';
 import 'package:unicons/unicons.dart';
 import '../screens/register_screen.dart';
@@ -31,28 +32,11 @@ class _DrawerCustomState extends State<DrawerCustom> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  const Text(
-                    'hello',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ).tr(),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    user.currentUser!.displayName.toString(),
-                    style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                ],
+            ListTile(
+              title: RowText(
+                t1: 'hello',
+                t2: user.currentUser!.displayName.toString(),
+                alignment: MainAxisAlignment.start,
               ),
             ),
             const Divider(),
