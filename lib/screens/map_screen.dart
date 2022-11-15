@@ -21,7 +21,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Position? currentLocation;
+  LatLng currentLocation = LatLng(32.0714167, 36.0674333);
 
   var longitude, latitude, loading = true;
   GoogleMapController? gController;
@@ -34,7 +34,9 @@ class _MapPageState extends State<MapPage> {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-    } else {}
+    } else {
+      print("**********************");
+    }
   }
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -63,8 +65,8 @@ class _MapPageState extends State<MapPage> {
         bool inUser = MapUtils().detectIfMarkerWithinBoundary(
             markerlatitude,
             markerlongitude,
-            currentLocation!.latitude,
-            currentLocation!.longitude);
+            currentLocation.latitude,
+            currentLocation.longitude);
         if (inUser) {
           showDialog(
               context: context,
@@ -106,18 +108,23 @@ class _MapPageState extends State<MapPage> {
         }
       }
     });
-    setState(() {
-      loading = false;
-    });
+  }
+
+  getPosition() async {
+    Position location = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentLocation = LatLng(location.latitude, location.longitude);
   }
 
   @override
   void initState() {
     getPermission();
-    serviceStatusStream =
-        Geolocator.getPositionStream().listen((Position? position) {
-      currentLocation = position;
-    });
+    getPosition();
+
+    // serviceStatusStream =
+    //     Geolocator.getPositionStream().listen((Position position) {
+    //   currentLocation = position;
+    // });
 
     getMarkers();
 
@@ -134,7 +141,8 @@ class _MapPageState extends State<MapPage> {
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
             initialCameraPosition: CameraPosition(
-              target: LatLng(32.05745, 35.972675),
+              target:
+                  LatLng(currentLocation.latitude, currentLocation.longitude),
               zoom: 14,
             ),
             onMapCreated: (GoogleMapController controller) {
@@ -144,7 +152,7 @@ class _MapPageState extends State<MapPage> {
               Circle(
                   circleId: const CircleId("1"),
                   center: LatLng(
-                      currentLocation!.latitude, currentLocation!.longitude),
+                      currentLocation.latitude, currentLocation.longitude),
                   strokeWidth: 2,
                   radius: 10,
                   strokeColor: Colors.black54,
@@ -186,16 +194,15 @@ class _MapPageState extends State<MapPage> {
                           title: 'Add',
                           function: () {
                             DateTime dateToday = DateTime.now();
-                            // setMarker(latitude, longitude);
 
                             FireStoreServices().addTree(
-                                currentLocation!.longitude +
-                                    currentLocation!.latitude,
+                                currentLocation.longitude +
+                                    currentLocation.latitude,
                                 nameController.text,
                                 "low",
                                 dateToday,
-                                GeoPoint(currentLocation!.latitude,
-                                    currentLocation!.longitude));
+                                GeoPoint(currentLocation.latitude,
+                                    currentLocation.longitude));
 
                             nameController.clear();
                             Navigator.pop(context);
