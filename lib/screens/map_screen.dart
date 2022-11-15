@@ -21,7 +21,7 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   LatLng currentLocation = LatLng(32.0714167, 36.0674333);
 
-  var longitude, latitude, loading = true;
+  var longitude, latitude;
   GoogleMapController? gController;
 
   TextEditingController nameController = TextEditingController();
@@ -32,9 +32,7 @@ class _MapPageState extends State<MapPage> {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-    } else {
-      print("**********************");
-    }
+    } 
   }
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -158,75 +156,71 @@ class _MapPageState extends State<MapPage> {
             }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: loading
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: Colors.white,
-                  builder: (context) {
-                    return Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          'Plant',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        EditTextFiled(
-                          hint: 'Name',
-                          icon: Icons.text_fields_outlined,
-                          controller: nameController,
-                          secure: false,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        EButton(
-                          title: 'Add',
-                          function: () {
-                            DateTime dateToday = DateTime.now();
-
-                            FireStoreServices().addTree(
-                                currentLocation.longitude +
-                                    currentLocation.latitude,
-                                nameController.text,
-                                "low",
-                                dateToday,
-                                GeoPoint(currentLocation.latitude,
-                                    currentLocation.longitude));
-
-                            nameController.clear();
-                            Navigator.pop(context);
-                            setState(() {
-                              getMarkers();
-                            });
-                          },
-                          h: 50,
-                          w: 150,
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              heroTag: null,
-              label: Row(
-                children: [
-                  const Icon(UniconsLine.shovel),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text("plant").tr()
-                ],
-              ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
+            backgroundColor: Colors.white,
+            builder: (context) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Plant',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  EditTextFiled(
+                    hint: 'Name',
+                    icon: Icons.text_fields_outlined,
+                    controller: nameController,
+                    secure: false,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  EButton(
+                    title: 'Add',
+                    function: () {
+                      DateTime dateToday = DateTime.now();
+
+                      FireStoreServices().addTree(
+                          currentLocation.longitude + currentLocation.latitude,
+                          nameController.text,
+                          "low",
+                          dateToday,
+                          GeoPoint(currentLocation.latitude,
+                              currentLocation.longitude));
+
+                      nameController.clear();
+                      Navigator.pop(context);
+                      setState(() {
+                        getMarkers();
+                      });
+                    },
+                    h: 50,
+                    w: 150,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        heroTag: null,
+        label: Row(
+          children: [
+            const Icon(UniconsLine.shovel),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text("plant").tr()
+          ],
+        ),
+      ),
     );
   }
 }
