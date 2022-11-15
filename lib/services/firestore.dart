@@ -1,15 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreServices {
-  CollectionReference instance = FirebaseFirestore.instance.collection("Trees");
+  var instance = FirebaseFirestore.instance.collection("Trees").doc();
+  CollectionReference instance2 =
+      FirebaseFirestore.instance.collection("Trees");
 
-  addTree(id, name, needOfWatring,DateTime datePlant, latlong) {
-    instance.add({
-      "id": id,
+  addTree(id, name, needOfWatring, DateTime datePlant, latlong) {
+    instance.set({
+      "id": instance.id,
       "name": name,
       "needOfWatring": needOfWatring,
       "datePlant": datePlant,
       "address": latlong,
+    });
+  }
+
+  updateTree(id, needOfWatring) {
+    instance2.doc(id).update({
+      "needOfWatring": needOfWatring,
     });
   }
 }

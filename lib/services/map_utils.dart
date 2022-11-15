@@ -9,7 +9,7 @@ bool detectIfMarkerWithinBoundary(
     bool inUser;
     double distance = Geolocator.distanceBetween(
         latitude1, longitude1, latitude2, longitude2);
-
+//
     if (distance <= 10) {
       inUser = true;
     } else {

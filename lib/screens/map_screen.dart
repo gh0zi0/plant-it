@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:plantit/services/MapUtils.dart';
+import 'package:location/location.dart';
 
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
+import 'package:plantit/services/map_utils.dart';
 import 'package:unicons/unicons.dart';
 
 class MapPage extends StatefulWidget {
@@ -21,10 +22,12 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  LatLng currentLocation = LatLng(32.0714167, 36.0674333);
+  LocationData? currentLocation1;
 
-  var longitude, latitude, loading = true;
-  GoogleMapController? gController;
+  Location location = Location();
+
+  var loading = true;
+  Completer<GoogleMapController> gController = Completer();
 
   TextEditingController nameController = TextEditingController();
 
@@ -35,7 +38,9 @@ class _MapPageState extends State<MapPage> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     } else {
-      print("**********************");
+      
+      getPosition();
+    
     }
   }
 
@@ -47,6 +52,8 @@ class _MapPageState extends State<MapPage> {
       imag = 'assets/images/RedTree.png';
     } else if (val["needOfWatring"] == "medium") {
       imag = 'assets/images/OrangeTree.png';
+    } else if (val["needOfWatring"] == "low") {
+      imag = 'assets/images/GreenTree.png';
     }
 
     final Uint8List markerIcon = await MapUtils().getBytesFromAsset(imag, 80);
@@ -59,14 +66,14 @@ class _MapPageState extends State<MapPage> {
       markerId: markerId,
       position: LatLng(markerlatitude, markerlongitude),
       onTap: () {
-        gController?.animateCamera(CameraUpdate.newLatLngZoom(
-            LatLng(markerlatitude, markerlongitude), 20.0));
+        // gController?.animateCamera(CameraUpdate.newLatLngZoom(
+        //     LatLng(markerlatitude, markerlongitude), 20.0));
 
         bool inUser = MapUtils().detectIfMarkerWithinBoundary(
             markerlatitude,
             markerlongitude,
-            currentLocation.latitude,
-            currentLocation.longitude);
+            currentLocation1!.latitude,
+            currentLocation1!.longitude);
         if (inUser) {
           showDialog(
               context: context,
@@ -80,7 +87,10 @@ class _MapPageState extends State<MapPage> {
                           "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
                       Text("needOfWatring : ${val["needOfWatring"]}"),
                       ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          FireStoreServices().updateTree(val["id"], "high");
+                          setState(() {});
+                        },
                         label: const Text("Watring"),
                         icon: const Icon(UniconsLine.tear),
                       )
@@ -89,8 +99,21 @@ class _MapPageState extends State<MapPage> {
                 ]);
               });
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("outside")));
+          showDialog(
+              context: context,
+              builder: (context) {
+                DateTime plantDate = val["datePlant"].toDate();
+                return AlertDialog(actions: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                          "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
+                      Text("needOfWatring : ${val["needOfWatring"]}"),
+                    ],
+                  )
+                ]);
+              });
         }
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -101,30 +124,51 @@ class _MapPageState extends State<MapPage> {
   }
 
   getMarkers() async {
-    await FirebaseFirestore.instance.collection("Trees").get().then((value) {
-      if (value.docs.isNotEmpty) {
-        for (int i = 0; i < value.docs.length; i++) {
-          initMarker(value.docs[i].data(), value.docs[i].id);
+    FirebaseFirestore.instance.collection("Trees").snapshots().listen((value) {
+      setState(() {
+        if (value.docs.isNotEmpty) {
+          for (int i = 0; i < value.docs.length; i++) {
+            initMarker(value.docs[i].data(), value.docs[i].id);
+          }
         }
-      }
+      });
     });
   }
 
-  getPosition() async {
-    Position location = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    currentLocation = LatLng(location.latitude, location.longitude);
+  getPosition() {
+    location.getLocation().then(
+      (location) {
+        currentLocation1 = location;
+        setState(() {});
+      },
+    );
+  }
+
+  getController() async {
+    GoogleMapController googleMapController = await gController.future;
+    location.onLocationChanged.listen(
+      (newLoc) {
+        currentLocation1 = newLoc;
+       
+        setState(() {});
+      },
+    );
   }
 
   @override
   void initState() {
     getPermission();
+    
     getPosition();
+   
 
     // serviceStatusStream =
-    //     Geolocator.getPositionStream().listen((Position position) {
-    //   currentLocation = position;
+    //     Geolocator.getPositionStream().listen((Position? position) {
+
+    //    currentLocation = position;
+
     // });
+    getController();
 
     getMarkers();
 
@@ -135,100 +179,98 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: GoogleMap(
-            mapType: MapType.normal,
-            markers: Set<Marker>.of(markers.values),
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(currentLocation.latitude, currentLocation.longitude),
-              zoom: 14,
-            ),
-            onMapCreated: (GoogleMapController controller) {
-              gController = controller;
-            },
-            circles: {
-              Circle(
-                  circleId: const CircleId("1"),
-                  center: LatLng(
-                      currentLocation.latitude, currentLocation.longitude),
-                  strokeWidth: 2,
-                  radius: 10,
-                  strokeColor: Colors.black54,
-                  fillColor: Colors.blueGrey.shade100),
-            }),
+        child: currentLocation1 == null
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : GoogleMap(
+                mapType: MapType.normal,
+                markers: Set<Marker>.of(markers.values),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(currentLocation1!.latitude!,
+                      currentLocation1!.longitude!),
+                  zoom: 14,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  gController.complete(controller);
+                },
+                circles: {
+                    Circle(
+                      circleId: const CircleId("1"),
+                      center: LatLng(currentLocation1!.latitude!,
+                          currentLocation1!.longitude!),
+                      strokeWidth: 2,
+                      radius: 10,
+                      strokeColor: Colors.black54,
+                      fillColor: Colors.blueGrey.shade100,
+                    ),
+                  }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: loading
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: Colors.white,
-                  builder: (context) {
-                    return Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          'Plant',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        EditTextFiled(
-                          hint: 'Name',
-                          icon: Icons.text_fields_outlined,
-                          controller: nameController,
-                          secure: false,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        EButton(
-                          title: 'Add',
-                          function: () {
-                            DateTime dateToday = DateTime.now();
-
-                            FireStoreServices().addTree(
-                                currentLocation.longitude +
-                                    currentLocation.latitude,
-                                nameController.text,
-                                "low",
-                                dateToday,
-                                GeoPoint(currentLocation.latitude,
-                                    currentLocation.longitude));
-
-                            nameController.clear();
-                            Navigator.pop(context);
-                            setState(() {
-                              getMarkers();
-                            });
-                          },
-                          h: 50,
-                          w: 150,
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              heroTag: null,
-              label: Row(
-                children: [
-                  const Icon(UniconsLine.shovel),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text("plant").tr()
-                ],
-              ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
+            backgroundColor: Colors.white,
+            builder: (context) {
+              return Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Plant',
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  EditTextFiled(
+                    hint: 'Name',
+                    icon: Icons.text_fields_outlined,
+                    controller: nameController,
+                    secure: false,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  EButton(
+                    title: 'Add',
+                    function: () {
+                      DateTime dateToday = DateTime.now();
+
+                      FireStoreServices().addTree(
+                          "${currentLocation1!.latitude},${currentLocation1!.longitude}",
+                          nameController.text,
+                          "low",
+                          dateToday,
+                          GeoPoint(currentLocation1!.latitude!,
+                              currentLocation1!.longitude!));
+
+                      nameController.clear();
+                      // getMarkers();
+                      Navigator.pop(context);
+                    },
+                    h: 50,
+                    w: 150,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        label: Row(
+          children: [
+            const Icon(UniconsLine.shovel),
+            const SizedBox(
+              width: 10,
+            ),
+            const Text("plant").tr()
+          ],
+        ),
+      ),
     );
   }
 }
