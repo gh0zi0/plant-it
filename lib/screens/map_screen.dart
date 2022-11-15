@@ -7,9 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
-import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:plantit/services/map_utils.dart';
 import 'package:unicons/unicons.dart';
@@ -26,21 +26,19 @@ class _MapPageState extends State<MapPage> {
 
   Location location = Location();
 
-  var loading = true;
-  Completer<GoogleMapController> gController = Completer();
+  var longitude, latitude, loading = true;
+  Completer<GoogleMapController> gController=Completer();
 
   TextEditingController nameController = TextEditingController();
 
-  late StreamSubscription<Position> serviceStatusStream;
+  
 
   Future getPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
     } else {
-      
-      getPosition();
-    
+      print("**********************");
     }
   }
 
@@ -160,14 +158,7 @@ class _MapPageState extends State<MapPage> {
     getPermission();
     
     getPosition();
-   
 
-    // serviceStatusStream =
-    //     Geolocator.getPositionStream().listen((Position? position) {
-
-    //    currentLocation = position;
-
-    // });
     getController();
 
     getMarkers();
@@ -209,68 +200,74 @@ class _MapPageState extends State<MapPage> {
                   }),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: Colors.white,
-            builder: (context) {
-              return Column(
+      floatingActionButton: loading
+          ? null
+          : FloatingActionButton.extended(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  backgroundColor: Colors.white,
+                  builder: (context) {
+                    return Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Plant',
+                          style: TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.bold),
+                        ),
+                        EditTextFiled(
+                          hint: 'Name',
+                          icon: Icons.text_fields_outlined,
+                          controller: nameController,
+                          secure: false,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        EButton(
+                          title: 'Add',
+                          function: () {
+                            DateTime dateToday = DateTime.now();
+
+                            FireStoreServices().addTree(
+                                currentLocation1,
+                                nameController.text,
+                                "low",
+                                dateToday,
+                                GeoPoint(currentLocation1!.latitude!,
+                                    currentLocation1!.longitude!));
+
+                            nameController.clear();
+                            Navigator.pop(context);
+                            setState(() {
+                              getMarkers();
+                            });
+                          },
+                          h: 50,
+                          w: 150,
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              heroTag: null,
+              label: Row(
                 children: [
+                  const Icon(UniconsLine.shovel),
                   const SizedBox(
-                    height: 10,
+                    width: 10,
                   ),
-                  const Text(
-                    'Plant',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  EditTextFiled(
-                    hint: 'Name',
-                    icon: Icons.text_fields_outlined,
-                    controller: nameController,
-                    secure: false,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  EButton(
-                    title: 'Add',
-                    function: () {
-                      DateTime dateToday = DateTime.now();
-
-                      FireStoreServices().addTree(
-                          "${currentLocation1!.latitude},${currentLocation1!.longitude}",
-                          nameController.text,
-                          "low",
-                          dateToday,
-                          GeoPoint(currentLocation1!.latitude!,
-                              currentLocation1!.longitude!));
-
-                      nameController.clear();
-                      // getMarkers();
-                      Navigator.pop(context);
-                    },
-                    h: 50,
-                    w: 150,
-                  ),
+                  const Text("plant").tr()
                 ],
-              );
-            },
-          );
-        },
-        label: Row(
-          children: [
-            const Icon(UniconsLine.shovel),
-            const SizedBox(
-              width: 10,
+              ),
             ),
-            const Text("plant").tr()
-          ],
-        ),
-      ),
     );
   }
 }

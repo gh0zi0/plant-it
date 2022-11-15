@@ -70,7 +70,9 @@ class _VoucherDetailsState extends State<VoucherDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.list![widget.index]['title']),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Stack(
