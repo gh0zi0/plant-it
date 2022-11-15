@@ -19,7 +19,9 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('aboutApp').tr(),
+      ),
       body: ListView(children: [
         ListTile(
           title: const Text('FAQ').tr(),

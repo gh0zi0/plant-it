@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/list_tile_voucher.dart';
@@ -13,9 +14,9 @@ class VoucherScreen extends StatefulWidget {
 }
 
 class _VoucherScreenState extends State<VoucherScreen> {
-  var id='',category='';
+  var id = '', category = '';
 
-  changeState(idx,cat) {
+  changeState(idx, cat) {
     setState(() {
       id = idx;
       category = cat;
@@ -26,6 +27,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Text(id == '' ? 'voucher' : category).tr(),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -40,7 +42,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
           ),
         ),
         body: id != ''
-            ? VoucherListTile(id: id, points: widget.points,category:category)
+            ? VoucherListTile(id: id, points: widget.points, category: category)
             : VoucherCard(
                 function: changeState,
               ));
