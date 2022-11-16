@@ -23,10 +23,9 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   LocationData? currentLocation1;
-
   Location location = Location();
 
-  var longitude, latitude, loading = true;
+  var longitude, latitude;
   Completer<GoogleMapController> gController = Completer();
 
   TextEditingController nameController = TextEditingController();
@@ -34,6 +33,7 @@ class _MapPageState extends State<MapPage> {
   Future getPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
+      print('x');
       permission = await Geolocator.requestPermission();
     } else {
       print("**********************");
@@ -85,7 +85,8 @@ class _MapPageState extends State<MapPage> {
                     inUser
                         ? ElevatedButton.icon(
                             onPressed: () {
-                              FireStoreServices().updateTree(val["id"], "low",DateTime.now());
+                              FireStoreServices()
+                                  .updateTree(val["id"], "low", DateTime.now());
                               setState(() {});
                             },
                             label: const Text("Watring"),
@@ -116,17 +117,17 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  getPosition() {
-    location.getLocation().then(
+  getPosition() async {
+    await location.getLocation().then(
       (location) {
         currentLocation1 = location;
+
         setState(() {});
       },
     );
   }
 
   getController() async {
-    GoogleMapController googleMapController = await gController.future;
     location.onLocationChanged.listen(
       (newLoc) {
         currentLocation1 = newLoc;
@@ -139,11 +140,8 @@ class _MapPageState extends State<MapPage> {
   @override
   void initState() {
     getPermission();
-
     getPosition();
-
     getController();
-
     getMarkers();
 
     super.initState();
