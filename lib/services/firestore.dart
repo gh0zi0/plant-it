@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreServices {
-  var instance = FirebaseFirestore.instance.collection("Trees").doc();
+  var instance = FirebaseFirestore.instance.collection("trees").doc();
   CollectionReference instance2 =
-      FirebaseFirestore.instance.collection("Trees");
+      FirebaseFirestore.instance.collection("trees");
 
   addTree(id, name, needOfWatring, DateTime datePlant, latlong) {
     instance.set({
