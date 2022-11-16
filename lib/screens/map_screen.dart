@@ -81,10 +81,11 @@ class _MapPageState extends State<MapPage> {
                     Text(
                         "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
                     Text("needOfWatring : ${val["needOfWatring"]}"),
+                    Text("lastWatring : ${val["lastWatring"].toDate()}"),
                     inUser
                         ? ElevatedButton.icon(
                             onPressed: () {
-                              FireStoreServices().updateTree(val["id"], "low");
+                              FireStoreServices().updateTree(val["id"], "low",DateTime.now());
                               setState(() {});
                             },
                             label: const Text("Watring"),
@@ -216,6 +217,7 @@ class _MapPageState extends State<MapPage> {
                           currentLocation1,
                           nameController.text,
                           "low",
+                          dateToday,
                           dateToday,
                           GeoPoint(currentLocation1!.latitude!,
                               currentLocation1!.longitude!));

@@ -5,19 +5,21 @@ class FireStoreServices {
   CollectionReference instance2 =
       FirebaseFirestore.instance.collection("trees");
 
-  addTree(id, name, needOfWatring, DateTime datePlant, latlong) {
+  addTree(id, name, needOfWatring,lastWatring, DateTime datePlant, latlong) {
     instance.set({
       "id": instance.id,
       "name": name,
       "needOfWatring": needOfWatring,
+      "lastWatring":lastWatring,
       "datePlant": datePlant,
       "address": latlong,
     });
   }
 
-  updateTree(id, needOfWatring) {
+  updateTree(id, needOfWatring,lastWatring) {
     instance2.doc(id).update({
       "needOfWatring": needOfWatring,
+      "lastWatring":lastWatring
     });
   }
 }
