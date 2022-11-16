@@ -44,11 +44,11 @@ class _MapPageState extends State<MapPage> {
 
   void initMarker(val, specifyId) async {
     String imag = 'assets/images/GreenTree.png';
-    if (val["needOfWatring"] == "high") {
+    if (val["needOfWatring"] == "low") {
       imag = 'assets/images/GreenTree.png';
     } else if (val["needOfWatring"] == "medium") {
       imag = 'assets/images/OrangeTree.png';
-    } else if (val["needOfWatring"] == "low") {
+    } else if (val["needOfWatring"] == "high") {
       imag = 'assets/images/RedTree.png';
     }
 
@@ -84,7 +84,7 @@ class _MapPageState extends State<MapPage> {
                     inUser
                         ? ElevatedButton.icon(
                             onPressed: () {
-                              FireStoreServices().updateTree(val["id"], "high");
+                              FireStoreServices().updateTree(val["id"], "low");
                               setState(() {});
                             },
                             label: const Text("Watring"),
