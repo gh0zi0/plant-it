@@ -115,8 +115,13 @@ class _MapPageState extends State<MapPage> {
                          
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
-                            FireStoreServices().takePoint();
-                             FireStoreServices().updateWater();
+                              FireStoreServices().updateWater();
+                                if (snap.docs[0]["dailyPoint"] > 0) {
+                              FireStoreServices().takePoint();
+                              FireStoreServices().dePoint();
+                            }
+                            
+                             
 
                           },
                           label: const Text("water").tr(),

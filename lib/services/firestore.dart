@@ -80,14 +80,11 @@ class FireStoreServices {
   }
 
   getData() async {
-    var snapshot =
-        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
-    return snapshot;
-  }
-   getStream() async {
     
         await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
+    
   }
+
 
   getUserUid() {
     return auth.currentUser!.uid;
