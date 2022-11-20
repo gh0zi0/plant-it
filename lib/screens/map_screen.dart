@@ -235,7 +235,7 @@ class _MapPageState extends State<MapPage> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        height: MediaQuery.of(context).size.height / 9,
+        height: MediaQuery.of(context).size.height / 8.5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
