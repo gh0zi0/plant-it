@@ -26,7 +26,7 @@ class _MapPageState extends State<MapPage> {
 
   Location location = Location();
 
-  var longitude, latitude, loading = true;
+  var loading = true;
   Completer<GoogleMapController> gController = Completer();
 
   TextEditingController nameController = TextEditingController();
@@ -43,7 +43,15 @@ class _MapPageState extends State<MapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void initMarker(val, specifyId) async {
+    double markerlatitude = val["address"].latitude;
+    double markerlongitude = val["address"].longitude;
+    DateTime plantDate = val["datePlant"].toDate();
+    DateTime wataringDate = val["lastWatring"].toDate();
+
+    setTreeStat(wataringDate, val);
+
     String imag = 'assets/images/GreenTree.png';
+
     if (val["needOfWatring"] == "low") {
       imag = 'assets/images/GreenTree.png';
     } else if (val["needOfWatring"] == "medium") {
@@ -53,8 +61,6 @@ class _MapPageState extends State<MapPage> {
     }
 
     final Uint8List markerIcon = await MapUtils().getBytesFromAsset(imag, 80);
-    double markerlatitude = val["address"].latitude;
-    double markerlongitude = val["address"].longitude;
 
     var markerIdval = specifyId;
     MarkerId markerId = MarkerId(markerIdval);
@@ -73,7 +79,6 @@ class _MapPageState extends State<MapPage> {
         showDialog(
             context: context,
             builder: (context) {
-              DateTime plantDate = val["datePlant"].toDate();
               return AlertDialog(actions: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -81,11 +86,14 @@ class _MapPageState extends State<MapPage> {
                     Text(
                         "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
                     Text("needOfWatring : ${val["needOfWatring"]}"),
-                    Text("lastWatring : ${val["lastWatring"].toDate()}"),
+                    Text(
+                        "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}"),
                     inUser
                         ? ElevatedButton.icon(
                             onPressed: () {
-                              FireStoreServices().updateTree(val["id"], "low",DateTime.now());
+                              FireStoreServices()
+                                  .updateTree(val["id"], "low", DateTime.now());
+
                               setState(() {});
                             },
                             label: const Text("Watring"),
@@ -134,6 +142,27 @@ class _MapPageState extends State<MapPage> {
         setState(() {});
       },
     );
+  }
+
+  setTreeStat(wataringDate, val) {
+   
+    DateTime now = DateTime.now();
+
+    var diff = now.difference(wataringDate).inDays;
+
+    if (diff == 3) {
+      
+      FireStoreServices().updatestat(val["id"], "medium");
+    }
+    else if(diff == 5){
+      
+      FireStoreServices().updatestat(val["id"], "high");
+    }
+    else if(diff > 5){
+      
+      FireStoreServices().updatestat(val["id"], "high");
+    }
+    
   }
 
   @override

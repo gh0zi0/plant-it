@@ -16,10 +16,16 @@ class FireStoreServices {
     });
   }
 
-  updateTree(id, needOfWatring,lastWatring) {
-    instance2.doc(id).update({
+  updateTree(treeid, needOfWatring,lastWatring) {
+    instance2.doc(treeid).update({
       "needOfWatring": needOfWatring,
       "lastWatring":lastWatring
+    });
+  }
+  updatestat(treeid, needOfWatring,) {
+    instance2.doc(treeid).update({
+      "needOfWatring": needOfWatring,
+      
     });
   }
 }
