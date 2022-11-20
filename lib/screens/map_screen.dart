@@ -33,10 +33,7 @@ class _MapPageState extends State<MapPage> {
   Future getPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      print('x');
       permission = await Geolocator.requestPermission();
-    } else {
-      print("**********************");
     }
   }
 
@@ -93,7 +90,7 @@ class _MapPageState extends State<MapPage> {
                             onPressed: () {
                               FireStoreServices()
                                   .updateTree(val["id"], "low", DateTime.now());
-                              setState(() {});
+                              FireStoreServices().takePoint();
                             },
                             label: const Text("Watring"),
                             icon: const Icon(UniconsLine.tear),
@@ -144,24 +141,17 @@ class _MapPageState extends State<MapPage> {
   }
 
   setTreeStat(wataringDate, val) {
-   
     DateTime now = DateTime.now();
 
     var diff = now.difference(wataringDate).inDays;
 
     if (diff == 3) {
-      
       FireStoreServices().updatestat(val["id"], "medium");
-    }
-    else if(diff == 5){
-      
+    } else if (diff == 5) {
+      FireStoreServices().updatestat(val["id"], "high");
+    } else if (diff > 5) {
       FireStoreServices().updatestat(val["id"], "high");
     }
-    else if(diff > 5){
-      
-      FireStoreServices().updatestat(val["id"], "high");
-    }
-    
   }
 
   @override
@@ -177,6 +167,26 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Select your tree to water"),
+            SizedBox(
+              width: 10,
+            ),
+            Icon(UniconsLine.tear)
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {},
+              child: Icon(
+                UniconsLine.exclamation_circle,
+                color: Colors.white,
+              ))
+        ],
+      ),
       body: SafeArea(
         child: currentLocation1 == null
             ? LottieFile(file: 'loading')
@@ -246,12 +256,10 @@ class _MapPageState extends State<MapPage> {
                           dateToday,
                           GeoPoint(currentLocation1!.latitude!,
                               currentLocation1!.longitude!));
+                      FireStoreServices().takePoint();
 
                       nameController.clear();
                       Navigator.pop(context);
-                      setState(() {
-                        getMarkers();
-                      });
                     },
                     h: 50,
                     w: 150,
@@ -261,7 +269,6 @@ class _MapPageState extends State<MapPage> {
             },
           );
         },
-        heroTag: null,
         label: Row(
           children: [
             const Icon(UniconsLine.shovel),
