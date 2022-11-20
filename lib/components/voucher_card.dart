@@ -59,9 +59,9 @@ class VoucherCard extends StatelessWidget {
             },
           );
         }
-        return LottieFile(
-          file: 'loading',
-        );
+        return Container(
+            alignment: Alignment.center,
+            child: const CircularProgressIndicator());
       },
     );
   }

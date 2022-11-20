@@ -13,7 +13,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  var signIn = true, show = false, loading = false;
+  var signIn = true, show = false;
   final SolidController _controller = SolidController();
 
   controlSheet() async {
