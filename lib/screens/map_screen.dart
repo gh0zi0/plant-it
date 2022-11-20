@@ -4,13 +4,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:location/location.dart';
 
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/services/firestore.dart';
+import 'package:plantit/services/functions.dart';
 import 'package:plantit/services/map_utils.dart';
 import 'package:unicons/unicons.dart';
 
@@ -29,6 +32,8 @@ class _MapPageState extends State<MapPage> {
   Completer<GoogleMapController> gController = Completer();
 
   TextEditingController nameController = TextEditingController();
+
+  var get = Get.put(Functions());
 
   Future getPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -76,29 +81,49 @@ class _MapPageState extends State<MapPage> {
         showDialog(
             context: context,
             builder: (context) {
-              return AlertDialog(actions: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                        "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
-                    Text("needOfWatring : ${val["needOfWatring"]}"),
-                    Text(
-                        "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}"),
-                    inUser
-                        ? ElevatedButton.icon(
-                            onPressed: () {
-                              FireStoreServices()
-                                  .updateTree(val["id"], "low", DateTime.now());
-                              FireStoreServices().takePoint();
-                            },
-                            label: const Text("Watring"),
-                            icon: const Icon(UniconsLine.tear),
-                          )
-                        : const SizedBox()
-                  ],
-                )
-              ]);
+              return AlertDialog(
+                  backgroundColor: Colors.white.withOpacity(0.9),
+                  actions: [
+                    Center(
+                      child: Column(
+                        children: [
+                          Image.asset("assets/images/treeimage.png"),
+                          const SizedBox(height: 15),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Plant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}",
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                  "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}",
+                                  style: const TextStyle(fontSize: 16)),
+                              const SizedBox(height: 5),
+                              Text("Need Of Water : ${val["needOfWatring"]}",
+                                  style: const TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Text("Planted by : ${val["Planted by"]}",
+                              style: const TextStyle(fontSize: 16)),
+                          const SizedBox(height: 5),
+                          inUser
+                              ? ElevatedButton.icon(
+                                  onPressed: () {
+                                    FireStoreServices().updateTree(
+                                        val["id"], "low", DateTime.now());
+                                    FireStoreServices().takePoint();
+                                  },
+                                  label: const Text("Watring"),
+                                  icon: const Icon(UniconsLine.tear),
+                                )
+                              : const SizedBox()
+                        ],
+                      ),
+                    )
+                  ]);
             });
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -243,6 +268,9 @@ class _MapPageState extends State<MapPage> {
                   const SizedBox(
                     height: 20,
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   EButton(
                     title: 'Add',
                     function: () {
@@ -250,6 +278,7 @@ class _MapPageState extends State<MapPage> {
 
                       FireStoreServices().addTree(
                           currentLocation1,
+                          FireStoreServices().getUserNmae(),
                           nameController.text,
                           "low",
                           dateToday,

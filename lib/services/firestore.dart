@@ -9,7 +9,8 @@ class FireStoreServices {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  addTree(id, name, needOfWatring, lastWatring, DateTime datePlant, latlong) {
+  addTree(id, plantedBy, name, needOfWatring, lastWatring, DateTime datePlant,
+      latlong) {
     instanceTree.doc().set({
       "id": instanceTree.id,
       "name": name,
@@ -17,6 +18,7 @@ class FireStoreServices {
       "lastWatring": lastWatring,
       "datePlant": datePlant,
       "address": latlong,
+      "Planted by": plantedBy
     });
   }
 
@@ -34,12 +36,19 @@ class FireStoreServices {
       "needOfWatring": needOfWatring,
     });
   }
+
 // increment the points Field
   takePoint() {
-    instanceUser.doc(auth.currentUser!.uid).update({"points": FieldValue.increment(1)});
+    instanceUser
+        .doc(auth.currentUser!.uid)
+        .update({"points": FieldValue.increment(1)});
   }
 
   getUserUid() {
-   return auth.currentUser!.uid;
+    return auth.currentUser!.uid;
+  }
+
+  getUserNmae() {
+    return auth.currentUser!.displayName;
   }
 }
