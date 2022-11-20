@@ -52,7 +52,7 @@ class _VoucherDetailsState extends State<VoucherDetails> {
       });
 
       Get.defaultDialog(
-          title: tr('yourCode'),
+          title: tr('yourTicket'),
           confirm: TButton(
               title: 'ok',
               function: () async {

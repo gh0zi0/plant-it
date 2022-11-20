@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:plantit/components/e_button.dart';
@@ -83,7 +82,7 @@ class _MapPageState extends State<MapPage> {
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(
                 children: [
-                  Image.asset("assets/images/treeimage.png"),
+                  // Image.asset("assets/images/treeimage.png"),
                   const SizedBox(height: 15),
                   RowText(
                       t1: 'plantD',
@@ -106,6 +105,7 @@ class _MapPageState extends State<MapPage> {
                   inUser
                       ? ElevatedButton.icon(
                           onPressed: () {
+                         
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
                             FireStoreServices().takePoint();
@@ -285,11 +285,11 @@ class _MapPageState extends State<MapPage> {
                               DateTime dateToday = DateTime.now();
 
                               FireStoreServices().addTree(
-                                  currentLocation1,
+    
                                   FireStoreServices().getUserNmae(),
                                   nameController.text,
                                   "low",
-                                  dateToday,
+                               
                                   dateToday,
                                   GeoPoint(currentLocation1!.latitude!,
                                       currentLocation1!.longitude!));
