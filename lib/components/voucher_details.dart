@@ -71,6 +71,7 @@ class _VoucherDetailsState extends State<VoucherDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.list![widget.index]['title']),
       ),
       body: Padding(

@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:plantit/screens/faq_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutAppScreen extends StatefulWidget {
@@ -20,13 +22,16 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('aboutApp').tr(),
       ),
       body: ListView(children: [
         ListTile(
           title: const Text('FAQ').tr(),
           trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const FAQScreen());
+          },
         ),
         ListTile(
           title: const Text('privacy').tr(),

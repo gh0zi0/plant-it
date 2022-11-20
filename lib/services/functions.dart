@@ -168,6 +168,24 @@ class Functions {
     }
   }
 
+  dynamic get faqa {
+    var a = [
+      {'q': 'what', 'a': '1qjsnwqnwqoiqdwqd'},
+      {'q': 'why', 'a': '2klsnkcmwqmwqpoq'}
+    ];
+   
+    return a;
+  }
+
+  dynamic get faqe {
+    var e = [
+      {'q': 'what', 'a': '1qjsnwqnwqoiqdwqd'},
+      {'q': 'why', 'a': '2klsnkcmwqmwqpoq'}
+    ];
+   
+    return e;
+  }
+
   forgetPass(BuildContext context) async {
     showModalBottomSheet(
       context: context,
