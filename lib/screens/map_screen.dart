@@ -108,8 +108,7 @@ class _MapPageState extends State<MapPage> {
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
                             FireStoreServices().takePoint();
-                             FireStoreServices().updateWater();
-
+                            FireStoreServices().updateWater();
                           },
                           label: const Text("water").tr(),
                           icon: const Icon(UniconsLine.tear),
@@ -234,7 +233,7 @@ class _MapPageState extends State<MapPage> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        height: MediaQuery.of(context).size.height / 7.5,
+        height: MediaQuery.of(context).size.height / 9,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -306,11 +305,8 @@ class _MapPageState extends State<MapPage> {
                     },
                   );
                 },
-                h: 50,
+                h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
-            const SizedBox(
-              height: 5,
-            )
           ],
         ),
       ),

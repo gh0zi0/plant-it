@@ -40,7 +40,6 @@ class VoucherCard extends StatelessWidget {
                     child: GridTile(
                         footer: Container(
                             decoration: const BoxDecoration(
-                                // color: Colors.black54,
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black54,
