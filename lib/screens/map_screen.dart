@@ -25,7 +25,7 @@ class _MapPageState extends State<MapPage> {
   LocationData? currentLocation1;
   Location location = Location();
 
-  var loading = true;
+  // var loading = true;
   Completer<GoogleMapController> gController = Completer();
 
   TextEditingController nameController = TextEditingController();

@@ -14,11 +14,11 @@ class AccDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var auth = FirebaseAuth.instance;
-    return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
           .collection('users')
           .doc(auth.currentUser!.uid)
-          .get(),
+          .snapshots(),
       builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasData) {
           Map<String, dynamic> data =
