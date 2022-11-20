@@ -240,72 +240,91 @@ class _MapPageState extends State<MapPage> {
                     ),
                   }),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            backgroundColor: Colors.white,
-            builder: (context) {
-              return Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text(
-                    'Plant',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  EditTextFiled(
-                    hint: 'Name',
-                    icon: Icons.text_fields_outlined,
-                    controller: nameController,
-                    secure: false,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  EButton(
-                    title: 'Add',
-                    function: () {
-                      DateTime dateToday = DateTime.now();
+      bottomNavigationBar: Container(
+        height: 100,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              Text(
+                "Let's Plant a Tree",
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width / 1.10,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: Colors.white,
+                        builder: (context) {
+                          return Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                'Plant',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                              EditTextFiled(
+                                hint: 'Name',
+                                icon: Icons.text_fields_outlined,
+                                controller: nameController,
+                                secure: false,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              EButton(
+                                title: 'Add',
+                                function: () {
+                                  DateTime dateToday = DateTime.now();
 
-                      FireStoreServices().addTree(
-                          currentLocation1,
-                          FireStoreServices().getUserNmae(),
-                          nameController.text,
-                          "low",
-                          dateToday,
-                          dateToday,
-                          GeoPoint(currentLocation1!.latitude!,
-                              currentLocation1!.longitude!));
-                      FireStoreServices().takePoint();
+                                  FireStoreServices().addTree(
+                                      currentLocation1,
+                                      FireStoreServices().getUserNmae(),
+                                      nameController.text,
+                                      "low",
+                                      dateToday,
+                                      dateToday,
+                                      GeoPoint(currentLocation1!.latitude!,
+                                          currentLocation1!.longitude!));
+                                  FireStoreServices().takePoint();
 
-                      nameController.clear();
-                      Navigator.pop(context);
+                                  nameController.clear();
+                                  Navigator.pop(context);
+                                },
+                                h: 50,
+                                w: 150,
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
-                    h: 50,
-                    w: 150,
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        label: Row(
-          children: [
-            const Icon(UniconsLine.shovel),
-            const SizedBox(
-              width: 10,
-            ),
-            const Text("plant").tr()
-          ],
+                    child: Text("Start", style: TextStyle(fontSize: 16)),
+                    style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ))),
+                  ))
+            ],
+          ),
         ),
       ),
     );
