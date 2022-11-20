@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:unicons/unicons.dart';
 
 // ignore: must_be_immutable
 class PostContainer extends StatefulWidget {
@@ -38,17 +39,23 @@ class _PostContainerState extends State<PostContainer> {
                   children: [
                     Row(
                       children: [
-                        ClipOval(
-                          child: SizedBox.fromSize(
-                              size: const Size.fromRadius(15),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.list![widget.index]['Uimage'],
-                                placeholder: (context, url) =>
-                                    const Icon(Icons.person),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.person),
-                              )),
-                        ),
+                        widget.list![widget.index]['image'].toString().isEmpty
+                            ? const Icon(
+                                Icons.person,
+                              )
+                            : ClipOval(
+                                child: SizedBox.fromSize(
+                                    size: const Size.fromRadius(15),
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.list![widget.index]
+                                          ['Uimage'],
+                                      progressIndicatorBuilder:
+                                          (context, x, url) =>
+                                              const Icon(Icons.person),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.person),
+                                    )),
+                              ),
                         const SizedBox(
                           width: 10,
                         ),
@@ -82,14 +89,18 @@ class _PostContainerState extends State<PostContainer> {
                 height: 5,
               ),
               if (widget.list![widget.index]['image'].toString().isNotEmpty)
-                Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            fit: BoxFit.fitWidth,
-                            image: NetworkImage(widget.list![widget.index]
-                                    ['image']
-                                .toString())))),
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.list![widget.index]['image'].toString(),
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    fit: BoxFit.fitWidth,
+                  ),
+                ),
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.only(

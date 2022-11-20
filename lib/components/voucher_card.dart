@@ -22,39 +22,57 @@ class VoucherCard extends StatelessWidget {
               file: 'error',
             );
           }
-          return ListView.builder(
+          return GridView.builder(
             shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              childAspectRatio: 4 / 2,
+            ),
             itemCount: voucherData.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  function(voucherData[index].id, voucherData[index]['title']);
-                },
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      height: 175,
-                      width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: CachedNetworkImage(
-                          imageUrl: voucherData[index]['image'],
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const Icon(
-                            UniconsLine.store,
-                            size: 100,
+              return Padding(
+                padding: const EdgeInsets.all(15),
+                child: GestureDetector(
+                    onTap: () {
+                      function(
+                          voucherData[index].id, voucherData[index]['title']);
+                    },
+                    child: GridTile(
+                        footer: Container(
+                            decoration: const BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black54,
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(20),
+                                    bottomLeft: Radius.circular(20))),
+                            child: GridTileBar(
+                              title: Center(
+                                child: Text(
+                                  voucherData[index]['title'],
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            )),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: CachedNetworkImage(
+                            imageUrl: voucherData[index]['image'],
+                            fit: BoxFit.cover,
+                            progressIndicatorBuilder:
+                                (context, url, progress) => const Icon(
+                              UniconsLine.store,
+                              size: 100,
+                            ),
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              size: 100,
+                            ),
                           ),
-                          errorWidget: (context, url, error) => const Icon(
-                            UniconsLine.store,
-                            size: 100,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(voucherData[index]['title'])
-                  ],
-                ),
+                        ))),
               );
             },
           );

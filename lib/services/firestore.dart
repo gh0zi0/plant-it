@@ -9,13 +9,12 @@ class FireStoreServices {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  addTree(id, plantedBy, name, needOfWatring, lastWatring, DateTime datePlant,
-      latlong) {
-    instanceTree.doc().set({
-      "id": instanceTree.id,
+  addTree(plantedBy, name, needOfWatring, DateTime datePlant, latlong) {
+    instanceTree.doc(datePlant.millisecondsSinceEpoch.toString()).set({
+      "id": datePlant.millisecondsSinceEpoch.toString(),
       "name": name,
       "needOfWatring": needOfWatring,
-      "lastWatring": lastWatring,
+      "lastWatring": datePlant,
       "datePlant": datePlant,
       "address": latlong,
       "Planted by": plantedBy
@@ -55,6 +54,7 @@ class FireStoreServices {
         .doc(auth.currentUser!.uid)
         .update({"water": FieldValue.increment(1)});
   }
+
 
   updatePlant() {
     instanceUser

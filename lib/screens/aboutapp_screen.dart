@@ -47,23 +47,23 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
             launch(url);
           },
         ),
-        const Divider(),
-        ListTile(
-          title: const Text('facebook').tr(),
-          trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () async {
-            // Uri _url = Uri.parse('https://flutter.dev');
-            // launch(_url);
-          },
-        ),
-        ListTile(
-          title: const Text('insta').tr(),
-          trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            //   Uri _url = Uri.parse('https://flutter.dev');
-            // launch(_url);
-          },
-        )
+        // const Divider(),
+        // ListTile(
+        //   title: const Text('facebook').tr(),
+        //   trailing: const Icon(Icons.arrow_forward_ios),
+        //   onTap: () async {
+        //     // Uri _url = Uri.parse('https://flutter.dev');
+        //     // launch(_url);
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('insta').tr(),
+        //   trailing: const Icon(Icons.arrow_forward_ios),
+        //   onTap: () {
+        //     //   Uri _url = Uri.parse('https://flutter.dev');
+        //     // launch(_url);
+        //   },
+        // )
       ]),
     );
   }

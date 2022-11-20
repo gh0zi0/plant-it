@@ -20,7 +20,7 @@ class Ticket extends StatelessWidget {
     return TicketWidget(
       color: Colors.grey,
       width: 500,
-      height: 300,
+      height: 325,
       isCornerRounded: true,
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -29,26 +29,30 @@ class Ticket extends StatelessWidget {
           Column(
             children: [
               RowText(
-                  t1: 'theCode', t2: code, alignment: MainAxisAlignment.center),
+                  t1: 'theCode',
+                  t2: ': $code',
+                  alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
               RowText(
                   t1: 'time',
-                  t2: DateFormat('dd/MM/yyyy , hh:mm').format(time),
+                  t2: ': ${DateFormat('dd/MM/yyyy , hh:mm').format(time)}',
                   alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
               RowText(
                   t1: 'yourPoints',
-                  t2: points,
+                  t2: ': $points',
                   alignment: MainAxisAlignment.center),
               const SizedBox(
                 height: 10,
               ),
               RowText(
-                  t1: 'shop', t2: shop, alignment: MainAxisAlignment.center),
+                  t1: 'shop',
+                  t2: ': $shop',
+                  alignment: MainAxisAlignment.center),
             ],
           ),
           QrImage(

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +86,7 @@ class _MapPageState extends State<MapPage> {
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Column(
                 children: [
-                  Image.asset("assets/images/treeimage.png"),
+                  // Image.asset("assets/images/treeimage.png"),
                   const SizedBox(height: 15),
                   RowText(
                       t1: 'plantD',
@@ -113,14 +112,12 @@ class _MapPageState extends State<MapPage> {
                              var snap = await FireStoreServices().getData();
 
 
+                         
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
+                            FireStoreServices().takePoint();
+                             FireStoreServices().updateWater();
 
-                            FireStoreServices().updateWater();
-                            if (snap.docs[0]["dailyPoint"] > 0) {
-                              FireStoreServices().takePoint();
-                              FireStoreServices().dePoint();
-                            }
                           },
                           label: const Text("water").tr(),
                           icon: const Icon(UniconsLine.tear),
@@ -215,6 +212,7 @@ class _MapPageState extends State<MapPage> {
         child: currentLocation1 == null
             ? const Center(child: CircularProgressIndicator())
             : GoogleMap(
+                zoomControlsEnabled: false,
                 mapType: MapType.normal,
                 markers: Set<Marker>.of(markers.values),
                 myLocationEnabled: true,
@@ -246,7 +244,7 @@ class _MapPageState extends State<MapPage> {
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
-        height: MediaQuery.of(context).size.height / 7.5,
+        height: MediaQuery.of(context).size.height / 8.5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -297,11 +295,11 @@ class _MapPageState extends State<MapPage> {
                               DateTime dateToday = DateTime.now();
 
                               FireStoreServices().addTree(
-                                  currentLocation1,
+    
                                   FireStoreServices().getUserNmae(),
                                   nameController.text,
                                   "low",
-                                  dateToday,
+                               
                                   dateToday,
                                   GeoPoint(currentLocation1!.latitude!,
                                       currentLocation1!.longitude!));
@@ -324,11 +322,8 @@ class _MapPageState extends State<MapPage> {
                     },
                   );
                 },
-                h: 50,
+                h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
-            const SizedBox(
-              height: 5,
-            )
           ],
         ),
       ),

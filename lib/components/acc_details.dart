@@ -35,7 +35,7 @@ class AccDetails extends StatelessWidget {
                     : ClipOval(
                         child: CachedNetworkImage(
                           imageUrl: data['image'].toString(),
-                          placeholder: (context, url) => const Icon(
+                          progressIndicatorBuilder: (context,x, url) => const Icon(
                             Icons.person,
                             size: 100,
                           ),

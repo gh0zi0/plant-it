@@ -42,22 +42,22 @@ class VoucherListTile extends StatelessWidget {
               return ListTile(
                 leading: FittedBox(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: CachedNetworkImage(
-                      imageUrl: voucherData[index]['image'],
-                      fit: BoxFit.cover,
-                      height: 100,
-                      width: 100,
-                      placeholder: (context, url) => const Icon(
-                        UniconsLine.store,
-                        size: 40,
+                      borderRadius: BorderRadius.circular(20), child:
+                       CachedNetworkImage(
+                        imageUrl: voucherData[index]['image'],
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 100,
+                        progressIndicatorBuilder: (context, x, url) => const Icon(
+                          UniconsLine.store,
+                          size: 40,
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          UniconsLine.store,
+                          size: 40,
+                        ),
                       ),
-                      errorWidget: (context, url, error) => const Icon(
-                        UniconsLine.store,
-                        size: 40,
                       ),
-                    ),
-                  ),
                 ),
                 title: Text(voucherData[index]['title']),
                 trailing: const Icon(Icons.arrow_forward_ios),

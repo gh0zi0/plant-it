@@ -54,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               padding: const EdgeInsets.only(right: 50, left: 50),
               alignment: Alignment.centerLeft,
               child: const Text(
-                'Magical',
+                'magical',
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ).tr(),
             ),
