@@ -74,29 +74,45 @@ class _MapPageState extends State<MapPage> {
             currentLocation1!.latitude,
             currentLocation1!.longitude);
         showDialog(
+          
             context: context,
             builder: (context) {
-              return AlertDialog(actions: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                        "datePlant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}"),
-                    Text("needOfWatring : ${val["needOfWatring"]}"),
-                    Text(
-                        "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}"),
-                    inUser
-                        ? ElevatedButton.icon(
-                            onPressed: () {
-                              FireStoreServices()
-                                  .updateTree(val["id"], "low", DateTime.now());
-                              FireStoreServices().takePoint();
-                            },
-                            label: const Text("Watring"),
-                            icon: const Icon(UniconsLine.tear),
-                          )
-                        : const SizedBox()
-                  ],
+              return AlertDialog(
+                backgroundColor: Colors.white.withOpacity(0.9),
+                
+                
+                actions: [
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset("assets/images/treeimage.png"),
+                      const SizedBox(height: 15),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              "Plant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}",style: const TextStyle(fontSize: 16),),
+                              const SizedBox(height: 5),
+                          Text(
+                              "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}",style: const TextStyle(fontSize: 16)),
+                              const SizedBox(height: 5),
+                          Text("Need Of Water : ${val["needOfWatring"]}",style: const TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      inUser
+                          ? ElevatedButton.icon(
+                              onPressed: () {
+                                FireStoreServices().updateTree(
+                                    val["id"], "low", DateTime.now());
+                                FireStoreServices().takePoint();
+                              },
+                              label: const Text("Watring"),
+                              icon: const Icon(UniconsLine.tear),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
                 )
               ]);
             });
