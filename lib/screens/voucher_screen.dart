@@ -28,6 +28,7 @@ class _VoucherScreenState extends State<VoucherScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(id == '' ? 'voucher' : category).tr(),
+          centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

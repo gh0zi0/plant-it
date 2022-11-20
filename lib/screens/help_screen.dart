@@ -13,6 +13,7 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('help').tr(),
       ),
     );
