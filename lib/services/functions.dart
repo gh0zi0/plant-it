@@ -21,6 +21,7 @@ import '../screens/register_screen.dart';
 class Functions {
   var imageFile,
       url,
+      list,
       user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance;
 
@@ -149,8 +150,8 @@ class Functions {
         await store.collection('users').doc(user.currentUser!.uid).set({
           'name': name,
           'points': 0,
-          'dailyPoint':2,
-          'timer':DateTime.now(),
+          'dailyPoint': 2,
+          'timer': DateTime.now(),
           'plants': 0,
           'water': 0,
           'email': email,
@@ -170,22 +171,26 @@ class Functions {
     }
   }
 
-  dynamic get faqa {
-    var a = [
-      {'q': 'what', 'a': '1qjsnwqnwqoiqdwqd'},
-      {'q': 'why', 'a': '2klsnkcmwqmwqpoq'}
-    ];
-   
-    return a;
+  listFAQ(BuildContext context) {
+    if (context.locale.toString() == 'ar') {
+      list = [
+        {'q': 'What is Afaneen?', 'a': '1qjsnwqnwqoiqdwqd'},
+        {'q': 'What does Afaneen do?', 'a': '2klsnkcmwqmwqpoq'},
+        {'q': 'How can I earn points?', 'a': '2klsnkcmwqmwqpoq'},
+        {'q': 'Does the location work in background?', 'a': '2klsnkcmwqmwqpoq'}
+      ];
+    } else {
+      list = [
+        {'q': 'What is Afaneen?', 'a': '1qjsnwqnwqoiqdwqd'},
+        {'q': 'What does Afaneen do?', 'a': '2klsnkcmwqmwqpoq'},
+        {'q': 'How can I earn points?', 'a': '2klsnkcmwqmwqpoq'},
+        {'q': 'Does the location work in background?', 'a': '2klsnkcmwqmwqpoq'}
+      ];
+    }
   }
 
-  dynamic get faqe {
-    var e = [
-      {'q': 'what', 'a': '1qjsnwqnwqoiqdwqd'},
-      {'q': 'why', 'a': '2klsnkcmwqmwqpoq'}
-    ];
-   
-    return e;
+  dynamic get faq {
+    return list;
   }
 
   forgetPass(BuildContext context) async {
@@ -227,8 +232,8 @@ class Functions {
           await store.collection('users').doc(user.currentUser!.uid).set({
             'name': googleSignInAccount.displayName,
             'points': 0,
-            'dailyPoint':2,
-            'timer':DateTime.now(),
+            'dailyPoint': 2,
+            'timer': DateTime.now(),
             'plants': 0,
             'water': 0,
             'email': googleSignInAccount.email,

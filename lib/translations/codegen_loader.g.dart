@@ -10,7 +10,7 @@ class CodegenLoader extends AssetLoader{
   const CodegenLoader();
 
   @override
-  Future<Map<String, dynamic>> load(String path, Locale locale ) {
+  Future<Map<String, dynamic>> load(String fullPath, Locale locale ) {
     return Future.value(mapLocales[locale.toString()]);
   }
 
@@ -82,7 +82,7 @@ class CodegenLoader extends AssetLoader{
   "noInternet": "لا يوجد انترنت!",
   "dissmiss": "تخطي",
   "pleaseConnect": "يرجى ربط جهازك بالانترنت للحصول على التجربة الكاملة",
-  "FAQ": "التعليمات",
+  "FAQ": "الأسئلة الشائعة",
   "more": "المزيد",
   "chats": "المحادثات",
   "map": "الخريطة",
