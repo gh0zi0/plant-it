@@ -79,11 +79,9 @@ class FireStoreServices {
   }
 
   getData() async {
-<<<<<<< Updated upstream
     
         await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
     
-=======
     var snapshot =
         await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
     return snapshot;
@@ -91,7 +89,7 @@ class FireStoreServices {
 
   getStream() async {
     await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
->>>>>>> Stashed changes
+
   }
 
 
