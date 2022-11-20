@@ -31,10 +31,6 @@ class _MapPageState extends State<MapPage> {
 
   TextEditingController nameController = TextEditingController();
 
- 
-
-  
-
   var get = Get.put(Functions());
 
   Future getPermission() async {
@@ -53,22 +49,11 @@ class _MapPageState extends State<MapPage> {
     DateTime wataringDate = val["lastWatring"].toDate();
     String need = val["needOfWatring"].toString();
 
-    setTreeStat(wataringDate, val);
-
-    String imag = 'assets/images/GreenTree.png';
-
-    if (need == "low") {
-      imag = 'assets/images/GreenTree.png';
-    } else if (need == "medium") {
-      imag = 'assets/images/OrangeTree.png';
-    } else if (need == "high") {
-      imag = 'assets/images/RedTree.png';
-    }
-
+    MapUtils().setTreeStat(wataringDate, val);
+    String imag = MapUtils().getImageMarkerUrl(need);
     final Uint8List markerIcon = await MapUtils().getBytesFromAsset(imag, 80);
 
-    var markerIdval = specifyId;
-    MarkerId markerId = MarkerId(markerIdval);
+    MarkerId markerId = MarkerId(specifyId);
     Marker marker = Marker(
       markerId: markerId,
       position: LatLng(markerlatitude, markerlongitude),
@@ -108,21 +93,13 @@ class _MapPageState extends State<MapPage> {
                   const SizedBox(height: 5),
                   inUser
                       ? ElevatedButton.icon(
-                          onPressed: () async{
-                             var snap = await FireStoreServices().getData();
-
-
-                         
+                          onPressed: () async {
+                            var snap = await FireStoreServices().getData();
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
-                              FireStoreServices().updateWater();
-                                if (snap.docs[0]["dailyPoint"] > 0) {
-                              FireStoreServices().takePoint();
-                              FireStoreServices().dePoint();
-                            }
-                            
-                             
-
+                            FireStoreServices().updateWater();
+                            MapUtils()
+                                .limitedPointDaily(snap.docs[0]["dailyPoint"]);
                           },
                           label: const Text("water").tr(),
                           icon: const Icon(UniconsLine.tear),
@@ -171,19 +148,7 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  setTreeStat(wataringDate, val) {
-    DateTime now = DateTime.now();
 
-    var diff = now.difference(wataringDate).inDays;
-
-    if (diff == 3) {
-      FireStoreServices().updatestat(val["id"], "medium");
-    } else if (diff == 5) {
-      FireStoreServices().updatestat(val["id"], "high");
-    } else if (diff > 5) {
-      FireStoreServices().updatestat(val["id"], "high");
-    }
-  }
 
   @override
   void initState() {
@@ -295,26 +260,21 @@ class _MapPageState extends State<MapPage> {
                           ),
                           EButton(
                             title: 'Add',
-                            function: () async{
+                            function: () async {
                               var snap = await FireStoreServices().getData();
                               DateTime dateToday = DateTime.now();
-
+//add new Tree
                               FireStoreServices().addTree(
-    
                                   FireStoreServices().getUserNmae(),
                                   nameController.text,
                                   "low",
-                               
                                   dateToday,
                                   GeoPoint(currentLocation1!.latitude!,
                                       currentLocation1!.longitude!));
-                              
+
                               FireStoreServices().updatePlant();
-                             
-                              if (snap.docs[0]["dailyPoint"] > 0) {
-                              FireStoreServices().takePoint();
-                              FireStoreServices().dePoint();
-                            }
+                              MapUtils().limitedPointDaily(
+                                  snap.docs[0]["dailyPoint"]);
 
                               nameController.clear();
                               Navigator.pop(context);
