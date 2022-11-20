@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.green,
       body: Center(),
       bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height / 6,
+        height: MediaQuery.of(context).size.height / 5,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(50),
         child: const Text(

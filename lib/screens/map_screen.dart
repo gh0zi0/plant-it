@@ -50,16 +50,17 @@ class _MapPageState extends State<MapPage> {
     double markerlongitude = val["address"].longitude;
     DateTime plantDate = val["datePlant"].toDate();
     DateTime wataringDate = val["lastWatring"].toDate();
+    String need = val["needOfWatring"].toString();
 
     setTreeStat(wataringDate, val);
 
     String imag = 'assets/images/GreenTree.png';
 
-    if (val["needOfWatring"] == "low") {
+    if (need == "low") {
       imag = 'assets/images/GreenTree.png';
-    } else if (val["needOfWatring"] == "medium") {
+    } else if (need == "medium") {
       imag = 'assets/images/OrangeTree.png';
-    } else if (val["needOfWatring"] == "high") {
+    } else if (need == "high") {
       imag = 'assets/images/RedTree.png';
     }
 
@@ -103,7 +104,7 @@ class _MapPageState extends State<MapPage> {
                                   alignment: MainAxisAlignment.start),
                               RowText(
                                   t1: 'need',
-                                  t2: ': ${val["needOfWatring"]}',
+                                  t2: ': ${tr(need)}',
                                   alignment: MainAxisAlignment.start),
 
                               // const SizedBox(height: 5),
@@ -112,7 +113,7 @@ class _MapPageState extends State<MapPage> {
                           const SizedBox(height: 15),
                           RowText(
                               t1: 'plantBy',
-                              t2: val["Planted by"].toString(),
+                              t2: ': ${val["Planted by"]}',
                               alignment: MainAxisAlignment.start),
                           const SizedBox(height: 5),
                           inUser
@@ -122,7 +123,7 @@ class _MapPageState extends State<MapPage> {
                                         val["id"], "low", DateTime.now());
                                     FireStoreServices().takePoint();
                                   },
-                                  label: const Text("Watring"),
+                                  label: const Text("water").tr(),
                                   icon: const Icon(UniconsLine.tear),
                                 )
                               : const SizedBox()
