@@ -12,6 +12,7 @@ import 'package:location/location.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/lottie_file.dart';
+import 'package:plantit/components/row_text.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:plantit/services/functions.dart';
 import 'package:plantit/services/map_utils.dart';
@@ -92,22 +93,27 @@ class _MapPageState extends State<MapPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Plant : ${plantDate.year}/ ${plantDate.month} / ${plantDate.day}",
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                  "lastWatring :  ${wataringDate.year}/ ${wataringDate.month} / ${wataringDate.day}",
-                                  style: const TextStyle(fontSize: 16)),
-                              const SizedBox(height: 5),
-                              Text("Need Of Water : ${val["needOfWatring"]}",
-                                  style: const TextStyle(fontSize: 16)),
+                              RowText(
+                                  t1: 'plantD',
+                                  t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+                                  alignment: MainAxisAlignment.start),
+                              RowText(
+                                  t1: 'lastWatring',
+                                  t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+                                  alignment: MainAxisAlignment.start),
+                              RowText(
+                                  t1: 'need',
+                                  t2: ': ${val["needOfWatring"]}',
+                                  alignment: MainAxisAlignment.start),
+
+                              // const SizedBox(height: 5),
                             ],
                           ),
                           const SizedBox(height: 15),
-                          Text("Planted by : ${val["Planted by"]}",
-                              style: const TextStyle(fontSize: 16)),
+                          RowText(
+                              t1: 'plantBy',
+                              t2: val["Planted by"].toString(),
+                              alignment: MainAxisAlignment.start),
                           const SizedBox(height: 5),
                           inUser
                               ? ElevatedButton.icon(
@@ -193,20 +199,11 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Select your tree to water"),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(UniconsLine.tear)
-          ],
-        ),
+        title: const Text("Select your tree to water"),
         actions: [
           TextButton(
               onPressed: () {},
-              child: Icon(
+              child: const Icon(
                 UniconsLine.exclamation_circle,
                 color: Colors.white,
               ))
@@ -214,7 +211,7 @@ class _MapPageState extends State<MapPage> {
       ),
       body: SafeArea(
         child: currentLocation1 == null
-            ? LottieFile(file: 'loading')
+            ? const Center(child: CircularProgressIndicator())
             : GoogleMap(
                 mapType: MapType.normal,
                 markers: Set<Marker>.of(markers.values),

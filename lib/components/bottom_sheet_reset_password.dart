@@ -80,7 +80,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
               height: 20,
             ),
             loading
-                ? LottieFile(file: 'loading')
+                ? const CircularProgressIndicator()
                 : EButton(
                     title: 'submit',
                     function: resetPass,

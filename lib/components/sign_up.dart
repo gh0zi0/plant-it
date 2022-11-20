@@ -7,7 +7,6 @@ import 'package:plantit/components/t_button.dart';
 import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
-import 'lottie_file.dart';
 
 // ignore: must_be_immutable
 class SignUp extends StatefulWidget {
@@ -121,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                   height: 50,
                 ),
                 loading
-                    ? LottieFile(file: 'loading')
+                    ? const CircularProgressIndicator()
                     : EButton(
                         title: 'signUp',
                         function: () async {

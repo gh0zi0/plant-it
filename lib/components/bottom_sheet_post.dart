@@ -90,9 +90,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                 height: 25,
               ),
               loading
-                  ? LottieFile(
-                      file: 'loading',
-                    )
+                  ? const CircularProgressIndicator()
                   : EButton(
                       color: Colors.green,
                       title: 'post',

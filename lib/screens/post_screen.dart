@@ -64,9 +64,10 @@ class PostScreen extends StatelessWidget {
                   ),
                 );
               }
-              return LottieFile(
-                file: 'loading',
-              );
+              return Container(
+                  padding: const EdgeInsets.all(100),
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator());
             },
           ),
         ],
