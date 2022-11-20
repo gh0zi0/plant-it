@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green,
-      body: Center(),
+      body: const Center(),
       bottomNavigationBar: Container(
         height: MediaQuery.of(context).size.height / 5,
         alignment: Alignment.center,

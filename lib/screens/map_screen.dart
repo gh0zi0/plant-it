@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -69,62 +70,108 @@ class _MapPageState extends State<MapPage> {
       markerId: markerId,
       position: LatLng(markerlatitude, markerlongitude),
       onTap: () {
-
         bool inUser = MapUtils().detectIfMarkerWithinBoundary(
             markerlatitude,
             markerlongitude,
             currentLocation1!.latitude,
             currentLocation1!.longitude);
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                  backgroundColor: Colors.white.withOpacity(0.9),
-                  actions: [
-                    Center(
-                      child: Column(
-                        children: [
-                          Image.asset("assets/images/treeimage.png"),
-                          const SizedBox(height: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RowText(
-                                  t1: 'plantD',
-                                  t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-                                  alignment: MainAxisAlignment.start),
-                              RowText(
-                                  t1: 'lastWatring',
-                                  t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-                                  alignment: MainAxisAlignment.start),
-                              RowText(
-                                  t1: 'need',
-                                  t2: ': ${tr(need)}',
-                                  alignment: MainAxisAlignment.start),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          RowText(
-                              t1: 'plantBy',
-                              t2: ': ${val["Planted by"]}',
-                              alignment: MainAxisAlignment.start),
-                          const SizedBox(height: 5),
-                          inUser
-                              ? ElevatedButton.icon(
-                                  onPressed: () {
-                                    FireStoreServices().updateTree(
-                                        val["id"], "low", DateTime.now());
-                                    FireStoreServices().takePoint();
-                                  },
-                                  label: const Text("water").tr(),
-                                  icon: const Icon(UniconsLine.tear),
-                                )
-                              : const SizedBox()
-                        ],
-                      ),
-                    )
-                  ]);
-            });
+
+        Get.defaultDialog(
+            title: '',
+            content: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: 7,
+                sigmaY: 7,
+              ),
+              child: Column(
+                children: [
+                  Image.asset("assets/images/treeimage.png"),
+                  const SizedBox(height: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RowText(
+                          t1: 'plantD',
+                          t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+                          alignment: MainAxisAlignment.start),
+                      RowText(
+                          t1: 'lastWatring',
+                          t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+                          alignment: MainAxisAlignment.start),
+                      RowText(
+                          t1: 'need',
+                          t2: ': ${tr(need)}',
+                          alignment: MainAxisAlignment.start),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  RowText(
+                      t1: 'plantBy',
+                      t2: ': ${val["Planted by"]}',
+                      alignment: MainAxisAlignment.start),
+                  const SizedBox(height: 5),
+                  inUser
+                      ? ElevatedButton.icon(
+                          onPressed: () {
+                            FireStoreServices()
+                                .updateTree(val["id"], "low", DateTime.now());
+                            FireStoreServices().takePoint();
+                          },
+                          label: const Text("water").tr(),
+                          icon: const Icon(UniconsLine.tear),
+                        )
+                      : const SizedBox()
+                ],
+              ),
+            ));
+        // showDialog(
+        //     context: context,
+        //     builder: (context) {
+        //       return AlertDialog(
+        //           // backgroundColor: Colors.white.withOpacity(0.9),
+        //           actions: [
+        //             Column(
+        //               children: [
+        //                 Image.asset("assets/images/treeimage.png"),
+        //                 const SizedBox(height: 15),
+        //                 Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     RowText(
+        //                         t1: 'plantD',
+        //                         t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+        //                         alignment: MainAxisAlignment.start),
+        //                     RowText(
+        //                         t1: 'lastWatring',
+        //                         t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+        //                         alignment: MainAxisAlignment.start),
+        //                     RowText(
+        //                         t1: 'need',
+        //                         t2: ': ${tr(need)}',
+        //                         alignment: MainAxisAlignment.start),
+        //                   ],
+        //                 ),
+        //                 const SizedBox(height: 15),
+        //                 RowText(
+        //                     t1: 'plantBy',
+        //                     t2: ': ${val["Planted by"]}',
+        //                     alignment: MainAxisAlignment.start),
+        //                 const SizedBox(height: 5),
+        //                 inUser
+        //                     ? ElevatedButton.icon(
+        //                         onPressed: () {
+        //                           FireStoreServices().updateTree(
+        //                               val["id"], "low", DateTime.now());
+        //                           FireStoreServices().takePoint();
+        //                         },
+        //                         label: const Text("water").tr(),
+        //                         icon: const Icon(UniconsLine.tear),
+        //                       )
+        //                     : const SizedBox()
+        //               ],
+        //             )
+        //           ]);
+        //     });
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
@@ -192,7 +239,9 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
+        centerTitle: true,
         title: const Text("select").tr(),
         actions: [
           TextButton(
@@ -204,6 +253,7 @@ class _MapPageState extends State<MapPage> {
         ],
       ),
       body: SafeArea(
+        bottom: false,
         child: currentLocation1 == null
             ? const Center(child: CircularProgressIndicator())
             : GoogleMap(
@@ -231,91 +281,90 @@ class _MapPageState extends State<MapPage> {
                     ),
                   }),
       ),
-      bottomNavigationBar: SizedBox(
-        height: 100,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              const Text(
-                "lets",
-                style: TextStyle(fontSize: 16),
-              ).tr(),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width / 1.10,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        backgroundColor: Colors.white,
-                        builder: (context) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                'Plant',
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                              EditTextFiled(
-                                hint: 'Name',
-                                icon: Icons.text_fields_outlined,
-                                controller: nameController,
-                                secure: false,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              EButton(
-                                title: 'Add',
-                                function: () {
-                                  DateTime dateToday = DateTime.now();
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+        height: MediaQuery.of(context).size.height / 7.5,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Text(
+              "lets",
+              style: TextStyle(fontSize: 16),
+            ).tr(),
+            const SizedBox(
+              height: 10,
+            ),
+            EButton(
+                title: "start",
+                function: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.white,
+                    builder: (context) {
+                      return Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'Plant',
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          ),
+                          EditTextFiled(
+                            hint: 'Name',
+                            icon: Icons.text_fields_outlined,
+                            controller: nameController,
+                            secure: false,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          EButton(
+                            title: 'Add',
+                            function: () {
+                              DateTime dateToday = DateTime.now();
 
-                                  FireStoreServices().addTree(
-                                      currentLocation1,
-                                      FireStoreServices().getUserNmae(),
-                                      nameController.text,
-                                      "low",
-                                      dateToday,
-                                      dateToday,
-                                      GeoPoint(currentLocation1!.latitude!,
-                                          currentLocation1!.longitude!));
-                                  FireStoreServices().takePoint();
+                              FireStoreServices().addTree(
+                                  currentLocation1,
+                                  FireStoreServices().getUserNmae(),
+                                  nameController.text,
+                                  "low",
+                                  dateToday,
+                                  dateToday,
+                                  GeoPoint(currentLocation1!.latitude!,
+                                      currentLocation1!.longitude!));
+                              FireStoreServices().takePoint();
 
-                                  nameController.clear();
-                                  Navigator.pop(context);
-                                },
-                                h: 50,
-                                w: 150,
-                              ),
-                            ],
-                          );
-                        },
+                              nameController.clear();
+                              Navigator.pop(context);
+                            },
+                            h: 50,
+                            w: 150,
+                          ),
+                        ],
                       );
                     },
-                    style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    ))),
-                    child: const Text("start", style: TextStyle(fontSize: 16)).tr(),
-                  ))
-            ],
-          ),
+                  );
+                },
+                h: 50,
+                w: MediaQuery.of(context).size.width / 1.3),
+            const SizedBox(
+              height: 5,
+            )
+          ],
         ),
       ),
     );
