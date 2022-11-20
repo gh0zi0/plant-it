@@ -116,6 +116,8 @@ class _MapPageState extends State<MapPage> {
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
                             FireStoreServices().takePoint();
+                             FireStoreServices().updateWater();
+
                           },
                           label: const Text("water").tr(),
                           icon: const Icon(UniconsLine.tear),
@@ -347,6 +349,7 @@ class _MapPageState extends State<MapPage> {
                                   GeoPoint(currentLocation1!.latitude!,
                                       currentLocation1!.longitude!));
                               FireStoreServices().takePoint();
+                              FireStoreServices().updatePlant();
 
                               nameController.clear();
                               Navigator.pop(context);
