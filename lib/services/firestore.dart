@@ -43,16 +43,50 @@ class FireStoreServices {
         .update({"points": FieldValue.increment(1)});
   }
 
+  dePoint() {
+    instanceUser
+        .doc(auth.currentUser!.uid)
+        .update({"dailyPoint": FieldValue.increment(-1)});
+  }
+
   updateWater() {
     instanceUser
         .doc(auth.currentUser!.uid)
         .update({"water": FieldValue.increment(1)});
   }
 
+
   updatePlant() {
     instanceUser
         .doc(auth.currentUser!.uid)
         .update({"plants": FieldValue.increment(1)});
+  }
+
+  updateTimerPoint() async {
+    var snapshot =
+        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
+    DateTime timer = snapshot.docs[0]["timer"].toDate();
+    DateTime target = timer.add(Duration(days: 1));
+
+    DateTime daily = DateTime.now();
+
+    if (daily.isAfter(target)) {
+      //update the timer to now
+      //reset the dailyPoint to 2
+      instanceUser
+          .doc(auth.currentUser!.uid)
+          .update({"dailyPoint": 2, "timer": DateTime.now()});
+    }
+  }
+
+  getData() async {
+    var snapshot =
+        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
+    return snapshot;
+  }
+   getStream() async {
+    
+        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
   }
 
   getUserUid() {

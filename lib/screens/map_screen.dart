@@ -31,6 +31,10 @@ class _MapPageState extends State<MapPage> {
 
   TextEditingController nameController = TextEditingController();
 
+ 
+
+  
+
   var get = Get.put(Functions());
 
   Future getPermission() async {
@@ -104,12 +108,16 @@ class _MapPageState extends State<MapPage> {
                   const SizedBox(height: 5),
                   inUser
                       ? ElevatedButton.icon(
-                          onPressed: () {
+                          onPressed: () async{
+                             var snap = await FireStoreServices().getData();
+
+
                          
                             FireStoreServices()
                                 .updateTree(val["id"], "low", DateTime.now());
                             FireStoreServices().takePoint();
-                            FireStoreServices().updateWater();
+                             FireStoreServices().updateWater();
+
                           },
                           label: const Text("water").tr(),
                           icon: const Icon(UniconsLine.tear),
@@ -178,6 +186,7 @@ class _MapPageState extends State<MapPage> {
     getPosition();
     getController();
     getMarkers();
+    FireStoreServices().updateTimerPoint();
 
     super.initState();
   }
@@ -211,7 +220,7 @@ class _MapPageState extends State<MapPage> {
                 initialCameraPosition: CameraPosition(
                   target: LatLng(currentLocation1!.latitude!,
                       currentLocation1!.longitude!),
-                  zoom: 14,
+                  zoom: 20,
                 ),
                 onMapCreated: (GoogleMapController controller) {
                   gController.complete(controller);
@@ -281,7 +290,8 @@ class _MapPageState extends State<MapPage> {
                           ),
                           EButton(
                             title: 'Add',
-                            function: () {
+                            function: () async{
+                              var snap = await FireStoreServices().getData();
                               DateTime dateToday = DateTime.now();
 
                               FireStoreServices().addTree(
@@ -293,8 +303,13 @@ class _MapPageState extends State<MapPage> {
                                   dateToday,
                                   GeoPoint(currentLocation1!.latitude!,
                                       currentLocation1!.longitude!));
-                              FireStoreServices().takePoint();
+                              
                               FireStoreServices().updatePlant();
+                             
+                              if (snap.docs[0]["dailyPoint"] > 0) {
+                              FireStoreServices().takePoint();
+                              FireStoreServices().dePoint();
+                            }
 
                               nameController.clear();
                               Navigator.pop(context);

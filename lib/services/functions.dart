@@ -149,6 +149,8 @@ class Functions {
         await store.collection('users').doc(user.currentUser!.uid).set({
           'name': name,
           'points': 0,
+          'dailyPoint':2,
+          'timer':DateTime.now(),
           'plants': 0,
           'water': 0,
           'email': email,
@@ -225,6 +227,8 @@ class Functions {
           await store.collection('users').doc(user.currentUser!.uid).set({
             'name': googleSignInAccount.displayName,
             'points': 0,
+            'dailyPoint':2,
+            'timer':DateTime.now(),
             'plants': 0,
             'water': 0,
             'email': googleSignInAccount.email,
