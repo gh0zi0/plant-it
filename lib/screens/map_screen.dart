@@ -193,15 +193,11 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< Updated upstream
         title: Text("Select your tree to water"),
-=======
-        title: const Text("Select your tree to water"),
->>>>>>> Stashed changes
         actions: [
           TextButton(
               onPressed: () {},
-              child: const Icon(
+              child: Icon(
                 UniconsLine.exclamation_circle,
                 color: Colors.white,
               ))
@@ -209,13 +205,7 @@ class _MapPageState extends State<MapPage> {
       ),
       body: SafeArea(
         child: currentLocation1 == null
-<<<<<<< Updated upstream
             ? const Center(child: CircularProgressIndicator())
-=======
-            ? Container(
-                alignment: Alignment.center,
-                child: const CircularProgressIndicator())
->>>>>>> Stashed changes
             : GoogleMap(
                 mapType: MapType.normal,
                 markers: Set<Marker>.of(markers.values),
