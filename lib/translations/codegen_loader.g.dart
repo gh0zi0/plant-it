@@ -111,6 +111,10 @@ class CodegenLoader extends AssetLoader{
   "phone": "رقم الهاتف",
   "facebook": "فيسبوك",
   "insta": "انستغرام",
+  "afaneen": "أفانين",
+  "green": "لنجعل العالم أخضر مرة أخرى",
+  "magical": "أشياء",
+  "things": "سحرية",
   "redeemless": "نعتذر نقاطك أقل من النقاط المطلوبة",
   "deleteAccM": "سيتم حذف حسابك وفقد جميع بياناتك",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
@@ -213,6 +217,10 @@ static const Map<String,dynamic> en = {
   "phone": "Phone number",
   "facebook": "FaceBook",
   "insta": "Instagram",
+  "afaneen": "Afaneen",
+  "green": "Let's make the world green again",
+  "magical": "Magical",
+  "things": "Things",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"

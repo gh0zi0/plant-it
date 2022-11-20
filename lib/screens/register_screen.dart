@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:plantit/components/sign_in.dart';
 import 'package:plantit/components/sign_up.dart';
@@ -45,46 +46,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
         ),
       ),
-      body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/images/wall.png'),
-            fit: BoxFit.cover,
-          )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              EButton(
-                title: 'signIn',
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(right: 50, left: 50),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Magical',
+                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              ).tr(),
+            ),
+            Container(
+              padding: const EdgeInsets.only(right: 50, left: 50, top: 5),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'things',
+                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+              ).tr(),
+            ),
+            Container(
+                padding: const EdgeInsets.only(
+                    right: 50, left: 50, top: 10, bottom: 20),
+                alignment: Alignment.centerLeft,
+                child: const Text('green').tr()),
+            EButton(
+              title: 'signIn',
+              function: () {
+                setState(() {
+                  show = true;
+                  signIn = true;
+                });
+              },
+              h: 55,
+              w: MediaQuery.of(context).size.width / 1.25,
+              color: Colors.green,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 40),
+              child: EButton(
+                title: 'signUp',
                 function: () {
                   setState(() {
                     show = true;
-                    signIn = true;
+                    signIn = false;
                   });
                 },
-                h: 50,
-                w: 150,
-                color: Colors.green,
+                h: 55,
+                w: MediaQuery.of(context).size.width / 1.25,
+                color: Colors.grey,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 50),
-                child: EButton(
-                  title: 'signUp',
-                  function: () {
-                    setState(() {
-                      show = true;
-                      signIn = false;
-                    });
-                  },
-                  h: 50,
-                  w: 150,
-                  color: Colors.grey,
-                ),
-              )
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

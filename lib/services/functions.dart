@@ -23,7 +23,7 @@ class Functions {
       url,
       user = FirebaseAuth.instance,
       store = FirebaseFirestore.instance;
-  
+
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   sharePost(
@@ -61,8 +61,6 @@ class Functions {
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
-
-  
 
   countdownDialog(BuildContext context, String email, String pass) {
     showModalBottomSheet(
@@ -230,7 +228,7 @@ class Functions {
   }
 
   auth() async {
-    await Future.delayed(const Duration(milliseconds: 3000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     if (user.currentUser?.uid != null && user.currentUser!.emailVerified) {
       Get.off(() => const HomeScreen());
     } else {
