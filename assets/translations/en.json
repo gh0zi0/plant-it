@@ -100,6 +100,13 @@
   "green": "Let's make the world green again",
   "magical": "Magical",
   "things": "Things",
+  "plantD": "Plant date",
+  "lastWatring": "Last Watring",
+  "need": "Need Of Water",
+  "plantBy": "Planted by",
+  "high": "very needy",
+  "low": "Does not need",
+  "medium": "Medium",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"
