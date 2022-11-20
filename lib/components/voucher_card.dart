@@ -62,12 +62,13 @@ class VoucherCard extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: voucherData[index]['image'],
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => const Icon(
+                            progressIndicatorBuilder:
+                                (context, url, progress) => const Icon(
                               UniconsLine.store,
                               size: 100,
                             ),
                             errorWidget: (context, url, error) => const Icon(
-                              UniconsLine.store,
+                              Icons.error,
                               size: 100,
                             ),
                           ),

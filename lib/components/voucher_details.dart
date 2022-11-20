@@ -9,6 +9,7 @@ import 'package:plantit/components/row_text.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/ticket.dart';
 import 'package:plantit/screens/home_screen.dart';
+import 'package:unicons/unicons.dart';
 
 // ignore: must_be_immutable
 class VoucherDetails extends StatefulWidget {
@@ -82,6 +83,10 @@ class _VoucherDetailsState extends State<VoucherDetails> {
                   CachedNetworkImage(
                     imageUrl: widget.list![widget.index]['image'],
                     height: 200,
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        const Icon(UniconsLine.store),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     fit: BoxFit.fitWidth,
                   ),
                   Container(
