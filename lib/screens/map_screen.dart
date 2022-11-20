@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:plantit/components/e_button.dart';
@@ -202,6 +203,7 @@ class _MapPageState extends State<MapPage> {
         child: currentLocation1 == null
             ? const Center(child: CircularProgressIndicator())
             : GoogleMap(
+                zoomControlsEnabled: false,
                 mapType: MapType.normal,
                 markers: Set<Marker>.of(markers.values),
                 myLocationEnabled: true,
