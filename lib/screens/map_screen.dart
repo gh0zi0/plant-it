@@ -78,51 +78,40 @@ class _MapPageState extends State<MapPage> {
 
         Get.defaultDialog(
             title: '',
-            content: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 7,
-                sigmaY: 7,
-              ),
-              child: Column(
-                children: [
-                  Image.asset("assets/images/treeimage.png"),
-                  const SizedBox(height: 15),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RowText(
-                          t1: 'plantD',
-                          t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-                          alignment: MainAxisAlignment.start),
-                      RowText(
-                          t1: 'lastWatring',
-                          t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-                          alignment: MainAxisAlignment.start),
-                      RowText(
-                          t1: 'need',
-                          t2: ': ${tr(need)}',
-                          alignment: MainAxisAlignment.start),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  RowText(
-                      t1: 'plantBy',
-                      t2: ': ${val["Planted by"]}',
-                      alignment: MainAxisAlignment.start),
-                  const SizedBox(height: 5),
-                  inUser
-                      ? ElevatedButton.icon(
-                          onPressed: () {
-                            FireStoreServices()
-                                .updateTree(val["id"], "low", DateTime.now());
-                            FireStoreServices().takePoint();
-                          },
-                          label: const Text("water").tr(),
-                          icon: const Icon(UniconsLine.tear),
-                        )
-                      : const SizedBox()
-                ],
-              ),
+            content: Column(
+              children: [
+                Image.asset("assets/images/treeimage.png"),
+                const SizedBox(height: 15),
+                RowText(
+                    t1: 'plantD',
+                    t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+                    alignment: MainAxisAlignment.start),
+                RowText(
+                    t1: 'lastWatring',
+                    t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+                    alignment: MainAxisAlignment.start),
+                RowText(
+                    t1: 'need',
+                    t2: ': ${tr(need)}',
+                    alignment: MainAxisAlignment.start),
+                const SizedBox(height: 15),
+                RowText(
+                    t1: 'plantBy',
+                    t2: ': ${val["Planted by"]}',
+                    alignment: MainAxisAlignment.start),
+                const SizedBox(height: 5),
+                inUser
+                    ? ElevatedButton.icon(
+                        onPressed: () {
+                          FireStoreServices()
+                              .updateTree(val["id"], "low", DateTime.now());
+                          FireStoreServices().takePoint();
+                        },
+                        label: const Text("water").tr(),
+                        icon: const Icon(UniconsLine.tear),
+                      )
+                    : const SizedBox()
+              ],
             ));
         // showDialog(
         //     context: context,
