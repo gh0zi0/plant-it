@@ -43,6 +43,16 @@ class FireStoreServices {
         .doc(auth.currentUser!.uid)
         .update({"points": FieldValue.increment(1)});
   }
+  updateWater() {
+    instanceUser
+        .doc(auth.currentUser!.uid)
+        .update({"water": FieldValue.increment(1)});
+  }
+  updatePlant() {
+    instanceUser
+        .doc(auth.currentUser!.uid)
+        .update({"plants": FieldValue.increment(1)});
+  }
 
   getUserUid() {
     return auth.currentUser!.uid;
