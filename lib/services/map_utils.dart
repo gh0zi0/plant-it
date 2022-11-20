@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:plantit/components/e_button.dart';
+import 'package:plantit/components/edit_text.dart';
 import 'dart:ui' as ui;
 
 import 'package:plantit/services/firestore.dart';
@@ -40,7 +45,8 @@ class MapUtils {
       return 'assets/images/RedTree.png';
     }
   }
-    setTreeStat(wataringDate, val) {
+
+  setTreeStat(wataringDate, val) {
     DateTime now = DateTime.now();
 
     var diff = now.difference(wataringDate).inDays;
@@ -59,5 +65,64 @@ class MapUtils {
       FireStoreServices().takePoint();
       FireStoreServices().dePoint();
     }
+  }
+
+  void plantBottomSheet( context, currentLocation1) {
+    TextEditingController nameController = TextEditingController();
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              'Plant',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+            EditTextFiled(
+              hint: 'Name',
+              icon: Icons.text_fields_outlined,
+              controller: nameController,
+              secure: false,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            EButton(
+              title: 'Add',
+              function: () async {
+                var snap = await FireStoreServices().getData();
+                DateTime dateToday = DateTime.now();
+//add new Tree
+                FireStoreServices().addTree(
+                    FireStoreServices().getUserNmae(),
+                    nameController.text,
+                    "low",
+                    dateToday,
+                    GeoPoint(currentLocation1!.latitude!,
+                        currentLocation1!.longitude!));
+
+                FireStoreServices().updatePlant();
+                MapUtils().limitedPointDaily(snap.docs[0]["dailyPoint"]);
+
+                nameController.clear();
+                Navigator.pop(context);
+              },
+              h: 50,
+              w: 150,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

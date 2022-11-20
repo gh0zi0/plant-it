@@ -26,12 +26,7 @@ class _MapPageState extends State<MapPage> {
   LocationData? currentLocation1;
   Location location = Location();
 
-  // var loading = true;
   Completer<GoogleMapController> gController = Completer();
-
-  TextEditingController nameController = TextEditingController();
-
-  var get = Get.put(Functions());
 
   Future getPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
@@ -148,8 +143,6 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-
-
   @override
   void initState() {
     getPermission();
@@ -229,63 +222,8 @@ class _MapPageState extends State<MapPage> {
             EButton(
                 title: "start",
                 function: () {
-                  showModalBottomSheet(
-                    context: context,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    backgroundColor: Colors.white,
-                    builder: (context) {
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Plant',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
-                          EditTextFiled(
-                            hint: 'Name',
-                            icon: Icons.text_fields_outlined,
-                            controller: nameController,
-                            secure: false,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          EButton(
-                            title: 'Add',
-                            function: () async {
-                              var snap = await FireStoreServices().getData();
-                              DateTime dateToday = DateTime.now();
-//add new Tree
-                              FireStoreServices().addTree(
-                                  FireStoreServices().getUserNmae(),
-                                  nameController.text,
-                                  "low",
-                                  dateToday,
-                                  GeoPoint(currentLocation1!.latitude!,
-                                      currentLocation1!.longitude!));
-
-                              FireStoreServices().updatePlant();
-                              MapUtils().limitedPointDaily(
-                                  snap.docs[0]["dailyPoint"]);
-
-                              nameController.clear();
-                              Navigator.pop(context);
-                            },
-                            h: 50,
-                            w: 150,
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  MapUtils().plantBottomSheet(
+                      context, currentLocation1);
                 },
                 h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
