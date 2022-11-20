@@ -193,16 +193,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Select your tree to water"),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(UniconsLine.tear)
-          ],
-        ),
+        title: Text("Select your tree to water"),
         actions: [
           TextButton(
               onPressed: () {},
@@ -214,7 +205,7 @@ class _MapPageState extends State<MapPage> {
       ),
       body: SafeArea(
         child: currentLocation1 == null
-            ? LottieFile(file: 'loading')
+            ? const Center(child: CircularProgressIndicator())
             : GoogleMap(
                 mapType: MapType.normal,
                 markers: Set<Marker>.of(markers.values),
