@@ -10,8 +10,8 @@ class FireStoreServices {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   addTree(plantedBy, name, needOfWatring, DateTime datePlant, latlong) {
-    instanceTree.add({
-      "id": instanceTree.id,
+    instanceTree.doc(datePlant.millisecondsSinceEpoch.toString()).set({
+      "id": datePlant.millisecondsSinceEpoch.toString(),
       "name": name,
       "needOfWatring": needOfWatring,
       "lastWatring": datePlant,
