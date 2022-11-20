@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unicons/unicons.dart';
 import '../screens/voucher_screen.dart';
-import 'lottie_file.dart';
 
 class AccDetails extends StatelessWidget {
   const AccDetails({super.key});

@@ -108,6 +108,8 @@
   "low": "Does not need",
   "medium": "Medium",
   "water": "Watering",
+  "select": "Select your tree to water",
+  "lets": "Let's Plant a Tree",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"

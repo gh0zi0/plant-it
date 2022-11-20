@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:plantit/components/lottie_file.dart';
 import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';

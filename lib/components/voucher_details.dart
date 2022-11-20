@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plantit/components/e_button.dart';
-import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/components/row_text.dart';
 import 'package:plantit/components/t_button.dart';
 import 'package:plantit/components/ticket.dart';

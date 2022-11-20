@@ -6,12 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:location/location.dart';
-
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
-import 'package:plantit/components/lottie_file.dart';
 import 'package:plantit/components/row_text.dart';
 import 'package:plantit/services/firestore.dart';
 import 'package:plantit/services/functions.dart';
@@ -72,8 +69,6 @@ class _MapPageState extends State<MapPage> {
       markerId: markerId,
       position: LatLng(markerlatitude, markerlongitude),
       onTap: () {
-        // gController?.animateCamera(CameraUpdate.newLatLngZoom(
-        //     LatLng(markerlatitude, markerlongitude), 20.0));
 
         bool inUser = MapUtils().detectIfMarkerWithinBoundary(
             markerlatitude,
@@ -106,8 +101,6 @@ class _MapPageState extends State<MapPage> {
                                   t1: 'need',
                                   t2: ': ${tr(need)}',
                                   alignment: MainAxisAlignment.start),
-
-                              // const SizedBox(height: 5),
                             ],
                           ),
                           const SizedBox(height: 15),
@@ -200,7 +193,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select your tree to water"),
+        title: const Text("select").tr(),
         actions: [
           TextButton(
               onPressed: () {},
@@ -238,21 +231,21 @@ class _MapPageState extends State<MapPage> {
                     ),
                   }),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: SizedBox(
         height: 100,
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 10),
-              Text(
-                "Let's Plant a Tree",
+              const SizedBox(height: 10),
+              const Text(
+                "lets",
                 style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(
+              ).tr(),
+              const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width / 1.10,
                   child: ElevatedButton(
@@ -313,13 +306,13 @@ class _MapPageState extends State<MapPage> {
                         },
                       );
                     },
-                    child: Text("Start", style: TextStyle(fontSize: 16)),
                     style: ButtonStyle(
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0),
                     ))),
+                    child: const Text("start", style: TextStyle(fontSize: 16)).tr(),
                   ))
             ],
           ),

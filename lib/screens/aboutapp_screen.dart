@@ -32,8 +32,8 @@ class _AboutAppScreenState extends State<AboutAppScreen> {
           title: const Text('privacy').tr(),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            Uri _url = Uri.parse('https://sites.google.com/view/plantitx/home');
-            launch(_url);
+            Uri url = Uri.parse('https://sites.google.com/view/plantitx/home');
+            launch(url);
           },
         ),
         ListTile(
