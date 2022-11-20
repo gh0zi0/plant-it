@@ -35,14 +35,14 @@ Future<void> main() async {
                     const TextTheme(titleSmall: TextStyle(color: Colors.black)),
                 iconTheme: const IconThemeData(color: Colors.black),
                 brightness: Brightness.light,
-                primaryColor: Colors.green,
+                primaryColor: Color(0xFF009345),
                 primarySwatch: Colors.green),
             darkTheme: ThemeData(
                 textTheme:
                     const TextTheme(titleSmall: TextStyle(color: Colors.white)),
                 iconTheme: const IconThemeData(color: Colors.white),
                 brightness: Brightness.dark,
-                primaryColor: Colors.green,
+                primaryColor: Color(0xFF009345),
                 primarySwatch: Colors.green),
             debugShowCheckedModeBanner: false,
             home: const MyApp(),
