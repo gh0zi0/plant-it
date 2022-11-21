@@ -27,6 +27,19 @@ In October 2020, a fire in Ajloun burned around 500 dunums, including olive tree
 
 #Value addition
 
+<h3 align="left">Afaneen Goalsn:</h3>
+
+The main reasons for afforestation and reforestation are conservational, environmental, 
+and industrial-commercial purposes. In order to save or conserve the ecosystem, conservational afforestation and reforestation is being done. The processes are not randomly executed but are planned carefully through studies in order to avoid further destruction of nature.
+
+Through planting the trees or watering the existing ones on abandoned land, there will be more habitats for animals and wildlife, and their species will be conserved. Furthermore, the species of the trees planted and the land where the trees are planted will be conserved as well.
+
+<h3 align="left">Process & Documentation:</h3>
+
+
+
+
+
 
 
 <h3 align="left">Languages and Tools:</h3>
