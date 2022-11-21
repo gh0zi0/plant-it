@@ -4,15 +4,18 @@
 <h3 align="left">On this earth what is worth living</h3> </p>
 
 <h3 align="left">Problem Domain:</h3>
+
 #The desert covers the majority of Jordan's 
 
 the forests accounting for less than 1%.
 To counteract desertification, it is vital to restore lost trees and establish greater regions.
 
 #Jordan's woodlands are usually always threatened by fires, 
+
 which are sometimes caused by high summer temperatures or by hikers who set a fire or toss their cigarette butts.
 
 #fire in Ajloun bured around 500 dunums
+
 In October 2020, a fire in Ajloun burned around 500 dunums, including olive trees and other woodlands, while another in Jerash Governorate (about 50 kilometers north of Amman) in 2019 destroyed 800 dunums cultivated with diverse crops.
 
 
