@@ -1,4 +1,7 @@
+![logo](https://user-images.githubusercontent.com/84340616/203003404-82404278-d8cf-49bb-bbe5-c94857f0c32c.png)
+
 # Afaneen
+
 
 علَى هَذِهِ الأَرْض مَا يَسْتَحِقُّ الحَياةْ
 On this earth what is worth living
