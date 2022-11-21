@@ -1,5 +1,11 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+
+import 'functions.dart';
 
 class FireStoreServices {
   CollectionReference instanceTree =
@@ -9,16 +15,29 @@ class FireStoreServices {
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  addTree(plantedBy, name, needOfWatring, DateTime datePlant, latlong) {
+  addTree(plantedBy, name, needOfWatring, DateTime datePlant, latlong) async {
+    var url, get = Get.put(Functions()).imageFile;
+    if (get != null) {
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('Trees/')
+          .child(DateTime.now().toIso8601String());
+      final result = await ref.putFile(get);
+      url = await result.ref.getDownloadURL();
+    }
+
     instanceTree.doc(datePlant.millisecondsSinceEpoch.toString()).set({
       "id": datePlant.millisecondsSinceEpoch.toString(),
       "name": name,
+      'image': url ?? '',
       "needOfWatring": needOfWatring,
       "lastWatring": datePlant,
       "datePlant": datePlant,
       "address": latlong,
       "Planted by": plantedBy
     });
+    get = null;
+    url = null;
   }
 
   updateTree(treeid, needOfWatring, lastWatring) {
@@ -78,12 +97,10 @@ class FireStoreServices {
     }
   }
 
-  getData() async {
-    
-        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
-    
+ Future<int> get  getData  async {
+     var x = await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
+    return x.docs[0]["dailyPoint"];
   }
-
 
   getUserUid() {
     return auth.currentUser!.uid;

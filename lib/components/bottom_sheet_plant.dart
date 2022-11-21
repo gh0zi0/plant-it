@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:plantit/services/firestore.dart';
-import 'package:plantit/services/functionsplantImage.dart';
+import 'package:plantit/services/functions.dart';
 import 'package:plantit/services/map_utils.dart';
-import '../services/functions.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 
 // ignore: must_be_immutable
 class BottomSheetPlant extends StatefulWidget {
-   BottomSheetPlant({super.key,required this.currentLocation});
+  BottomSheetPlant({super.key, required this.currentLocation});
   LocationData? currentLocation;
 
   @override
@@ -24,9 +23,9 @@ class _BottomSheetPlantState extends State<BottomSheetPlant> {
   final GlobalKey<FormState> Gkey = GlobalKey();
   var content = TextEditingController(),
       loading = false,
-      caption = tr('Tree Name'),
-      pleaseCaption = tr('Tree Name'),
-      get = Get.put(PlantFunctions());
+      caption = tr('plantName'),
+      pleaseCaption = tr('plantName'),
+      get = Get.put(Functions());
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,7 @@ class _BottomSheetPlantState extends State<BottomSheetPlant> {
           child: Column(
             children: [
               const Text(
-                'Plant New Tree',
+                'plantNewTree',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ).tr(),
               const SizedBox(
@@ -98,28 +97,30 @@ class _BottomSheetPlantState extends State<BottomSheetPlant> {
                   ? const CircularProgressIndicator()
                   : EButton(
                       color: Colors.green,
-                      title: 'Plant',
+                      title: 'plant',
                       function: () async {
                         setState(() {
                           loading = !loading;
                         });
-                        var snap = await FireStoreServices().getData();
+                        var snap = await FireStoreServices().getData;
                         DateTime dateToday = DateTime.now();
-//add new Tree
-                        FireStoreServices().addTree(
+                        await FireStoreServices().addTree(
                             FireStoreServices().getUserNmae(),
                             content.text,
                             "low",
                             dateToday,
                             GeoPoint(widget.currentLocation!.latitude!,
-                               widget.currentLocation!.longitude!));
+                                widget.currentLocation!.longitude!));
 
-                        FireStoreServices().updatePlant();
-                        MapUtils()
-                            .limitedPointDaily(snap.docs[0]["dailyPoint"]);
+                        await FireStoreServices().updatePlant();
+                        MapUtils().limitedPointDaily(snap);
 
                         content.clear();
-                        Navigator.pop(context);
+
+                        Get.back();
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: const Text('Planted').tr()));
                       },
                       h: 50,
                       w: 150,

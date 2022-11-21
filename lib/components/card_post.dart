@@ -1,6 +1,9 @@
+import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plantit/components/row_text.dart';
+import 'package:unicons/unicons.dart';
 
 import 'e_button.dart';
 
@@ -45,9 +48,7 @@ class CardPost extends StatelessWidget {
                         const Text(
                           'green',
                           style: TextStyle(
-                              // color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ).tr(),
                         SizedBox(
                           height: context.locale.toString() == 'en' ? 20 : 5,
@@ -59,7 +60,69 @@ class CardPost extends StatelessWidget {
                                 : const Color(0xFFE8F3ED),
                             tColor: const Color(0xFF009345),
                             title: 'start',
-                            function: function,
+                            function: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (context) => AlertDialog(
+                              //       shape: const RoundedRectangleBorder(
+                              //           borderRadius: BorderRadius.all(
+                              //               Radius.circular(20.0))),
+                              //       content: SingleChildScrollView(
+                              //         child: SizedBox(
+                              //           height:
+                              //               MediaQuery.of(context).size.height /
+                              //                   4,
+                              //           child: Column(
+                              //             children: [
+                              //               RowText(
+                              //                   t1: 'plantD',
+                              //                   t2: ': ',
+                              //                   alignment:
+                              //                       MainAxisAlignment.start),
+                              //               const SizedBox(height: 10),
+                              //               RowText(
+                              //                   t1: 'lastWatring',
+                              //                   t2: ': ',
+                              //                   alignment:
+                              //                       MainAxisAlignment.start),
+                              //               const SizedBox(height: 10),
+                              //               RowText(
+                              //                   t1: 'need',
+                              //                   t2: ':',
+                              //                   alignment:
+                              //                       MainAxisAlignment.start),
+                              //               const SizedBox(height: 10),
+                              //               RowText(
+                              //                   t1: 'plantBy',
+                              //                   t2: ': ',
+                              //                   alignment:
+                              //                       MainAxisAlignment.start),
+                              //               const SizedBox(height: 15),
+                              //               Row(
+                              //                 mainAxisAlignment:
+                              //                     MainAxisAlignment.spaceEvenly,
+                              //                 children: [
+                              //                   EButton(
+                              //                       title: 'water',
+                              //                       function: () async {},
+                              //                       h: 40,
+                              //                       w: 150),
+                              //                   IconButton(
+                              //                     icon: const Icon(
+                              //                       Icons.photo,
+                              //                       size: 35,
+                              //                       color: Color(0xFF009345),
+                              //                     ),
+                              //                     onPressed: () {},
+                              //                   )
+                              //                 ],
+                              //               )
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       )),
+                              // );
+                            },
                             h: 35,
                             w: 100),
                       ],

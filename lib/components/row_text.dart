@@ -15,14 +15,14 @@ class RowText extends StatelessWidget {
       children: [
         Text(
           t1,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 18),
         ).tr(),
         const SizedBox(
           width: 5,
         ),
         Text(
           t2,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 18),
         ),
       ],
     );

@@ -125,6 +125,8 @@ class CodegenLoader extends AssetLoader{
   "water": "اسقي",
   "select": "اختر شجرة قريبة لتسقيها",
   "lets": "دعونا نزرع شجرة",
+  "plantName": "اسم الشجرة",
+  "plnatNewTree": "ازرع شجرة جديدة",
   "redeemless": "نعتذر نقاطك أقل من النقاط المطلوبة",
   "deleteAccM": "سيتم حذف حسابك وفقد جميع بياناتك",
   "verify": "يرجى التحقق من بريدك الإلكتروني وتوثيق حسابك"
@@ -241,6 +243,8 @@ static const Map<String,dynamic> en = {
   "water": "Watering",
   "select": "Select nearby tree to water",
   "lets": "Let's Plant a Tree",
+  "plantName": "Tree name",
+  "plantNewTree": "Plant new tree",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"

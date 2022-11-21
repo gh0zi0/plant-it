@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,10 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   LocationData? currentLocation1;
   Location location = Location();
+  DateTime plantDate = DateTime.now(), wataringDate = DateTime.now();
+  double markerlatitude = 0.0, markerlongitude = 0.0;
+  String need = '', plantBy = '';
+  bool selected = false;
 
   Completer<GoogleMapController> gController = Completer();
 
@@ -37,11 +42,12 @@ class _MapPageState extends State<MapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void initMarker(val, specifyId) async {
-    double markerlatitude = val["address"].latitude;
-    double markerlongitude = val["address"].longitude;
-    DateTime plantDate = val["datePlant"].toDate();
-    DateTime wataringDate = val["lastWatring"].toDate();
-    String need = val["needOfWatring"].toString();
+    markerlatitude = val["address"].latitude;
+    markerlongitude = val["address"].longitude;
+    plantDate = val["datePlant"].toDate();
+    wataringDate = val["lastWatring"].toDate();
+    need = val["needOfWatring"].toString();
+    plantBy = val["Planted by"].toString();
 
     MapUtils().setTreeStat(wataringDate, val);
     String imag = MapUtils().getImageMarkerUrl(need);
@@ -57,51 +63,64 @@ class _MapPageState extends State<MapPage> {
             markerlongitude,
             currentLocation1!.latitude,
             currentLocation1!.longitude);
-
-        Get.defaultDialog(
-            title: '',
-            content: Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Column(
-                children: [
-                  // Image.asset("assets/images/treeimage.png"),
-                  const SizedBox(height: 15),
-                  RowText(
-                      t1: 'plantD',
-                      t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-                      alignment: MainAxisAlignment.start),
-                  RowText(
-                      t1: 'lastWatring',
-                      t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-                      alignment: MainAxisAlignment.start),
-                  RowText(
-                      t1: 'need',
-                      t2: ': ${tr(need)}',
-                      alignment: MainAxisAlignment.start),
-                  const SizedBox(height: 15),
-                  RowText(
-                      t1: 'plantBy',
-                      t2: ': ${val["Planted by"]}',
-                      alignment: MainAxisAlignment.start),
-                  const SizedBox(height: 5),
-                  inUser
-                      ? ElevatedButton.icon(
-                          onPressed: () async {
-                            var snap = await FireStoreServices().getData();
-                            FireStoreServices()
-                                .updateTree(val["id"], "low", DateTime.now());
-                            FireStoreServices().updateWater();
-                            MapUtils()
-                                .limitedPointDaily(snap.docs[0]["dailyPoint"]);
-                          },
-                          label: const Text("water").tr(),
-                          icon: const Icon(UniconsLine.tear),
-                        )
-                      : const SizedBox()
-                ],
-              ),
-            ));
+        setState(() {
+          selected = true;
+        });
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => AlertDialog(
+        //       shape: const RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        //       content: SizedBox(
+        //         height: 200,
+        //         child: Column(
+        //           children: [
+        //             RowText(
+        //                 t1: 'plantD',
+        //                 t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+        //                 alignment: MainAxisAlignment.start),
+        //             RowText(
+        //                 t1: 'lastWatring',
+        //                 t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+        //                 alignment: MainAxisAlignment.start),
+        //             RowText(
+        //                 t1: 'need',
+        //                 t2: ': ${tr(need)}',
+        //                 alignment: MainAxisAlignment.start),
+        //             const SizedBox(height: 15),
+        //             RowText(
+        //                 t1: 'plantBy',
+        //                 t2: ': ${val["Planted by"]}',
+        //                 alignment: MainAxisAlignment.start),
+        //             const SizedBox(height: 15),
+        //             Row(
+        //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //               children: [
+        //                 EButton(
+        //                     title: 'water',
+        //                     function: () async {
+        //                       var snap = await FireStoreServices().getData;
+        //                       await FireStoreServices()
+        //                           .updateTree(val["id"], "low", DateTime.now());
+        //                       await FireStoreServices().updateWater();
+        //                       await MapUtils().limitedPointDaily(snap);
+        //                     },
+        //                     h: 40,
+        //                     w: 150),
+        //                 IconButton(
+        //                   icon: const Icon(
+        //                     Icons.photo,
+        //                     size: 35,
+        //                     color: Color(0xFF009345),
+        //                   ),
+        //                   onPressed: () {},
+        //                 )
+        //               ],
+        //             )
+        //           ],
+        //         ),
+        //       )),
+        // );
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
@@ -172,31 +191,111 @@ class _MapPageState extends State<MapPage> {
         bottom: false,
         child: currentLocation1 == null
             ? const Center(child: CircularProgressIndicator())
-            : GoogleMap(
-                zoomControlsEnabled: false,
-                mapType: MapType.normal,
-                markers: Set<Marker>.of(markers.values),
-                myLocationEnabled: true,
-                myLocationButtonEnabled: true,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(currentLocation1!.latitude!,
-                      currentLocation1!.longitude!),
-                  zoom: 20,
-                ),
-                onMapCreated: (GoogleMapController controller) {
-                  gController.complete(controller);
-                },
-                circles: {
-                    Circle(
-                      circleId: const CircleId("1"),
-                      center: LatLng(currentLocation1!.latitude!,
-                          currentLocation1!.longitude!),
-                      strokeWidth: 2,
-                      radius: 10,
-                      strokeColor: Colors.black54,
-                      fillColor: Colors.blueGrey.shade100,
+            : Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selected = false;
+                      });
+                    },
+                    child: GoogleMap(
+                        zoomControlsEnabled: false,
+                        mapType: MapType.normal,
+                        markers: Set<Marker>.of(markers.values),
+                        myLocationEnabled: true,
+                        myLocationButtonEnabled: true,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(currentLocation1!.latitude!,
+                              currentLocation1!.longitude!),
+                          zoom: 20,
+                        ),
+                        onMapCreated: (GoogleMapController controller) {
+                          gController.complete(controller);
+                        },
+                        circles: {
+                          Circle(
+                            circleId: const CircleId("1"),
+                            center: LatLng(currentLocation1!.latitude!,
+                                currentLocation1!.longitude!),
+                            strokeWidth: 2,
+                            radius: 10,
+                            strokeColor: Colors.black54,
+                            fillColor: Colors.blueGrey.shade100,
+                          ),
+                        }),
+                  ),
+                  if (selected)
+                    Positioned(
+                      top: 150,
+                      left: 75,
+                      child: Opacity(
+                        opacity: 0.95,
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          height: MediaQuery.of(context).size.height / 3,
+                          width: MediaQuery.of(context).size.width / 1.45,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                        ),
+                      ),
                     ),
-                  }),
+                  if (selected)
+                    Positioned(
+                      top: 150,
+                      left: 90,
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RowText(
+                                t1: 'plantD',
+                                t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+                                alignment: MainAxisAlignment.start),
+                            const SizedBox(height: 15),
+                            RowText(
+                                t1: 'lastWatring',
+                                t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+                                alignment: MainAxisAlignment.start),
+                            const SizedBox(height: 15),
+                            RowText(
+                                t1: 'need',
+                                t2: ': ${tr(need)}',
+                                alignment: MainAxisAlignment.start),
+                            const SizedBox(height: 15),
+                            RowText(
+                                t1: 'plantBy',
+                                t2: ': $plantBy',
+                                alignment: MainAxisAlignment.start),
+                            const SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                EButton(
+                                    title: 'water',
+                                    function: () async {},
+                                    h: 40,
+                                    w: 150),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.photo,
+                                    size: 35,
+                                    color: Color(0xFF009345),
+                                  ),
+                                  onPressed: () {},
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                ],
+              ),
       ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
@@ -220,21 +319,20 @@ class _MapPageState extends State<MapPage> {
             EButton(
                 title: "start",
                 function: () {
-                  // MapUtils().plantBottomSheet(
-                  //     context, currentLocation1);
-
                   showModalBottomSheet(
-            context: context,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            ),
-            backgroundColor: Colors.white,
-            builder: (context) {
-              return  BottomSheetPlant(currentLocation: currentLocation1,);
-            },
-          );
-                
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                    ),
+                    backgroundColor: Colors.white,
+                    builder: (context) {
+                      return BottomSheetPlant(
+                        currentLocation: currentLocation1,
+                      );
+                    },
+                  );
                 },
                 color: const Color(0xFF009345),
                 h: 40,

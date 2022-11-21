@@ -110,6 +110,8 @@
   "water": "Watering",
   "select": "Select nearby tree to water",
   "lets": "Let's Plant a Tree",
+  "plantName": "Tree name",
+  "plantNewTree": "Plant new tree",
   "redeemless": "Sorry your points less than required points",
   "deleteAccM": "Your account will be deleting and you will lose all data",
   "verify": "Please check your email and verify your account"

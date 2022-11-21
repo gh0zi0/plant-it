@@ -66,48 +66,4 @@ class MapUtils {
       FireStoreServices().dePoint();
     }
   }
-
-  // void plantBottomSheet( context, currentLocation1) {
-  //   TextEditingController nameController = TextEditingController();
-  //   showModalBottomSheet(
-  //     context: context,
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.circular(20),
-  //     ),
-  //     backgroundColor: Colors.white,
-  //     builder: (context) {
-  //       return Column(
-  //         children: [
-  //           const SizedBox(
-  //             height: 10,
-  //           ),
-  //           const Text(
-  //             'Plant',
-  //             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-  //           ),
-  //           EditTextFiled(
-  //             hint: 'Name',
-  //             icon: Icons.text_fields_outlined,
-  //             controller: nameController,
-  //             secure: false,
-  //           ),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           const SizedBox(
-  //             height: 20,
-  //           ),
-  //           EButton(
-  //             title: 'Add',
-  //             function: () async {
-  //             },
-  //             h: 50,
-  //             w: 150,
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-  
 }
