@@ -24,18 +24,22 @@ class AccDetails extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           return Column(
             children: [
-              CircleAvatar(
-                radius: 76,
-                backgroundColor: Colors.black,
+              Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: Get.isDarkMode ? Colors.white : Colors.black)),
                 child: data['image'].toString().isEmpty
-                    ? const Icon(
+                    ? Icon(
                         Icons.person,
                         size: 100,
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
                       )
                     : ClipOval(
                         child: CachedNetworkImage(
                           imageUrl: data['image'].toString(),
-                          progressIndicatorBuilder: (context,x, url) => const Icon(
+                          progressIndicatorBuilder: (context, x, url) =>
+                              const Icon(
                             Icons.person,
                             size: 100,
                           ),
@@ -82,8 +86,9 @@ class AccDetails extends StatelessWidget {
                             size: 30,
                           ),
                           Text(data['plants'].toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                           const VerticalDivider(
                             color: Colors.black,
                             thickness: 1,
@@ -93,8 +98,9 @@ class AccDetails extends StatelessWidget {
                             height: 35,
                           ),
                           Text(data['water'].toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold))
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black))
                         ],
                       ),
                     ),
@@ -117,7 +123,9 @@ class AccDetails extends StatelessWidget {
                           ),
                           Text(
                             data['points'].toString(),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           ),
                         ],
                       ),

@@ -9,10 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:plantit/components/bottom_sheet_plant.dart';
 import 'package:plantit/components/e_button.dart';
-import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/row_text.dart';
 import 'package:plantit/services/firestore.dart';
-import 'package:plantit/services/functions.dart';
 import 'package:plantit/services/map_utils.dart';
 import 'package:unicons/unicons.dart';
 
@@ -151,7 +149,6 @@ class _MapPageState extends State<MapPage> {
     getController();
     getMarkers();
     FireStoreServices().updateTimerPoint();
-
     super.initState();
   }
 
@@ -204,9 +201,9 @@ class _MapPageState extends State<MapPage> {
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+            color: Get.isDarkMode ? const Color(0xFF424242) : Colors.white,
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         height: MediaQuery.of(context).size.height / 8.5,
         child: Column(
@@ -239,6 +236,7 @@ class _MapPageState extends State<MapPage> {
           );
                 
                 },
+                color: const Color(0xFF009345),
                 h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
           ],

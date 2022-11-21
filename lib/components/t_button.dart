@@ -15,6 +15,7 @@ class TButton extends StatelessWidget {
         },
         child: Text(
           title,
+          style: const TextStyle(color: Color(0xFF009345)),
         ).tr());
   }
 }

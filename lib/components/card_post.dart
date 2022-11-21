@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'e_button.dart';
 
@@ -10,56 +11,82 @@ class CardPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: Colors.green.shade100,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 10, top: 20, left: 10),
-          child: FittedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/tree.png',
-                  height: 150,
-                ),
-                Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      alignment: Alignment.centerRight,
-                      child: const Text(
-                        'deserves',
-                        style: TextStyle(fontSize: 22),
-                      ).tr(),
+    return SizedBox(
+      height: 190,
+      child: Stack(
+        children: [
+          Container(
+              height: 175,
+              width: double.infinity,
+              color: Get.isDarkMode
+                  ? const Color(0xFF424242)
+                  : const Color(0xFFE8F3ED),
+              child: Row(
+                children: [
+                  if (context.locale.toString() != 'en')
+                    const Expanded(child: SizedBox()),
+                  Container(
+                    width: 225,
+                    padding:
+                        const EdgeInsets.only(right: 25, top: 25, left: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'afaneen',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF009345),
+                              fontWeight: FontWeight.bold),
+                        ).tr(),
+                        SizedBox(
+                          height: context.locale.toString() == 'en' ? 10 : 5,
+                        ),
+                        const Text(
+                          'green',
+                          style: TextStyle(
+                              // color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ).tr(),
+                        SizedBox(
+                          height: context.locale.toString() == 'en' ? 20 : 5,
+                        ),
+                        EButton(
+                            size: 14,
+                            color: Get.isDarkMode
+                                ? const Color(0xFF424242)
+                                : const Color(0xFFE8F3ED),
+                            tColor: const Color(0xFF009345),
+                            title: 'start',
+                            function: function,
+                            h: 35,
+                            w: 100),
+                      ],
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: const Text(
-                        'inspiration',
-                        style: TextStyle(fontSize: 16),
-                      ).tr(),
-                    ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: const Text(
-                        'keep',
-                        style: TextStyle(fontSize: 16),
-                      ).tr(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: EButton(
-                          color: Colors.green,
-                          title: 'start',
-                          function: function,
-                          h: 30,
-                          w: 100),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                  if (context.locale.toString() == 'en')
+                    const Expanded(child: SizedBox()),
+                ],
+              )),
+          Positioned(
+            top: 55,
+            right: 70,
+            child: Image.asset(
+              'assets/images/tree.png',
+              height: 135,
             ),
           ),
-        ));
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Image.asset(
+              'assets/images/tree.png',
+              height: 175,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -39,7 +39,10 @@ class _DrawerCustomState extends State<DrawerCustom> {
                 alignment: MainAxisAlignment.start,
               ),
             ),
-            const Divider(),
+            const Divider(
+              color: Color(0xFF009345),
+              thickness: 0.2,
+            ),
             ListTile(
               trailing: const Icon(Icons.language),
               title: const Text('changeLan').tr(),

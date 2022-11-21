@@ -65,7 +65,11 @@ class _SignUpState extends State<SignUp> {
                             width: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                border: Border.all(width: 1)),
+                                border: Border.all(
+                                    width: 1,
+                                    color: Get.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black)),
                             child: const Icon(
                               Icons.person,
                               size: 75,
@@ -141,17 +145,17 @@ class _SignUpState extends State<SignUp> {
                             loading = false;
                           });
                         },
-                        h: 50,
-                        w: 200,
-                        color: Colors.green,
+                        h: 55,
+                        w: MediaQuery.of(context).size.width / 1.25,
+                        color: const Color(0xFF009345),
                       ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 if (!loading)
                   SizedBox(
-                    height: 50,
-                    width: 200,
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 1.25,
                     child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,

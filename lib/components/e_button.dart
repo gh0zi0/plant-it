@@ -9,11 +9,13 @@ class EButton extends StatelessWidget {
       required this.function,
       required this.h,
       required this.w,
-      this.color});
+      this.size = 18.0,
+      this.tColor = Colors.white,
+      this.color = Colors.green});
   String title;
   Function function;
-  double h, w;
-  Color? color;
+  double h, w,size;
+  Color color, tColor;
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +23,22 @@ class EButton extends StatelessWidget {
       height: h,
       width: w,
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-            shape: const StadiumBorder(),
-          ),
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(color),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: const BorderSide(
+                    color: Color(0xFF009345),
+                  ),
+                ),
+              )),
           onPressed: () {
             function();
           },
           child: Text(
             title,
-            style: const TextStyle(color: Colors.white, fontSize: 18),
+            style: TextStyle(color: tColor, fontSize: size),
           ).tr()),
     );
   }

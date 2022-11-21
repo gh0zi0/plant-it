@@ -25,9 +25,11 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: Get.isDarkMode ? const Color(0xFF424242) : Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       padding: const EdgeInsets.all(10),
-      alignment: Alignment.topCenter,
-      height: double.infinity,
       child: Form(
         key: Gkey,
         child: SingleChildScrollView(
@@ -56,7 +58,11 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
                                   fit: BoxFit.fitWidth)
                               : null,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1)),
+                          border: Border.all(
+                              width: 1,
+                              color: Get.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black)),
                       child: get.file == null
                           ? const Icon(
                               Icons.photo,
@@ -91,7 +97,7 @@ class _BottomSheetPostState extends State<BottomSheetPost> {
               loading
                   ? const CircularProgressIndicator()
                   : EButton(
-                      color: Colors.green,
+                      color: const Color(0xFF009345),
                       title: 'post',
                       function: () {
                         setState(() {
