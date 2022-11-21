@@ -18,42 +18,49 @@ class CardPost extends StatelessWidget {
               height: 175,
               width: double.infinity,
               color: const Color(0xFFE8F3ED),
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10, top: 30, left: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'afaneen',
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Color(0xFF009345),
-                          fontWeight: FontWeight.bold),
-                    ).tr(),
-                    const SizedBox(
-                      height: 10,
+              child: Row(
+                children: [
+                  if (context.locale.toString() != 'en')
+                    const Expanded(child: SizedBox()),
+                  Container(
+                    width: 225,
+                    padding:
+                        const EdgeInsets.only(right: 25, top: 25, left: 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'afaneen',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF009345),
+                              fontWeight: FontWeight.bold),
+                        ).tr(),
+                        SizedBox(
+                          height: context.locale.toString() == 'en' ? 10 : 5,
+                        ),
+                        const Text(
+                          'green',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ).tr(),
+                        SizedBox(
+                          height: context.locale.toString() == 'en' ? 20 : 5,
+                        ),
+                        EButton(
+                            size: 14,
+                            color: Colors.white,
+                            tColor: const Color(0xFF009345),
+                            title: 'start',
+                            function: function,
+                            h: 30,
+                            w: 100),
+                      ],
                     ),
-                    SizedBox(
-                      width: 175,
-                      child: const Text(
-                        'green',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ).tr(),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    EButton(
-                        size: 14,
-                        color: Colors.white,
-                        tColor: const Color(0xFF009345),
-                        title: 'start',
-                        function: function,
-                        h: 30,
-                        w: 100),
-                  ],
-                ),
+                  ),
+                  if (context.locale.toString() == 'en')
+                    const Expanded(child: SizedBox()),
+                ],
               )),
           Positioned(
             top: 55,

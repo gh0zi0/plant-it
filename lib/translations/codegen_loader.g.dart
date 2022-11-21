@@ -19,7 +19,7 @@ class CodegenLoader extends AssetLoader{
   "hello": "مرحبا بك",
   "deleteAcc": "احذف الحساب",
   "welcome": "أهلا بك",
-  "home": "الصفحة الرئيسية",
+  "home": "القائمة",
   "signIn": "تسجيل الدخول",
   "email": "بريد الإلكتروني",
   "password": "كلمة السر",
