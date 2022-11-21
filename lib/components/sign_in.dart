@@ -108,17 +108,17 @@ class _SignInState extends State<SignIn> {
                             loading = false;
                           });
                         },
-                        h: 50,
-                        w: 200,
-                        color: Colors.green,
+                        h: 55,
+                        w: MediaQuery.of(context).size.width / 1.25,
+                        color: const Color(0xFF009345),
                       ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 if (!loading)
                   SizedBox(
-                    height: 50,
-                    width: 200,
+                    height: 55,
+                    width: MediaQuery.of(context).size.width / 1.25,
                     child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,
