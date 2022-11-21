@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'dart:ui' as ui;
@@ -66,7 +67,7 @@ class MapUtils {
     }
   }
 
-  void plantBottomSheet( context, currentLocation1) {
+  void plantBottomSheet(context, currentLocation1) {
     TextEditingController nameController = TextEditingController();
     showModalBottomSheet(
       context: context,
@@ -102,7 +103,7 @@ class MapUtils {
                 var snap = await FireStoreServices().getData();
                 DateTime dateToday = DateTime.now();
 //add new Tree
-                FireStoreServices().addTree(
+                await FireStoreServices().addTree(
                     FireStoreServices().getUserNmae(),
                     nameController.text,
                     "low",
@@ -110,12 +111,10 @@ class MapUtils {
                     GeoPoint(currentLocation1!.latitude!,
                         currentLocation1!.longitude!));
 
-                FireStoreServices().updatePlant();
-                MapUtils().limitedPointDaily(snap.docs[0]["dailyPoint"]);
-
+                await FireStoreServices().updatePlant();
+                await MapUtils().limitedPointDaily(snap.docs[0]["dailyPoint"]);
+                Get.back();
                 nameController.clear();
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
               },
               h: 50,
               w: 150,

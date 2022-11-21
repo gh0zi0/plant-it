@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'e_button.dart';
 
@@ -17,7 +18,9 @@ class CardPost extends StatelessWidget {
           Container(
               height: 175,
               width: double.infinity,
-              color: const Color(0xFFE8F3ED),
+              color: Get.isDarkMode
+                  ? const Color(0xFF424242)
+                  : const Color(0xFFE8F3ED),
               child: Row(
                 children: [
                   if (context.locale.toString() != 'en')
@@ -42,18 +45,22 @@ class CardPost extends StatelessWidget {
                         const Text(
                           'green',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              // color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ).tr(),
                         SizedBox(
                           height: context.locale.toString() == 'en' ? 20 : 5,
                         ),
                         EButton(
                             size: 14,
-                            color: Colors.white,
+                            color: Get.isDarkMode
+                                ? const Color(0xFF424242)
+                                : const Color(0xFFE8F3ED),
                             tColor: const Color(0xFF009345),
                             title: 'start',
                             function: function,
-                            h: 30,
+                            h: 35,
                             w: 100),
                       ],
                     ),

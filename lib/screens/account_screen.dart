@@ -29,9 +29,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 onPressed: () {
                   Scaffold.of(context).openDrawer();
                 },
-                icon: const Icon(
+                icon: Icon(
                   UniconsLine.align_center_alt,
-                  color: Colors.black,
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
                 ));
           })),
       drawer: const Drawer(
@@ -40,7 +40,6 @@ class _AccountScreenState extends State<AccountScreen> {
       body: ListView(
         children: [
           const AccDetails(),
-        
           ListTile(
             leading: const Icon(UniconsLine.comment_question),
             title: const Text('help').tr(),

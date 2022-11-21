@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class PostContainer extends StatefulWidget {
@@ -35,9 +36,9 @@ class _PostContainerState extends State<PostContainer> {
                               shape: BoxShape.circle,
                               border:
                                   Border.all(color: const Color(0xFF009345))),
-                          child: const Icon(
+                          child: Icon(
                             Icons.person,
-                            color: Colors.black,
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
                           ),
                         )
                       : ClipOval(

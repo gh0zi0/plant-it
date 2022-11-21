@@ -65,7 +65,11 @@ class _SignUpState extends State<SignUp> {
                             width: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                border: Border.all(width: 1)),
+                                border: Border.all(
+                                    width: 1,
+                                    color: Get.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black)),
                             child: const Icon(
                               Icons.person,
                               size: 75,

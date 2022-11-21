@@ -148,7 +148,6 @@ class _MapPageState extends State<MapPage> {
     getController();
     getMarkers();
     FireStoreServices().updateTimerPoint();
-
     super.initState();
   }
 
@@ -201,9 +200,9 @@ class _MapPageState extends State<MapPage> {
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+            color: Get.isDarkMode ? const Color(0xFF424242) : Colors.white,
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         height: MediaQuery.of(context).size.height / 8.5,
         child: Column(
@@ -220,9 +219,9 @@ class _MapPageState extends State<MapPage> {
             EButton(
                 title: "start",
                 function: () {
-                  MapUtils().plantBottomSheet(
-                      context, currentLocation1);
+                  MapUtils().plantBottomSheet(context, currentLocation1);
                 },
+                color: const Color(0xFF009345),
                 h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
           ],

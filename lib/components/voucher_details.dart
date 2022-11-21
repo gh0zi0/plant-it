@@ -133,7 +133,11 @@ class _VoucherDetailsState extends State<VoucherDetails> {
                   loading
                       ? const CircularProgressIndicator()
                       : EButton(
-                          title: 'redeem', function: redeem, h: 50, w: 200),
+                          color: const Color(0xFF009345),
+                          title: 'redeem',
+                          function: redeem,
+                          h: 50,
+                          w: 200),
                 ]),
               ),
             ),

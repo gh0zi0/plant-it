@@ -35,6 +35,7 @@ Future<void> main() async {
                     const TextTheme(titleSmall: TextStyle(color: Colors.black)),
                 iconTheme: const IconThemeData(color: Colors.black),
                 brightness: Brightness.light,
+            
                 primaryColor: const Color(0xFF009345),
                 floatingActionButtonTheme: const FloatingActionButtonThemeData(
                     backgroundColor: Color(0xFF009345)),

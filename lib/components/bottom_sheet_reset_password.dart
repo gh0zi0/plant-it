@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'e_button.dart';
 import 'edit_text.dart';
 
@@ -48,6 +49,10 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          color: Get.isDarkMode ? const Color(0xFF424242) : Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       padding: const EdgeInsets.all(10),
       alignment: Alignment.topCenter,
       height: double.infinity,
@@ -85,7 +90,7 @@ class _BottomSheetResetState extends State<BottomSheetReset> {
                     function: resetPass,
                     h: 50,
                     w: 150,
-                    color: Colors.green,
+                    color: const Color(0xFF009345),
                   )
           ],
         ),

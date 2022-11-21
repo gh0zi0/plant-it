@@ -57,7 +57,7 @@ class PostScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   child: ListView.separated(
                     separatorBuilder: (context, index) => const Divider(
-                      thickness: 0.1,
+                      thickness: 0.3,
                       color: Color(0xFF009345),
                     ),
                     physics: const NeverScrollableScrollPhysics(),
