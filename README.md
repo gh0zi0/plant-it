@@ -27,12 +27,23 @@ In October 2020, a fire in Ajloun burned around 500 dunums, including olive tree
 
 #Value addition
 
-<h3 align="left">Afaneen Goalsn:</h3>
+<h3 align="left">Afaneen Goals:</h3>
 
 The main reasons for afforestation and reforestation are conservational, environmental, 
 and industrial-commercial purposes. In order to save or conserve the ecosystem, conservational afforestation and reforestation is being done. The processes are not randomly executed but are planned carefully through studies in order to avoid further destruction of nature.
 
 Through planting the trees or watering the existing ones on abandoned land, there will be more habitats for animals and wildlife, and their species will be conserved. Furthermore, the species of the trees planted and the land where the trees are planted will be conserved as well.
+
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://flutter.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a> <a href="https://www.adobe.com/products/xd.html" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/adobe-xd.svg" alt="xd" width="40" height="40"/> </a> </p>
+
+<h3 align="left">future features:</h3>
+
+Water management gel polymers are substances that absorb hundreds of times their weight in water.
+
+The water absorbed is nearly all available to the plants. There use results in managing watering in the root zone of the plant significantly reducing watering maintenance and providing for a more constant supply of water to the roots.
+
+Superabsorbent polymers have been used in many areas in horticulture and agriculture for nearly two decades now. Initially accepted as a bare root dip in forestry their use quickly spread to landscape, greenhouse and nursery, and numerous agricultural markets with its use ranging from bare root gels to hydromulching, transplant amendments to "ice packs" for cut flower shipping.
 
 <h3 align="left">Process & Documentation:</h3>
 
@@ -40,14 +51,10 @@ Through planting the trees or watering the existing ones on abandoned land, ther
 
 ![Untitled design (1)](https://user-images.githubusercontent.com/84340616/203006261-c19d858c-cb69-4f88-b795-bb852b0db22f.png)
 
+<h3 align="left">Thank you</h3>
 
-
-
-
-
-
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://flutter.dev" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/flutterio/flutterio-icon.svg" alt="flutter" width="40" height="40"/> </a> <a href="https://www.adobe.com/products/xd.html" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/adobe-xd.svg" alt="xd" width="40" height="40"/> </a> </p>
+In Jordan there’s a lack of green areas and trees, we’ve been experiencing so many Weather fluctuations that can or could be decreased
+ by simply planting new trees or watering the existing ones.
 
 
 <!-- flutter pub run easy_localization:generate -S "assets/translations" -O "lib/translations" -->
