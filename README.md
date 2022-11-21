@@ -18,9 +18,13 @@ In October 2020, a fire in Ajloun burned around 500 dunums, including olive tree
 <h3 align="left">Importance of Afforestation:</h3>
 
 #Environmental benefits
+
 #Has the potential of reversing global warming and climate change
+
 #Better quality air
+
 #Provide an alternative source of tree products
+
 #Value addition
 
 
