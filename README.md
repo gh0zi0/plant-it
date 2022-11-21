@@ -1,11 +1,8 @@
 ![aqa](https://user-images.githubusercontent.com/84340616/203003801-3fbc3ff4-ded4-487f-8917-97d7df304681.png)
-<h3 align="left">Afaneen:</h3>
+<h3 align="left">Afaneen</h3>
+<h3 align="right">علَى هَذِهِ الأَرْض مَا يَسْتَحِقُّ الحَياةْ</h3>
+<h3 align="left">On this earth what is worth living</h3>
 
-
-
-
-علَى هَذِهِ الأَرْض مَا يَسْتَحِقُّ الحَياةْ
-On this earth what is worth living
 
 
 
