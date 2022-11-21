@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:plantit/components/bottom_sheet_plant.dart';
 import 'package:plantit/components/e_button.dart';
 import 'package:plantit/components/edit_text.dart';
 import 'package:plantit/components/row_text.dart';
@@ -222,8 +223,21 @@ class _MapPageState extends State<MapPage> {
             EButton(
                 title: "start",
                 function: () {
-                  MapUtils().plantBottomSheet(
-                      context, currentLocation1);
+                  // MapUtils().plantBottomSheet(
+                  //     context, currentLocation1);
+
+                  showModalBottomSheet(
+            context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            ),
+            backgroundColor: Colors.white,
+            builder: (context) {
+              return  BottomSheetPlant(currentLocation: currentLocation1,);
+            },
+          );
+                
                 },
                 h: 40,
                 w: MediaQuery.of(context).size.width / 1.3),
