@@ -1,4 +1,4 @@
-![logo](https://user-images.githubusercontent.com/84340616/203003404-82404278-d8cf-49bb-bbe5-c94857f0c32c.png)
+![aqa](https://user-images.githubusercontent.com/84340616/203003801-3fbc3ff4-ded4-487f-8917-97d7df304681.png)
 
 # Afaneen
 
