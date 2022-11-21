@@ -65,7 +65,7 @@ class FireStoreServices {
     var snapshot =
         await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
     DateTime timer = snapshot.docs[0]["timer"].toDate();
-    DateTime target = timer.add(Duration(days: 1));
+    DateTime target = timer.add(const Duration(days: 1));
 
     DateTime daily = DateTime.now();
 

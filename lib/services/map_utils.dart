@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -115,6 +114,7 @@ class MapUtils {
                 MapUtils().limitedPointDaily(snap.docs[0]["dailyPoint"]);
 
                 nameController.clear();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
               h: 50,

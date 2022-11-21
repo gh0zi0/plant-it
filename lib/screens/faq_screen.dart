@@ -43,7 +43,7 @@ class _FAQScreenState extends State<FAQScreen> {
                         padding: const EdgeInsets.all(10),
                         child: Text(
                           get.list[index]['a'],
-                          style: TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 14),
                         ),
                       )
                     ],

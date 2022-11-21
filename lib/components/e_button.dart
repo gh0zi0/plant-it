@@ -9,11 +9,12 @@ class EButton extends StatelessWidget {
       required this.function,
       required this.h,
       required this.w,
+      this.size = 18.0,
       this.tColor = Colors.white,
       this.color = Colors.green});
   String title;
   Function function;
-  double h, w;
+  double h, w,size;
   Color color, tColor;
 
   @override
@@ -37,7 +38,7 @@ class EButton extends StatelessWidget {
           },
           child: Text(
             title,
-            style: TextStyle(color: tColor, fontSize: 18),
+            style: TextStyle(color: tColor, fontSize: size),
           ).tr()),
     );
   }

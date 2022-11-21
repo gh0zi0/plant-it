@@ -45,13 +45,21 @@ class PostScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 final postData = snapshot.data?.docs;
                 if (postData!.isEmpty) {
-                  return LottieFile(
-                    file: 'error',
+                  return Container(
+                    padding: const EdgeInsets.all(100),
+                    alignment: Alignment.center,
+                    child: LottieFile(
+                      file: 'error',
+                    ),
                   );
                 }
                 return Padding(
                   padding: const EdgeInsets.all(5),
-                  child: ListView.builder(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(
+                      thickness: 0.1,
+                      color: Color(0xFF009345),
+                    ),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: postData.length,

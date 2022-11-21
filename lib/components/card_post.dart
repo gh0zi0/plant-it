@@ -10,56 +10,69 @@ class CardPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: Colors.green.shade100,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 10, top: 20, left: 10),
-          child: FittedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/images/tree.png',
-                  height: 150,
-                ),
-                Column(
+    return SizedBox(
+      height: 190,
+      child: Stack(
+        children: [
+          Container(
+              height: 175,
+              width: double.infinity,
+              color: const Color(0xFFE8F3ED),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10, top: 30, left: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      alignment: Alignment.centerRight,
+                    const Text(
+                      'afaneen',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFF009345),
+                          fontWeight: FontWeight.bold),
+                    ).tr(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: 175,
                       child: const Text(
-                        'deserves',
-                        style: TextStyle(fontSize: 22),
+                        'green',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ).tr(),
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: const Text(
-                        'inspiration',
-                        style: TextStyle(fontSize: 16),
-                      ).tr(),
+                    const SizedBox(
+                      height: 20,
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: const Text(
-                        'keep',
-                        style: TextStyle(fontSize: 16),
-                      ).tr(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: EButton(
-                          color: Colors.green,
-                          title: 'start',
-                          function: function,
-                          h: 30,
-                          w: 100),
-                    ),
+                    EButton(
+                        size: 14,
+                        color: Colors.white,
+                        tColor: const Color(0xFF009345),
+                        title: 'start',
+                        function: function,
+                        h: 30,
+                        w: 100),
                   ],
                 ),
-              ],
+              )),
+          Positioned(
+            top: 55,
+            right: 70,
+            child: Image.asset(
+              'assets/images/tree.png',
+              height: 135,
             ),
           ),
-        ));
+          Positioned(
+            top: 20,
+            right: 10,
+            child: Image.asset(
+              'assets/images/tree.png',
+              height: 175,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

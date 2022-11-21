@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarItem(
             icon: const Icon(Icons.home_filled),
             title: const Text('home').tr(),
-            activeColor: Colors.green,
+            activeColor: const Color(0xFF009345),
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
@@ -40,13 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
             title: const Text(
               'map',
             ).tr(),
-            activeColor: Colors.green,
+            activeColor: const Color(0xFF009345),
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(Icons.person),
             title: const Text('account').tr(),
-            activeColor: Colors.green,
+            activeColor: const Color(0xFF009345),
             textAlign: TextAlign.center,
           ),
         ],
