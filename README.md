@@ -1,5 +1,8 @@
 # Afaneen
 
+علَى هَذِهِ الأَرْض مَا يَسْتَحِقُّ الحَياةْ
+On this earth what is worth living
+
 
 
 
