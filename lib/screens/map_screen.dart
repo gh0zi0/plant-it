@@ -66,61 +66,61 @@ class _MapPageState extends State<MapPage> {
         setState(() {
           selected = true;
         });
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => AlertDialog(
-        //       shape: const RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.all(Radius.circular(20.0))),
-        //       content: SizedBox(
-        //         height: 200,
-        //         child: Column(
-        //           children: [
-        //             RowText(
-        //                 t1: 'plantD',
-        //                 t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-        //                 alignment: MainAxisAlignment.start),
-        //             RowText(
-        //                 t1: 'lastWatring',
-        //                 t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-        //                 alignment: MainAxisAlignment.start),
-        //             RowText(
-        //                 t1: 'need',
-        //                 t2: ': ${tr(need)}',
-        //                 alignment: MainAxisAlignment.start),
-        //             const SizedBox(height: 15),
-        //             RowText(
-        //                 t1: 'plantBy',
-        //                 t2: ': ${val["Planted by"]}',
-        //                 alignment: MainAxisAlignment.start),
-        //             const SizedBox(height: 15),
-        //             Row(
-        //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //               children: [
-        //                 EButton(
-        //                     title: 'water',
-        //                     function: () async {
-        //                       var snap = await FireStoreServices().getData;
-        //                       await FireStoreServices()
-        //                           .updateTree(val["id"], "low", DateTime.now());
-        //                       await FireStoreServices().updateWater();
-        //                       await MapUtils().limitedPointDaily(snap);
-        //                     },
-        //                     h: 40,
-        //                     w: 150),
-        //                 IconButton(
-        //                   icon: const Icon(
-        //                     Icons.photo,
-        //                     size: 35,
-        //                     color: Color(0xFF009345),
-        //                   ),
-        //                   onPressed: () {},
-        //                 )
-        //               ],
-        //             )
-        //           ],
-        //         ),
-        //       )),
-        // );
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              content: SizedBox(
+                height: 190,
+                child: Column(
+                  children: [
+                    RowText(
+                        t1: 'plantD',
+                        t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
+                        alignment: MainAxisAlignment.start),
+                    RowText(
+                        t1: 'lastWatring',
+                        t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
+                        alignment: MainAxisAlignment.start),
+                    RowText(
+                        t1: 'need',
+                        t2: ': ${tr(need)}',
+                        alignment: MainAxisAlignment.start),
+                    const SizedBox(height: 15),
+                    RowText(
+                        t1: 'plantBy',
+                        t2: ': ${val["Planted by"]}',
+                        alignment: MainAxisAlignment.start),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        EButton(
+                            title: 'water',
+                            function: () async {
+                              var snap = await FireStoreServices().getData;
+                              await FireStoreServices()
+                                  .updateTree(val["id"], "low", DateTime.now());
+                              await FireStoreServices().updateWater();
+                              await MapUtils().limitedPointDaily(snap);
+                            },
+                            h: 40,
+                            w: 150),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.photo,
+                            size: 35,
+                            color: Color(0xFF009345),
+                          ),
+                          onPressed: () {},
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )),
+        );
       },
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
@@ -191,104 +191,31 @@ class _MapPageState extends State<MapPage> {
         bottom: false,
         child: currentLocation1 == null
             ? const Center(child: CircularProgressIndicator())
-            : Stack(
-                children: [
-                  GoogleMap(
-                      zoomControlsEnabled: false,
-                      mapType: MapType.normal,
-                      markers: Set<Marker>.of(markers.values),
-                      myLocationEnabled: true,
-                      myLocationButtonEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(currentLocation1!.latitude!,
-                            currentLocation1!.longitude!),
-                        zoom: 20,
-                      ),
-                      onMapCreated: (GoogleMapController controller) {
-                        gController.complete(controller);
-                      },
-                      circles: {
-                        Circle(
-                          circleId: const CircleId("1"),
-                          center: LatLng(currentLocation1!.latitude!,
-                              currentLocation1!.longitude!),
-                          strokeWidth: 2,
-                          radius: 10,
-                          strokeColor: Colors.black54,
-                          fillColor: Colors.blueGrey.shade100,
-                        ),
-                      }),
-                  // if (selected)
-                  //   Positioned(
-                  //     top: 150,
-                  //     left: 75,
-                  //     child: Opacity(
-                  //       opacity: 0.95,
-                  //       child: Container(
-                  //         padding: const EdgeInsets.all(20),
-                  //         height: MediaQuery.of(context).size.height / 3,
-                  //         width: MediaQuery.of(context).size.width / 1.45,
-                  //         decoration: const BoxDecoration(
-                  //             color: Colors.white,
-                  //             borderRadius:
-                  //                 BorderRadius.all(Radius.circular(20))),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // if (selected)
-                  //   Positioned(
-                  //     top: 150,
-                  //     left: 90,
-                  //     child: SizedBox(
-                  //       height: MediaQuery.of(context).size.height / 3,
-                  //       width: MediaQuery.of(context).size.width / 1.5,
-                  //       child: Column(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           RowText(
-                  //               t1: 'plantD',
-                  //               t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-                  //               alignment: MainAxisAlignment.start),
-                  //           const SizedBox(height: 15),
-                  //           RowText(
-                  //               t1: 'lastWatring',
-                  //               t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-                  //               alignment: MainAxisAlignment.start),
-                  //           const SizedBox(height: 15),
-                  //           RowText(
-                  //               t1: 'need',
-                  //               t2: ': ${tr(need)}',
-                  //               alignment: MainAxisAlignment.start),
-                  //           const SizedBox(height: 15),
-                  //           RowText(
-                  //               t1: 'plantBy',
-                  //               t2: ': $plantBy',
-                  //               alignment: MainAxisAlignment.start),
-                  //           const SizedBox(height: 15),
-                  //           Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //             children: [
-                  //               EButton(
-                  //                   title: 'water',
-                  //                   function: () async {},
-                  //                   h: 40,
-                  //                   w: 150),
-                  //               IconButton(
-                  //                 icon: const Icon(
-                  //                   Icons.photo,
-                  //                   size: 35,
-                  //                   color: Color(0xFF009345),
-                  //                 ),
-                  //                 onPressed: () {},
-                  //               )
-                  //             ],
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   )
-                ],
-              ),
+            : GoogleMap(
+                zoomControlsEnabled: false,
+                mapType: MapType.normal,
+                markers: Set<Marker>.of(markers.values),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: true,
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(currentLocation1!.latitude!,
+                      currentLocation1!.longitude!),
+                  zoom: 20,
+                ),
+                onMapCreated: (GoogleMapController controller) {
+                  gController.complete(controller);
+                },
+                circles: {
+                    Circle(
+                      circleId: const CircleId("1"),
+                      center: LatLng(currentLocation1!.latitude!,
+                          currentLocation1!.longitude!),
+                      strokeWidth: 2,
+                      radius: 10,
+                      strokeColor: Colors.black54,
+                      fillColor: Colors.blueGrey.shade100,
+                    ),
+                  }),
       ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
