@@ -78,15 +78,17 @@ class _MapPageState extends State<MapPage> {
                         t1: 'plantD',
                         t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
                         alignment: MainAxisAlignment.start),
+                    const SizedBox(height: 10),
                     RowText(
                         t1: 'lastWatring',
                         t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
                         alignment: MainAxisAlignment.start),
+                    const SizedBox(height: 10),
                     RowText(
                         t1: 'need',
                         t2: ': ${tr(need)}',
                         alignment: MainAxisAlignment.start),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     RowText(
                         t1: 'plantBy',
                         t2: ': ${val["Planted by"]}',
@@ -103,6 +105,8 @@ class _MapPageState extends State<MapPage> {
                                   .updateTree(val["id"], "low", DateTime.now());
                               await FireStoreServices().updateWater();
                               await MapUtils().limitedPointDaily(snap);
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
                             },
                             h: 40,
                             w: 150),
@@ -183,13 +187,75 @@ class _MapPageState extends State<MapPage> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
+                      backgroundColor: Colors.grey.shade200,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
                       content: SizedBox(
-                        height: 190,
+                        height: 300,
                         child: Column(
-                          children:  [],
+                          children: [
+                            Card(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              child: Column(children: [
+                                Text('Need of water'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/RedTree.png',
+                                          height: 35,
+                                          width: 35,
+                                        ),
+                                        Text(
+                                          'High',
+                                          style: TextStyle(fontSize: 12),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                            'assets/images/OrangeTree.png',
+                                            height: 50,
+                                            width: 50),
+                                        Text('Medium',
+                                            style: TextStyle(fontSize: 12))
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                            'assets/images/GreenTree.png',
+                                            height: 35,
+                                            width: 35),
+                                        Text('Low',
+                                            style: TextStyle(fontSize: 12))
+                                      ],
+                                    )
+                                  ],
+                                )
+                              ]),
+                            ),
+                            Card(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0))),
+                              child: Column(children: [
+                                Text('data'),
+                                Text('data'),
+                                Text('data'),
+                                Text('data'),
+                                Text('data'),
+                                Text('data'),
+                                Text('data')
+                              ]),
+                            )
+                          ],
                         ),
                       )),
                 );
