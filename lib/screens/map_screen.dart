@@ -71,29 +71,55 @@ class _MapPageState extends State<MapPage> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               content: SizedBox(
-                height: 190,
+                height: MediaQuery.of(context).size.height / 4,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RowText(
-                        t1: 'plantD',
-                        t2: ': ${plantDate.year} / ${plantDate.month} / ${plantDate.day}',
-                        alignment: MainAxisAlignment.start),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'plantBy',
+                              style: TextStyle(fontSize: 14),
+                            ).tr(),
+                            Text(
+                              ' ${val["Planted by"]}: ',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          '${plantDate.day}/${plantDate.month}/${plantDate.year}',
+                          style: const TextStyle(fontSize: 14),
+                        ).tr()
+                      ],
+                    ),
                     const SizedBox(height: 10),
                     RowText(
                         t1: 'lastWatring',
-                        t2: ': ${wataringDate.year} / ${wataringDate.month} / ${wataringDate.day}',
-                        alignment: MainAxisAlignment.start),
-                    const SizedBox(height: 10),
-                    RowText(
-                        t1: 'need',
-                        t2: ': ${tr(need)}',
-                        alignment: MainAxisAlignment.start),
-                    const SizedBox(height: 10),
-                    RowText(
-                        t1: 'plantBy',
-                        t2: ': ${val["Planted by"]}',
-                        alignment: MainAxisAlignment.start),
-                    const SizedBox(height: 15),
+                        t2: '${wataringDate.day}/${wataringDate.month}/${wataringDate.year}',
+                        size: 14,
+                        alignment: MainAxisAlignment.spaceBetween),
+                    const SizedBox(height: 20),
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: const Text(
+                          'need',
+                          style: TextStyle(fontSize: 14),
+                        ).tr()),
+                    SliderTheme(
+                      data: const SliderThemeData(
+                          thumbShape:
+                              RoundSliderThumbShape(enabledThumbRadius: 0)),
+                      child: Slider(
+                        activeColor: Colors.red,
+                        value: 0.25,
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -108,12 +134,12 @@ class _MapPageState extends State<MapPage> {
                               // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                             },
-                            h: 40,
-                            w: 150),
+                            h: 35,
+                            w: 125),
                         IconButton(
                           icon: const Icon(
                             Icons.photo,
-                            size: 35,
+                            size: 30,
                             color: Color(0xFF009345),
                           ),
                           onPressed: () {},
