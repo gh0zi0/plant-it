@@ -71,7 +71,7 @@ class _MapPageState extends State<MapPage> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               content: SizedBox(
-                height: MediaQuery.of(context).size.height / 4,
+                height: MediaQuery.of(context).size.height / 4.5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -104,7 +104,7 @@ class _MapPageState extends State<MapPage> {
                         alignment: MainAxisAlignment.spaceBetween),
                     const Divider(
                       height: 20,
-                      thickness: 0.1,
+                      thickness: 0.5,
                     ),
                     Container(
                         alignment: Alignment.centerLeft,
@@ -117,8 +117,8 @@ class _MapPageState extends State<MapPage> {
                           thumbShape:
                               RoundSliderThumbShape(enabledThumbRadius: 0)),
                       child: Slider(
-                        activeColor: Colors.red,
-                        value: 0.25,
+                        activeColor: need == 'low' ? Colors.green :  need == 'medium'?Colors.amber:Colors.red,
+                        value: need == 'low' ? 1 : need == 'medium'? 0.5:0.25,
                         onChanged: (value) {},
                       ),
                     ),
