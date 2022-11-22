@@ -71,7 +71,7 @@ class _MapPageState extends State<MapPage> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               content: SizedBox(
-                height: MediaQuery.of(context).size.height / 4,
+                height: MediaQuery.of(context).size.height / 3.5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -82,17 +82,17 @@ class _MapPageState extends State<MapPage> {
                           children: [
                             const Text(
                               'plantBy',
-                              style: TextStyle(fontSize: 14),
+                              style: TextStyle(fontSize: 12),
                             ).tr(),
                             Text(
                               ' ${val["Planted by"]}: ',
-                              style: const TextStyle(fontSize: 14),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ],
                         ),
                         Text(
                           '${plantDate.day}/${plantDate.month}/${plantDate.year}',
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(fontSize: 12),
                         ).tr()
                       ],
                     ),
@@ -100,14 +100,14 @@ class _MapPageState extends State<MapPage> {
                     RowText(
                         t1: 'lastWatring',
                         t2: '${wataringDate.day}/${wataringDate.month}/${wataringDate.year}',
-                        size: 14,
+                        size: 12,
                         alignment: MainAxisAlignment.spaceBetween),
                     const SizedBox(height: 20),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: const Text(
                           'need',
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 12),
                         ).tr()),
                     SliderTheme(
                       data: const SliderThemeData(
@@ -134,8 +134,8 @@ class _MapPageState extends State<MapPage> {
                               // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                             },
-                            h: 35,
-                            w: 125),
+                            h: 30,
+                            w: 120),
                         IconButton(
                           icon: const Icon(
                             Icons.photo,
