@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -117,8 +118,16 @@ class _MapPageState extends State<MapPage> {
                           thumbShape:
                               RoundSliderThumbShape(enabledThumbRadius: 0)),
                       child: Slider(
-                        activeColor: need == 'low' ? Colors.green :  need == 'medium'?Colors.amber:Colors.red,
-                        value: need == 'low' ? 1 : need == 'medium'? 0.5:0.25,
+                        activeColor: need == 'low'
+                            ? Colors.green
+                            : need == 'medium'
+                                ? Colors.amber
+                                : Colors.red,
+                        value: need == 'low'
+                            ? 1
+                            : need == 'medium'
+                                ? 0.5
+                                : 0.25,
                         onChanged: (value) {},
                       ),
                     ),
@@ -221,7 +230,7 @@ class _MapPageState extends State<MapPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
                               child: Column(children: [
-                                Text('Need of water'),
+                                const Text('Need of water'),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -242,8 +251,8 @@ class _MapPageState extends State<MapPage> {
                                       children: [
                                         Image.asset(
                                             'assets/images/OrangeTree.png',
-                                            height: 50,
-                                            width: 50),
+                                            height: 35,
+                                            width: 35),
                                         Text('Medium',
                                             style: TextStyle(fontSize: 12))
                                       ],
@@ -266,15 +275,66 @@ class _MapPageState extends State<MapPage> {
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20.0))),
-                              child: Column(children: [
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data'),
-                                Text('data')
-                              ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text('Watering the tree',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'Trees require more water initally then they do during their growth',
+                                        style: TextStyle(fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text('First two weeks',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'the tree should be watered daily for the first tow weeks after planting',
+                                        style: TextStyle(fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text('three to 12 weeks',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'every two or three days',
+                                        style: TextStyle(fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        'then once a week, Irrigation will be required until the tree settles in its new location',
+                                        style: TextStyle(fontSize: 11),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          'after three years, rainwater will suffice.',
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
                             )
                           ],
                         ),
