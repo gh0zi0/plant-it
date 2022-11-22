@@ -10,6 +10,7 @@ import 'functions.dart';
 class FireStoreServices {
   CollectionReference instanceTree =
       FirebaseFirestore.instance.collection("trees");
+  var instanceTree2 = FirebaseFirestore.instance.collection("trees").doc();
   CollectionReference instanceUser =
       FirebaseFirestore.instance.collection("users");
 
@@ -26,8 +27,8 @@ class FireStoreServices {
       url = await result.ref.getDownloadURL();
     }
 
-    instanceTree.doc(datePlant.millisecondsSinceEpoch.toString()).set({
-      "id": datePlant.millisecondsSinceEpoch.toString(),
+    instanceTree2.set({
+      "id": instanceTree2.id,
       "name": name,
       'image': url ?? '',
       "needOfWatring": needOfWatring,
@@ -97,8 +98,9 @@ class FireStoreServices {
     }
   }
 
- Future<int> get  getData  async {
-     var x = await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
+  Future<int> get getData async {
+    var x =
+        await instanceUser.where("uid", isEqualTo: auth.currentUser!.uid).get();
     return x.docs[0]["dailyPoint"];
   }
 
