@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -180,7 +179,21 @@ class _MapPageState extends State<MapPage> {
         title: const Text("select").tr(),
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(20.0))),
+                      content: SizedBox(
+                        height: 190,
+                        child: Column(
+                          children:  [],
+                        ),
+                      )),
+                );
+              },
               child: const Icon(
                 UniconsLine.exclamation_circle,
                 color: Colors.white,
