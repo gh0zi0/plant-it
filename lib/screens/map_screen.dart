@@ -25,10 +25,10 @@ class MapPage extends StatefulWidget {
 class _MapPageState extends State<MapPage> {
   LocationData? currentLocation1;
   Location location = Location();
-  DateTime plantDate = DateTime.now(), wataringDate = DateTime.now();
-  double markerlatitude = 0.0, markerlongitude = 0.0;
-  String need = '', plantBy = '';
-  bool selected = false;
+  // DateTime plantDate = DateTime.now(), wataringDate = DateTime.now();
+  // double markerlatitude = 0.0, markerlongitude = 0.0;
+  // String need = '', plantBy = '';
+  
 
   Completer<GoogleMapController> gController = Completer();
 
@@ -42,12 +42,12 @@ class _MapPageState extends State<MapPage> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void initMarker(val, specifyId) async {
-    markerlatitude = val["address"].latitude;
-    markerlongitude = val["address"].longitude;
-    plantDate = val["datePlant"].toDate();
-    wataringDate = val["lastWatring"].toDate();
-    need = val["needOfWatring"].toString();
-    plantBy = val["Planted by"].toString();
+   var markerlatitude = val["address"].latitude;
+   var markerlongitude = val["address"].longitude;
+   DateTime plantDate = val["datePlant"].toDate();
+   DateTime wataringDate = val["lastWatring"].toDate();
+   String need = val["needOfWatring"].toString();
+   String plantBy = val["Planted by"].toString();
 
     MapUtils().setTreeStat(wataringDate, val);
     String imag = MapUtils().getImageMarkerUrl(need);
@@ -63,9 +63,7 @@ class _MapPageState extends State<MapPage> {
             markerlongitude,
             currentLocation1!.latitude,
             currentLocation1!.longitude);
-        setState(() {
-          selected = true;
-        });
+        
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -131,25 +129,20 @@ class _MapPageState extends State<MapPage> {
                         onChanged: (value) {},
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        EButton(
-                            title: 'water',
-                            size: 14,
-                            function: () async {
-                              var snap = await FireStoreServices().getData;
-                              await FireStoreServices()
-                                  .updateTree(val["id"], "low", DateTime.now());
-                              await FireStoreServices().updateWater();
-                              await MapUtils().limitedPointDaily(snap);
-                              // ignore: use_build_context_synchronously
-                              Navigator.pop(context);
-                            },
-                            h: 30,
-                            w: 100),
-                      ],
-                    )
+                    inUser? EButton(
+                        title: 'water',
+                        size: 14,
+                        function: () async {
+                          var snap =  FireStoreServices().getData;
+                           FireStoreServices()
+                              .updateTree(val["id"], "low", DateTime.now());
+                           FireStoreServices().updateWater();
+                           MapUtils().limitedPointDaily(snap);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        },
+                        h: 30,
+                        w: 100):const SizedBox()
                   ],
                 ),
               )),
@@ -162,7 +155,7 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  getMarkers() async {
+  getMarkers() async{
     FirebaseFirestore.instance.collection("trees").snapshots().listen((value) {
       setState(() {
         if (value.docs.isNotEmpty) {
