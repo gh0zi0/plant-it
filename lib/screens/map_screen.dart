@@ -71,7 +71,7 @@ class _MapPageState extends State<MapPage> {
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20.0))),
               content: SizedBox(
-                height: MediaQuery.of(context).size.height / 3.5,
+                height: MediaQuery.of(context).size.height / 4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -102,7 +102,10 @@ class _MapPageState extends State<MapPage> {
                         t2: '${wataringDate.day}/${wataringDate.month}/${wataringDate.year}',
                         size: 12,
                         alignment: MainAxisAlignment.spaceBetween),
-                    const SizedBox(height: 20),
+                    const Divider(
+                      height: 20,
+                      thickness: 0.1,
+                    ),
                     Container(
                         alignment: Alignment.centerLeft,
                         child: const Text(
@@ -119,12 +122,12 @@ class _MapPageState extends State<MapPage> {
                         onChanged: (value) {},
                       ),
                     ),
-                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         EButton(
                             title: 'water',
+                            size: 14,
                             function: () async {
                               var snap = await FireStoreServices().getData;
                               await FireStoreServices()
@@ -135,15 +138,7 @@ class _MapPageState extends State<MapPage> {
                               Navigator.pop(context);
                             },
                             h: 30,
-                            w: 120),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.photo,
-                            size: 30,
-                            color: Color(0xFF009345),
-                          ),
-                          onPressed: () {},
-                        )
+                            w: 100),
                       ],
                     )
                   ],
