@@ -85,7 +85,7 @@ class _MapPageState extends State<MapPage> {
                               style: TextStyle(fontSize: 12),
                             ).tr(),
                             Text(
-                              ' ${val["Planted by"]}: ',
+                              ' $plantBy:',
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
