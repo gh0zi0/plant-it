@@ -89,9 +89,12 @@ class AccDetails extends StatelessWidget {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
-                          const VerticalDivider(
-                            color: Colors.black,
-                            thickness: 1,
+                          const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: VerticalDivider(
+                              color: Colors.grey,
+                              thickness: 0.5,
+                            ),
                           ),
                           Image.asset(
                             'assets/images/can.png',
