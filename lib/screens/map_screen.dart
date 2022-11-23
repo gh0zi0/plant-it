@@ -203,8 +203,7 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
-        backgroundColor:
-            Get.isDarkMode ? const Color(0xFF424242) : const Color(0xFFE8F3ED),
+        backgroundColor: Colors.green,
         centerTitle: true,
         title: const Text("select").tr(),
         actions: [
