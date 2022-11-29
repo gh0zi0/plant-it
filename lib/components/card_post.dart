@@ -1,10 +1,6 @@
-import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:plantit/components/row_text.dart';
-import 'package:unicons/unicons.dart';
 
 import 'e_button.dart';
 

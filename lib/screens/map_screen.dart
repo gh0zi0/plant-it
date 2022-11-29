@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +235,7 @@ class _MapPageState extends State<MapPage> {
                                           height: 35,
                                           width: 35,
                                         ),
-                                        Text(
+                                        const Text(
                                           'High',
                                           style: TextStyle(fontSize: 12),
                                         )
@@ -248,7 +247,7 @@ class _MapPageState extends State<MapPage> {
                                             'assets/images/OrangeTree.png',
                                             height: 35,
                                             width: 35),
-                                        Text('Medium',
+                                        const Text('Medium',
                                             style: TextStyle(fontSize: 12))
                                       ],
                                     ),
@@ -258,7 +257,7 @@ class _MapPageState extends State<MapPage> {
                                             'assets/images/GreenTree.png',
                                             height: 35,
                                             width: 35),
-                                        Text('Low',
+                                        const Text('Low',
                                             style: TextStyle(fontSize: 12))
                                       ],
                                     )

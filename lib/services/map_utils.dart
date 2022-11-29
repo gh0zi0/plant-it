@@ -1,12 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
-import 'package:plantit/components/e_button.dart';
-import 'package:plantit/components/edit_text.dart';
 import 'dart:ui' as ui;
-
 import 'package:plantit/services/firestore.dart';
 
 class MapUtils {
